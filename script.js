@@ -3,14 +3,13 @@
 **/
 Vue.component('map-timeline',
 {
-    props: ['metricsource', 'year'],
+    props: ['metricsource', 'year', 'metricRelationship'],
 
     template: '<div style = "width: 100%; height: 600px;"></div>',
 
     mounted: function()
     {
-        this.year = 2015
-
+        this.year = 2016
         this.drawMap(this.$el, this.metricsource, 'countries.json')
     },
 
@@ -66,13 +65,26 @@ Vue.component('map-timeline',
                     .attr("fill", this.calculateColor)
                     .attr("id", (d, i) => '#path_' + i)
 
+                svg
+                    .selectAll('rect')
+                    .data(json.features)
+                    .enter()
+                    .filter(this.calculateMetricForYear)
+                    .append("rect")
+                    .attr('fill', this.calculateColor)
+                    .attr("x", d => path.centroid(d)[0] - 3.5)
+                    .attr('y', d => path.centroid(d)[1] - 10)
+                    .attr('width', '30px')
+                    .attr('height', '14px')
+
                 // Draw the labels
                 svg
                     .selectAll("text")
                     .data(json.features)
                     .enter()
-                    .append("svg:text")
-                    .text(d => (this.calculateMetricForYear(d) !== undefined) ? ((this.calculateMetricForYear(d) / 1000).toFixed(1) + 'K') : 'N/A')
+                    .filter(this.calculateMetricForYear)
+                    .append("text")
+                    .text(this.calculateLabel)
                     .attr("x", d => path.centroid(d)[0])
                     .attr('y', d => path.centroid(d)[1])
                     .attr('title', d => d.properties.admin)
@@ -89,12 +101,32 @@ Vue.component('map-timeline',
         {
             let countryName = d.properties.admin,
                 country     = this.metric.find(m => m.Country == countryName),
-                valueForCountryForYear = country && Number(country[this.year].replace(',', ''))
+                thisYear = country && country[this.year]
+                valueForCountryForYear = (typeof thisYear === 'string') ? Number(thisYear.replace(',', '')) : thisYear
 
             if (typeof valueForCountryForYear == 'number')
                 return valueForCountryForYear
             else
                 return undefined
+        },
+
+        /**
+        * Given a feature input of the form in countries.json, which includes a
+        * countru name calculates a decent label
+        * @param   {d}                A feature object as defined in countries.json
+        * @return  {String}           The label for the specific metric
+        **/
+        calculateLabel: function(d)
+        {
+            let metric = this.calculateMetricForYear(d)
+
+            if (typeof metric == 'number' && metric >= 1000)
+                return (this.calculateMetricForYear(d) / 1000).toFixed(1) + 'K'
+            if (typeof metric == 'number')
+                return metric
+
+            // Default to N/A
+            return 'N/A'
         },
 
         /**
@@ -121,14 +153,15 @@ Vue.component('map-timeline',
             let AllYearlyData = this.metric
                 .map(m => m[this.year])
                 .filter(m => m !== 'undefined' && m !== '')
-                .map(m => m.replace(',', ''))
+                .map(m => (typeof m == 'string') ? m.replace(',', '') : m)
                 .map(m => Number(m))
                 .filter(m => !isNaN(m))
 
             let minValue = Math.min.apply(Math, AllYearlyData),
                 maxValue = Math.max.apply(Math, AllYearlyData),
-                restrictedValue = this.rangeConverter(valueForCountryForYear, minValue, maxValue, 0, 1) / 2,
-                rgb = this.hslToRgb(restrictedValue, 0.5, 0.5)
+                restrictedValue = this.rangeConverter(valueForCountryForYear, minValue, maxValue, 0, 1),
+                trueRestrictedValue = (this.metricRelationship !== 'reversed') ? restrictedValue/ 2 : (1 - restrictedValue)/ 2
+                rgb = this.hslToRgb(trueRestrictedValue, 0.5, 0.5)
 
             return 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')'
         },

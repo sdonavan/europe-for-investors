@@ -85,9 +85,14 @@ h1 > *
 /* ----------------- Maps ----------------- */
 text
 {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     cursor: pointer;
     color: white;
     fill: white;
     background: #3563ad;
+}
+
+rect
+{
+    stroke: white;
 }
