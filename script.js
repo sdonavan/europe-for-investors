@@ -33,7 +33,7 @@ Vue.component('map-timeline',
                 .geoMercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
                 .center([ 13, 52 ]) //comment centrer la carte, longitude, latitude
                 .translate([ w/2, h/2 ]) // centrer l'image obtenue dans le svg
-                .scale([ w/2 ]) // zoom, plus la valeur est petit plus le zoom est gros
+                .scale([ w/1.8 ]) // zoom, plus la valeur est petit plus le zoom est gros
 
             //Define path generator
             let path = d3
@@ -53,6 +53,7 @@ Vue.component('map-timeline',
             {
                 // Save the metric without tons of async mambo-jambo
                 this.metric = metric
+                let mapId = Math.random()
 
                 //Bind data and create one path per GeoJSON feature
                 svg
@@ -61,9 +62,39 @@ Vue.component('map-timeline',
                     .enter()
                     .append("path")
                     .attr("d", path)
-                    .attr("stroke", d => {return "#dddddd"})
+                    .attr("stroke", '#dddddd')
                     .attr("fill", this.calculateColor)
+                    .attr("id", (d, i) => '#path_' + i)
+
+                // Draw the labels
+                svg
+                    .selectAll("text")
+                    .data(json.features)
+                    .enter()
+                    .append("svg:text")
+                    .text(d => (this.calculateMetricForYear(d) !== undefined) ? ((this.calculateMetricForYear(d) / 1000).toFixed(1) + 'K') : 'N/A')
+                    .attr("x", d => path.centroid(d)[0])
+                    .attr('y', d => path.centroid(d)[1])
+                    .attr('title', d => d.properties.admin)
             }))
+        },
+
+        /**
+        * Given a feature object calculate the metric value for the
+        * given year
+        * @param   {d}                A feature object as defined in countries.json
+        * @return  {number}           A number representing the metric value
+        **/
+        calculateMetricForYear(d)
+        {
+            let countryName = d.properties.admin,
+                country     = this.metric.find(m => m.Country == countryName),
+                valueForCountryForYear = country && Number(country[this.year].replace(',', ''))
+
+            if (typeof valueForCountryForYear == 'number')
+                return valueForCountryForYear
+            else
+                return undefined
         },
 
         /**
@@ -79,9 +110,7 @@ Vue.component('map-timeline',
         calculateColor: function(d)
         {
             // Try to find the metric value for the country in the selected year
-            let countryName = d.properties.admin,
-                country     = this.metric.find(m => m.Country == countryName),
-                valueForCountryForYear = country && Number(country[this.year].replace(',', ''))
+            valueForCountryForYear = this.calculateMetricForYear(d)
 
             // If no value exists for the given year, return a default color
             if(!valueForCountryForYear)
@@ -155,38 +184,6 @@ Vue.component('map-timeline',
 
             return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
         }
-
-    }
-})
-
-/**
-* A menu directive
-**/
-Vue.component('section-menu',
-{
-    template: '<div><slot></slot></div>',
-
-    // When the bound element is inserted into the DOM...
-    mounted: function ()
-    {
-        this.hideAllOptions()
-        //this.showActiveOption()
-    },
-
-    methods:
-    {
-        /**
-        * Hides all of the options for items
-        */
-        hideAllOptions: function()
-        {
-            Array
-                .from(this.$el.querySelectorAll('[for]'))
-                .map(el => el.getAttribute('for'))
-                .map(sel => document.querySelector(sel))
-                .forEach(el => el.style['display'] = 'none')
-        },
-
 
     }
 })
