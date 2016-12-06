@@ -3,18 +3,62 @@
 <html lang = "en">
 
     <head>
+
+        <!-- Meta info -->
         <meta charset = "utf-8">
-
-        <title>A small collections of always up-to-date maps targeted at people interested in investing in European markets.</title>
-
+        <title>A small collections of always up-to-date maps and tables targeted at people interested in investing in European markets.</title>
         <meta name = "description" content = "The HTML5 Herald">
-
         <meta name = "author" content = "Anonymous">
 
+        <!-- Resources -->
+        <link href = "styles.css" rel = "stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+        <!-- Scripts -->
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.min.js"></script>
+
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="https://d3js.org/topojson.v1.min.js"></script>
     </head>
 
-    <body>
-        First commit
-    </body>
+        <body>
+            <div id = "content">
 
+            <header>
+                <h1>
+                    <img class = "logo" src = "https://www.ccqs.co.uk/uploads/images/world-icon.png"></img>
+
+                    <div>
+                        <div>Europe</div>
+                        <div>for investors</div>
+                    </div>
+                </h1>
+            </header>
+
+            <section id = "menu">
+
+                <span v-bind:class="{ active: page == 'valuations'}">
+                    <input type = "radio" value = "valuations" id = "page-valuations" v-model = "page">
+                    <label for = "page-valuations">Valuations</label>
+                </span>
+
+                <span v-bind:class="{ active: page == 'about'}">
+                    <input type = "radio" value = "about" id = "page-about" v-model = "page">
+                    <label for = "page-about">About</label>
+                </span>
+
+            </section>
+
+
+            <section id = "valuations" v-if = "page == 'valuations'">
+                <map-timeline metricsource = "gdp_ppp_per_capita.json"></map-timeline>
+            </section>
+
+            <section id = "about" v-if = "page == 'about'">
+                About page
+            </section>
+
+        </body>
+
+    </div>
+    <script src = "script.js"></script>
 </html>

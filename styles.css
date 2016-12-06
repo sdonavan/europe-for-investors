@@ -1,0 +1,72 @@
+
+/* ----------------- Global ----------------- */
+#content
+{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #34495e;
+    background-color: #fff;
+    margin: 0;
+}
+
+h1, h2, h3, h4, strong
+{
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+#content > *
+{
+    width: 60%;
+    margin: 0 auto;
+}
+
+/* ----------------- Header ----------------- */
+h1
+{
+    text-align: center;
+}
+
+h1 > *
+{
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.logo
+{
+    width: 8rem;
+    vertical-align: middle;
+}
+
+/* ----------------- Menu ----------------- */
+#menu span input
+{
+    display: none
+}
+
+#menu span
+{
+    display: inline-block;
+    cursor: pointer;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    margin: 0.5rem;
+    transition: all 0.25s;
+}
+
+#menu span label
+{
+    cursor: inherit;
+}
+
+#menu span:hover,
+#menu span.active
+{
+    background-color: #f4b642;
+    color: white;
+}
