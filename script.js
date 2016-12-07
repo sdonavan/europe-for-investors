@@ -10,85 +10,92 @@ Vue.component('map-timeline',
     mounted: function()
     {
         this.year = 2016
-        this.drawMap(this.$el, this.metricsource, 'countries.json')
+
+        Promise
+            .all([this.getDataFile(this.metricsource), this.getDataFile('countries.json')])
+            .then(r => this.drawMap(this.$el, r[1], r[0]))
     },
 
     methods:
     {
         /**
+        * Fetches a file and returns a promise with the data
+        * @param   {String}   Source          A filename for the JSON file
+        * @return  {Promise}                  A promise to fetch the files
+        **/
+        getDataFile: dataSource => new Promise((res, rej) => d3.json(dataSource, data => res(data))),
+
+        /**
         * Draws a map of all european countries and colors them accordingly given
         * a specific metric
         * @param   {DOMNode}  element         A container element to draw to
-        * @param   {String}   metricSource    A filename for the JSON file containing the metrics
-        * @param   {String}   countriesSource A filename for the JSON file containing the countries
+        * @param   {Array}    metrics         A metrics array.
+        * @param   {Array}    countries       A countries geolocation array
         * @return  {void}
         **/
-        drawMap: function(element, metricSource, countriesSource)
+        drawMap: function(element, countries, metrics)
         {
-            let w = this.$el.offsetWidth
-            let h = this.$el.offsetHeight
+            console.log("WOOOO!")
+            var w = this.$el.offsetWidth
+            var h = this.$el.offsetHeight
 
-            let projection = d3
+            var projection = d3
                 .geoMercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
                 .center([ 13, 52 ]) //comment centrer la carte, longitude, latitude
                 .translate([ w/2, h/2 ]) // centrer l'image obtenue dans le svg
                 .scale([ w/1.8 ]) // zoom, plus la valeur est petit plus le zoom est gros
 
             //Define path generator
-            let path = d3
+            var path = d3
                 .geoPath()
                 .projection(projection)
 
 
             //Create SVG
-            let svg = d3
+            var svg = d3
                 .select(this.$el)
                 .append("svg")
                 .attr("width", w)
                 .attr("height", h)
 
-            // Load the metric and countries file
-            d3.json(metricSource, metric => d3.json(countriesSource,json =>
-            {
                 // Save the metric without tons of async mambo-jambo
-                this.metric = metric
-                let mapId = Math.random()
+                this.metric = metrics
+                var mapId = Math.random()
 
-                //Bind data and create one path per GeoJSON feature
-                svg
-                    .selectAll("path")
-                    .data(json.features)
-                    .enter()
-                    .append("path")
-                    .attr("d", path)
-                    .attr("stroke", '#dddddd')
-                    .attr("fill", this.calculateColor)
-                    .attr("id", (d, i) => '#path_' + i)
+            //Bind data and create one path per GeoJSON feature
+            svg
+                .selectAll("path")
+                .data(countries.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .attr("stroke", '#dddddd')
+                .attr("fill", this.calculateColor)
+                .attr("id", (d, i) => '#path_' + i)
 
-                svg
-                    .selectAll('rect')
-                    .data(json.features)
-                    .enter()
-                    .filter(this.calculateMetricForYear)
-                    .append("rect")
-                    .attr('fill', this.calculateColor)
-                    .attr("x", d => path.centroid(d)[0] - 3.5)
-                    .attr('y', d => path.centroid(d)[1] - 10)
-                    .attr('width', '30px')
-                    .attr('height', '14px')
+            svg
+                .selectAll('rect')
+                .data(countries.features)
+                .enter()
+                .filter(this.calculateMetricForYear)
+                .append("rect")
+                .attr('fill', this.calculateColor)
+                .attr("x", d => path.centroid(d)[0] - 3.5)
+                .attr('y', d => path.centroid(d)[1] - 10)
+                .attr('width', '30px')
+                .attr('height', '14px')
 
-                // Draw the labels
-                svg
-                    .selectAll("text")
-                    .data(json.features)
-                    .enter()
-                    .filter(this.calculateMetricForYear)
-                    .append("text")
-                    .text(this.calculateLabel)
-                    .attr("x", d => path.centroid(d)[0])
-                    .attr('y', d => path.centroid(d)[1])
-                    .attr('title', d => d.properties.admin)
-            }))
+            // Draw the labels
+            svg
+                .selectAll("text")
+                .data(countries.features)
+                .enter()
+                .filter(this.calculateMetricForYear)
+                .append("text")
+                .text(this.calculateLabel)
+                .attr("x", d => path.centroid(d)[0])
+                .attr('y', d => path.centroid(d)[1])
+                .attr('title', d => d.properties.admin)
         },
 
         /**
@@ -99,7 +106,7 @@ Vue.component('map-timeline',
         **/
         calculateMetricForYear(d)
         {
-            let countryName = d.properties.admin,
+            var countryName = d.properties.admin,
                 country     = this.metric.find(m => m.Country == countryName),
                 thisYear = country && country[this.year]
                 valueForCountryForYear = (typeof thisYear === 'string') ? Number(thisYear.replace(',', '')) : thisYear
@@ -118,7 +125,7 @@ Vue.component('map-timeline',
         **/
         calculateLabel: function(d)
         {
-            let metric = this.calculateMetricForYear(d)
+            var metric = this.calculateMetricForYear(d)
 
             if (typeof metric == 'number' && metric >= 1000)
                 return (this.calculateMetricForYear(d) / 1000).toFixed(1) + 'K'
@@ -150,14 +157,14 @@ Vue.component('map-timeline',
 
             // Get min and max data for the year. Could be run outside of the function,
             // but "premature optimization yada yada.."
-            let AllYearlyData = this.metric
+            var AllYearlyData = this.metric
                 .map(m => m[this.year])
                 .filter(m => m !== 'undefined' && m !== '')
                 .map(m => (typeof m == 'string') ? m.replace(',', '') : m)
                 .map(m => Number(m))
                 .filter(m => !isNaN(m))
 
-            let minValue = Math.min.apply(Math, AllYearlyData),
+            var minValue = Math.min.apply(Math, AllYearlyData),
                 maxValue = Math.max.apply(Math, AllYearlyData),
                 restrictedValue = this.rangeConverter(valueForCountryForYear, minValue, maxValue, 0, 1),
                 trueRestrictedValue = (this.metricRelationship !== 'reversed') ? restrictedValue/ 2 : (1 - restrictedValue)/ 2
@@ -192,13 +199,13 @@ Vue.component('map-timeline',
         */
         hslToRgb: function(h, s, l)
         {
-            let r, g, b
+            var r, g, b
 
             if(s == 0)
                 r = g = b = l // achromatic
             else
             {
-                let hue2rgb = (p, q, t) =>
+                var hue2rgb = (p, q, t) =>
                 {
                     if(t < 0) t += 1
                     if(t > 1) t -= 1
@@ -208,8 +215,8 @@ Vue.component('map-timeline',
                     return p
                 }
 
-                let q = l < 0.5 ? l * (1 + s) : l + s - l * s
-                let p = 2 * l - q
+                var q = l < 0.5 ? l * (1 + s) : l + s - l * s
+                var p = 2 * l - q
                 r = hue2rgb(p, q, h + 1/3)
                 g = hue2rgb(p, q, h)
                 b = hue2rgb(p, q, h - 1/3)
@@ -221,4 +228,4 @@ Vue.component('map-timeline',
     }
 })
 
-let app = new Vue({el: '#content', data:{page: 'valuations'}})
+var app = new Vue({el: '#content', data:{page: 'valuations'}})
