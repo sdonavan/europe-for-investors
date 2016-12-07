@@ -7,7 +7,7 @@ Vue.component('map-timeline',
 
     template: '<div style = "width: 100%; height: 600px;"></div>',
 
-    mounted: function()
+    created: function()
     {
         this.year = 2016
 
@@ -35,7 +35,6 @@ Vue.component('map-timeline',
         **/
         drawMap: function(element, countries, metrics)
         {
-            console.log("WOOOO!")
             var w = this.$el.offsetWidth
             var h = this.$el.offsetHeight
 

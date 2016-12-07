@@ -50,12 +50,14 @@ h1 > *
 }
 
 /* ----------------- Menu ----------------- */
-.menu
+.menu,
+.submenu
 {
     text-align: center;
 }
 
-.menu span input
+.menu input,
+.submenu input
 {
     display: none
 }
@@ -71,23 +73,33 @@ h1 > *
     transition: all 0.25s;
 }
 
-.menu span label
+.menu label,
+.submenu label
 {
     cursor: inherit;
 }
 
 .menu span:hover,
-.menu span.active
+.menu span.active,
+.submenu-trigger,
+.submenu span:hover
 {
     background-color: #f4b642;
     color: white;
 }
 
-.submenu-trigger
+.submenu
 {
     position: relative;
+    margin-bottom: 1rem;
+}
+
+.submenu .submenu-trigger
+{
     display: inline-block;
     border: 1px solid  #f4b642;
+    margin: 0;
+    width: 100%;
 }
 
 .submenu-content
@@ -95,10 +107,8 @@ h1 > *
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 12px 16px;
-    z-index: 1;
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.2);
+    width: 100%;
 }
 
 .submenu:hover .submenu-content
@@ -106,6 +116,16 @@ h1 > *
     display: block;
 }
 
+.submenu .category
+{
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.submenu .category h3
+{
+    border-bottom: 1px solid #f4b642;
+}
 /* ----------------- Maps ----------------- */
 text
 {
