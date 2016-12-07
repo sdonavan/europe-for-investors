@@ -51,7 +51,27 @@
 
             <section id = "valuations" v-if = "page == 'valuations'">
 
-                <div>
+                <section class = "submenu">
+
+                    <span class = "submenu-trigger">{{valuation}}</span>
+
+                    <div class = "submenu-content">
+
+                        <span>
+                            <input type = "radio" value = "GDP PPP Per Capita" id = "gdp_ppp_per_capita" v-model = "valuation">
+                            <label for = "gdp_ppp_per_capita">GDP PPP Per Capita</label>
+                        </span>
+
+                        <span>
+                            <input type = "radio" value = "Unemployment" id = "unemployment" v-model = "valuation">
+                            <label for = "unemployment">Unemployment</label>
+                        </span>
+
+                    </div>
+
+                </section>
+                
+                <div v-if = "valuation == 'GDP PPP Per Capita'">
                     <div>
                         <strong>Gross domestic product (at purchasing power parity) per capita</strong>,
                             i.e., the purchasing power parity (PPP) value of all final goods and services produced within a country in a given year, divided by the average (or mid-year) population for the same year.
@@ -60,7 +80,7 @@
                     <map-timeline metricsource = "gdp_ppp_per_capita.json"></map-timeline>
                 </div>
 
-                <div>
+                <div v-if = "valuation == 'Unemployment'">
                     <div>
                         <strong>The unemployment rate</strong> is a measure of the prevalence of unemployment and it is calculated as a percentage by dividing the number of unemployed individuals by all individuals currently in the labor force. During periods of recession, an economy usually experiences a relatively high unemployment rate.[1] According to International Labour Organization report, more than 200 million people globally or 6% of the world's workforce were without a job in 2012.
                     </div>

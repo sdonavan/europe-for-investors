@@ -60,7 +60,8 @@ h1 > *
     display: none
 }
 
-.menu span
+.menu span,
+.submenu span
 {
     display: inline-block;
     cursor: pointer;
@@ -80,6 +81,29 @@ h1 > *
 {
     background-color: #f4b642;
     color: white;
+}
+
+.submenu-trigger
+{
+    position: relative;
+    display: inline-block;
+    border: 1px solid  #f4b642;
+}
+
+.submenu-content
+{
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.submenu:hover .submenu-content
+{
+    display: block;
 }
 
 /* ----------------- Maps ----------------- */

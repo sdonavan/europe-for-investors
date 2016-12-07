@@ -228,4 +228,11 @@ Vue.component('map-timeline',
     }
 })
 
-var app = new Vue({el: '#content', data:{page: 'valuations'}})
+var app = new Vue({
+    el: '#content',
+    data:
+    {
+        page: 'valuations',
+        valuation: 'GDP PPP Per Capita'
+    }
+})
