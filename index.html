@@ -28,32 +28,41 @@
                     <img class = "logo" src = "https://www.ccqs.co.uk/uploads/images/world-icon.png"></img>
 
                     <div>
-                        <div>Europe</div>
-                        <div>for investors</div>
+                        <div>Passive Investing</div>
+                        <div>in Europe</div>
                     </div>
                 </h1>
             </header>
 
             <section class = "menu">
 
-                <span v-bind:class="{ active: page == 'valuations'}">
-                    <input type = "radio" value = "valuations" id = "page-valuations" v-model = "page">
+                <span v-bind:class="{ active: page.contains('valuations')}">
+                    <input type = "radio" value = "valuations:gdp_ppp_per_capita" id = "page-valuations" v-model = "page">
                     <label for = "page-valuations">Valuations</label>
+                </span>
+
+                <span v-bind:class="{ active: page == 'taxation'}">
+                    <input type = "radio" value = "taxation" id = "page-taxation" v-model = "page">
+                    <label for = "page-taxation">Taxation</label>
+                </span>
+
+                <span v-bind:class="{ active: page == 'brockerages'}">
+                    <input type = "radio" value = "brockerages" id = "page-brockerages" v-model = "page">
+                    <label for = "page-brockerages">Brokers</label>
                 </span>
 
                 <span v-bind:class="{ active: page == 'about'}">
                     <input type = "radio" value = "about" id = "page-about" v-model = "page">
                     <label for = "page-about">About</label>
                 </span>
-
             </section>
 
 
-            <section id = "valuations" v-if = "page == 'valuations'">
+            <section id = "valuations" v-if = "page.contains('valuations')">
 
                 <section class = "submenu">
 
-                    <span class = "submenu-trigger">{{valuation}}</span>
+                    <span class = "submenu-trigger">{{page}}</span>
 
                     <div class = "submenu-content">
 
@@ -61,12 +70,12 @@
                             <h3>Economical</h3>
 
                             <span>
-                                <input type = "radio" value = "GDP PPP Per Capita" id = "gdp_ppp_per_capita" v-model = "valuation">
+                                <input type = "radio" value = "valuations:gdp_ppp_per_capita" id = "gdp_ppp_per_capita" v-model = "page">
                                 <label for = "gdp_ppp_per_capita">GDP PPP Per Capita</label>
                             </span>
 
                             <span>
-                                <input type = "radio" value = "Unemployment" id = "unemployment" v-model = "valuation">
+                                <input type = "radio" value = "valuations:unemployment" id = "unemployment" v-model = "page">
                                 <label for = "unemployment">Unemployment</label>
                             </span>
                         </div>
@@ -91,27 +100,468 @@
 
                 <section>
 
-                    <template v-if = "valuation == 'GDP PPP Per Capita'">
+                    <template v-if = "page == 'valuations:gdp_ppp_per_capita'">
+
                         <div>
                             <strong>Gross domestic product (at purchasing power parity) per capita</strong>,
                                 i.e., the purchasing power parity (PPP) value of all final goods and services produced within a country in a given year, divided by the average (or mid-year) population for the same year.
                         </div>
-                        <a href = "http://www.imf.org/external/pubs/ft/weo/2016/02/weodata/weorept.aspx?pr.x=91&pr.y=16&sy=1990&ey=2021&ssd=1&sort=country&ds=.&br=1&c=512%2C672%2C914%2C946%2C612%2C137%2C614%2C546%2C311%2C962%2C213%2C674%2C911%2C676%2C193%2C548%2C122%2C556%2C912%2C678%2C313%2C181%2C419%2C867%2C513%2C682%2C316%2C684%2C913%2C273%2C124%2C868%2C339%2C921%2C638%2C948%2C514%2C943%2C218%2C686%2C963%2C688%2C616%2C518%2C223%2C728%2C516%2C558%2C918%2C138%2C748%2C196%2C618%2C278%2C624%2C692%2C522%2C694%2C622%2C142%2C156%2C449%2C626%2C564%2C628%2C565%2C228%2C283%2C924%2C853%2C233%2C288%2C632%2C293%2C636%2C566%2C634%2C964%2C238%2C182%2C662%2C359%2C960%2C453%2C423%2C968%2C935%2C922%2C128%2C714%2C611%2C862%2C321%2C135%2C243%2C716%2C248%2C456%2C469%2C722%2C253%2C942%2C642%2C718%2C643%2C724%2C939%2C576%2C644%2C936%2C819%2C961%2C172%2C813%2C132%2C199%2C646%2C733%2C648%2C184%2C915%2C524%2C134%2C361%2C652%2C362%2C174%2C364%2C328%2C732%2C258%2C366%2C656%2C734%2C654%2C144%2C336%2C146%2C263%2C463%2C268%2C528%2C532%2C923%2C944%2C738%2C176%2C578%2C534%2C537%2C536%2C742%2C429%2C866%2C433%2C369%2C178%2C744%2C436%2C186%2C136%2C925%2C343%2C869%2C158%2C746%2C439%2C926%2C916%2C466%2C664%2C112%2C826%2C111%2C542%2C298%2C967%2C927%2C443%2C846%2C917%2C299%2C544%2C582%2C941%2C474%2C446%2C754%2C666%2C698%2C668&s=PPPGDP&grp=0&a=">[IMF outlook October 2016]</a>
+
+                        <a class = "source" href = "http://www.imf.org/external/pubs/ft/weo/2016/02/weodata/weorept.aspx?pr.x=91&pr.y=16&sy=1990&ey=2021&ssd=1&sort=country&ds=.&br=1&c=512%2C672%2C914%2C946%2C612%2C137%2C614%2C546%2C311%2C962%2C213%2C674%2C911%2C676%2C193%2C548%2C122%2C556%2C912%2C678%2C313%2C181%2C419%2C867%2C513%2C682%2C316%2C684%2C913%2C273%2C124%2C868%2C339%2C921%2C638%2C948%2C514%2C943%2C218%2C686%2C963%2C688%2C616%2C518%2C223%2C728%2C516%2C558%2C918%2C138%2C748%2C196%2C618%2C278%2C624%2C692%2C522%2C694%2C622%2C142%2C156%2C449%2C626%2C564%2C628%2C565%2C228%2C283%2C924%2C853%2C233%2C288%2C632%2C293%2C636%2C566%2C634%2C964%2C238%2C182%2C662%2C359%2C960%2C453%2C423%2C968%2C935%2C922%2C128%2C714%2C611%2C862%2C321%2C135%2C243%2C716%2C248%2C456%2C469%2C722%2C253%2C942%2C642%2C718%2C643%2C724%2C939%2C576%2C644%2C936%2C819%2C961%2C172%2C813%2C132%2C199%2C646%2C733%2C648%2C184%2C915%2C524%2C134%2C361%2C652%2C362%2C174%2C364%2C328%2C732%2C258%2C366%2C656%2C734%2C654%2C144%2C336%2C146%2C263%2C463%2C268%2C528%2C532%2C923%2C944%2C738%2C176%2C578%2C534%2C537%2C536%2C742%2C429%2C866%2C433%2C369%2C178%2C744%2C436%2C186%2C136%2C925%2C343%2C869%2C158%2C746%2C439%2C926%2C916%2C466%2C664%2C112%2C826%2C111%2C542%2C298%2C967%2C927%2C443%2C846%2C917%2C299%2C544%2C582%2C941%2C474%2C446%2C754%2C666%2C698%2C668&s=PPPGDP&grp=0&a=">[IMF outlook October 2016]</a>
+
                         <map-timeline metricsource = "gdp_ppp_per_capita.json"></map-timeline>
+
                     </template>
 
-                    <template v-if = "valuation == 'Unemployment'">
+                    <template v-if = "page == 'valuations:unemployment'">
+
                         <div>
                             <strong>The unemployment rate</strong> is a measure of the prevalence of unemployment and it is calculated as a percentage by dividing the number of unemployed individuals by all individuals currently in the labor force. During periods of recession, an economy usually experiences a relatively high unemployment rate.[1] According to International Labour Organization report, more than 200 million people globally or 6% of the world's workforce were without a job in 2012.
                         </div>
-                        <a href = "http://www.imf.org/external/pubs/ft/weo/2016/02/weodata/weorept.aspx?sy=1990&ey=2021&ssd=1&sort=country&ds=.&br=1&pr1.x=27&pr1.y=4&c=512%2C672%2C914%2C946%2C612%2C137%2C614%2C546%2C311%2C962%2C213%2C674%2C911%2C676%2C193%2C548%2C122%2C556%2C912%2C678%2C313%2C181%2C419%2C867%2C513%2C682%2C316%2C684%2C913%2C273%2C124%2C868%2C339%2C921%2C638%2C948%2C514%2C943%2C218%2C686%2C963%2C688%2C616%2C518%2C223%2C728%2C516%2C558%2C918%2C138%2C748%2C196%2C618%2C278%2C624%2C692%2C522%2C694%2C622%2C142%2C156%2C449%2C626%2C564%2C628%2C565%2C228%2C283%2C924%2C853%2C233%2C288%2C632%2C293%2C636%2C566%2C634%2C964%2C238%2C182%2C662%2C359%2C960%2C453%2C423%2C968%2C935%2C922%2C128%2C714%2C611%2C862%2C321%2C135%2C243%2C716%2C248%2C456%2C469%2C722%2C253%2C942%2C642%2C718%2C643%2C724%2C939%2C576%2C644%2C936%2C819%2C961%2C172%2C813%2C132%2C199%2C646%2C733%2C648%2C184%2C915%2C524%2C134%2C361%2C652%2C362%2C174%2C364%2C328%2C732%2C258%2C366%2C656%2C734%2C654%2C144%2C336%2C146%2C263%2C463%2C268%2C528%2C532%2C923%2C944%2C738%2C176%2C578%2C534%2C537%2C536%2C742%2C429%2C866%2C433%2C369%2C178%2C744%2C436%2C186%2C136%2C925%2C343%2C869%2C158%2C746%2C439%2C926%2C916%2C466%2C664%2C112%2C826%2C111%2C542%2C298%2C967%2C927%2C443%2C846%2C917%2C299%2C544%2C582%2C941%2C474%2C446%2C754%2C666%2C698%2C668&s=LUR&grp=0&a=">[IMF outlook October 2016]</a>
+
+                        <a class = "source" href = "http://www.imf.org/external/pubs/ft/weo/2016/02/weodata/weorept.aspx?sy=1990&ey=2021&ssd=1&sort=country&ds=.&br=1&pr1.x=27&pr1.y=4&c=512%2C672%2C914%2C946%2C612%2C137%2C614%2C546%2C311%2C962%2C213%2C674%2C911%2C676%2C193%2C548%2C122%2C556%2C912%2C678%2C313%2C181%2C419%2C867%2C513%2C682%2C316%2C684%2C913%2C273%2C124%2C868%2C339%2C921%2C638%2C948%2C514%2C943%2C218%2C686%2C963%2C688%2C616%2C518%2C223%2C728%2C516%2C558%2C918%2C138%2C748%2C196%2C618%2C278%2C624%2C692%2C522%2C694%2C622%2C142%2C156%2C449%2C626%2C564%2C628%2C565%2C228%2C283%2C924%2C853%2C233%2C288%2C632%2C293%2C636%2C566%2C634%2C964%2C238%2C182%2C662%2C359%2C960%2C453%2C423%2C968%2C935%2C922%2C128%2C714%2C611%2C862%2C321%2C135%2C243%2C716%2C248%2C456%2C469%2C722%2C253%2C942%2C642%2C718%2C643%2C724%2C939%2C576%2C644%2C936%2C819%2C961%2C172%2C813%2C132%2C199%2C646%2C733%2C648%2C184%2C915%2C524%2C134%2C361%2C652%2C362%2C174%2C364%2C328%2C732%2C258%2C366%2C656%2C734%2C654%2C144%2C336%2C146%2C263%2C463%2C268%2C528%2C532%2C923%2C944%2C738%2C176%2C578%2C534%2C537%2C536%2C742%2C429%2C866%2C433%2C369%2C178%2C744%2C436%2C186%2C136%2C925%2C343%2C869%2C158%2C746%2C439%2C926%2C916%2C466%2C664%2C112%2C826%2C111%2C542%2C298%2C967%2C927%2C443%2C846%2C917%2C299%2C544%2C582%2C941%2C474%2C446%2C754%2C666%2C698%2C668&s=LUR&grp=0&a=">[IMF outlook October 2016]</a>
+
                         <map-timeline metricsource = "unemployment.json" metric-relationship = "reversed"></map-timeline>
+
                     </template>
 
                 </section>
 
 
             </section>
+
+            <section id = "about" v-if = "page == 'taxation'">
+
+                <h3>Overview</h3>
+                Taxes can eat from <strong>0%</strong>, when properly managed up to <strong>~85%</strong> of your profit when missmanaged.
+                For an individual investor there are three applicable taxes which we will discuss in detail later on:
+
+                <ul>
+                    <li><a href = "https://en.wikipedia.org/wiki/Withholding_tax">Witholding tax</a>: in most jurisdictions the country in which <strong>the company</strong> is domiciled in, witholds a tax upon <strong>distribution of dividends</strong> of said company to it's shareholders. It's shareholders may be you as an individual investor or in a more complicated case: a managment company (In the case of ETF's and Index Funds. More on that later)</li>
+                    <li><a href = "https://en.wikipedia.org/wiki/Payroll_tax">Payroll tax</a>: In edge cases dividends and capital gains may be taxed as normal income</li>
+                    <li><a href = "https://en.wikipedia.org/wiki/Capital_gains_tax">Capital gains tax</a>: this is the tax imposed upon the amount won when selling an equity with a profit </li>
+                </ul>
+
+                <h3>Investor Tax Residence</h3>
+
+                In order to understand who and how taxes work, we will look at who and how owns an ETF in a complicated scenario.
+
+                <p>
+                    Meet Max:<img class = "icon" src = "icons/max.png"></img>.
+                    Max used to live in slovakia his whole life and be a tax resident there:
+                    <a href = "http://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/slovakia/index_en.htm" class = "icon-group">
+                        <img class = "icon" src = "icons/slovakia.png"></img>
+                        <img class = "icon" src = "icons/max.png"></img>
+                    </a>
+                </p>
+
+                <p>
+                    But he started working in Germany and spends 7 months of the year there. According to
+                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany">German Tax Residence Law</a> Max is considered a Tax Resident of Germany now:
+                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
+                        <img class = "icon" src = "icons/germany.png"></img>
+                        <img class = "icon" src = "icons/max.png"></img>
+                    </a>
+                </p>
+
+                <p>
+                    Germany defines the breakpoint at 6 months and because Max reaches it, he pays taxes (Income, Dividend and Capital gains) to the German Govornment:
+                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                        <img class = "icon" src = "icons/germany.png"></img>
+                        <img class = "icon" src = "icons/govornment.png"></img>
+                    </a>
+                </p>
+
+                <p>
+                Because he is resident in Slovakia for less then 183 calendar days, he is <strong>not</strong> layable to pay any taxes there, <a href = "http://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/slovakia/index_en.htm">according to the Slovak tax law </a>.
+                </p>
+
+                <p>In theory he could fall in two Govornment jurisdictions, although for that to be possible both govornments should have a small enough breakpoint for Max to be defined as a tax resident in both</p>
+
+                <h3>Brokers</h3>
+
+                <p>
+                    Max doesn't like German and Slovak brokers. He uses a Belgian one:
+                    <a href = "" class = "icon-group">
+                        <img class = "icon" src = "icons/belgium.png"></img>
+                        <img class = "icon" src = "icons/broker.png"></img>
+                    </a>
+                 </p>
+
+                 <p>
+                     Every time he recieves a dividend payment he has to pay
+                     <a href = "https://en.wikipedia.org/wiki/Flat_rate_withholding_tax_%28Abgeltungsteuer%29">the dividend tax rate of the country of his residence (25%)</a>
+                     to the govornment of said country:
+                     <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                         <img class = "icon" src = "icons/germany.png"></img>
+                         <img class = "icon" src = "icons/govornment.png"></img>
+                     </a>.
+
+                     His brocker being in Belgium has no effect on his rate. It does have an effect on <strong>who</strong> is responsible for that collection. If he had used a
+                     German broker, the broker would automatically collect the tax and send it to the German authorities. Now he has to do that himself, by submiting country speficif formulars.
+                </p>
+
+
+
+
+
+                <h3>Corporate Tax Residence:</h3>
+                <p>
+                   Meet
+                    <a href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell">Royal Dutch Shell</a>
+                    <a href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell" class = "icon-group">
+                        <img class = "icon" src = "icons/shell.png"></img>
+                    </a>,
+
+                    incorproated in the Netherlands (it's tax Residence is there):
+                    <a href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell" class = "icon-group">
+                        <img class = "icon" src = "icons/netherlands.png"></img>
+                        <img class = "icon" src = "icons/shell.png"></img>
+                    </a>
+
+                    and Nestlé:
+                    <a href = "http://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/slovakia/index_en.htm" class = "icon-group">
+                        <img class = "icon" src = "icons/nestle.png"></img>
+                    </a>
+
+                    ncorporated in Switzerland:
+                    <!--
+                    <a href = "https://en.wikipedia.org/wiki/Total_S.A.">Total S.A</a>
+                    <a href = "https://en.wikipedia.org/wiki/Total_S.A." class = "icon-group">
+                        <img class = "icon" src = "icons/totall.png"></img>
+                    </a>
+
+                    incorporated in France.
+                -->
+
+                </p>
+
+
+                <p>
+                    Whetever a company decides to pay out dividends, it collects
+                    a percentage of the dividends as a <a href = "https://en.wikipedia.org/wiki/Dividend_tax">dividend tax</a>.
+
+
+                    in accordance to the tax rate of the <strong> company's tax residence country </strong> and <strong>the beneficiary tax residence</strong>
+                    in behalf of
+                    <strong>the govornment the company is a tax resident in</strong>.
+                <p>
+
+                <p>
+                    Let's take an example. Let's say Shell decides to pay 1€ worth of dividends to Max.
+                    Because Max has registered as a German citizen when opening his Belgian account, his broker knows his tax residence and transmits that
+                    information to the dutch govornment.
+
+                    The Dutch govornment now witholds 15% tax.
+
+                    As an example, Shell pays 1€ in dividend to Max, through his broker which let's the dutch Govornment know Max is a resident of Germany:
+
+                    <div>
+                        <a href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell" class = "icon-group">
+                            <img class = "icon" src = "icons/netherlands.png"></img>
+                            <img class = "icon" src = "icons/shell.png"></img>
+                        </a>
+                        -----1€--->
+                        <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">
+                            <img class = "icon" src = "icons/netherlands.png"></img>
+                            <img class = "icon" src = "icons/govornment.png"></img>
+                            <span>0.15€</span>
+                        </a>
+                        ----0.85€---->
+                        <a href = "" class = "icon-group">
+                            <img class = "icon" src = "icons/belgium.png"></img>
+                            <img class = "icon" src = "icons/broker.png"></img>
+                        </a>
+                    </div>
+
+                    Because the Belgium brokerage has no authority to withold any taxes of non-Belgian tax residents(neither should it),
+                    it just passes the sum to Max.
+
+                    <div>
+                        <a href = "" class = "icon-group">
+                            <img class = "icon" src = "icons/belgium.png"></img>
+                            <img class = "icon" src = "icons/broker.png"></img>
+                            <span>0.00€</span>
+                        </a>
+                        ----0.85€---->
+                        <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
+                            <img class = "icon" src = "icons/germany.png"></img>
+                            <img class = "icon" src = "icons/max.png"></img>
+                        </a>
+                    </div>
+
+                </p>
+
+                <h3>Double taxation treaties</h3>
+
+                <p>
+
+                    Now Max has to pay the govornment his 25% share. But Germany has a signed treaty with the netherlands
+                    <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">But Germany has a signed treaty with the netherlands</a>
+                    in order to avoid double taxation.
+
+                    Because of that the German govornment recognizes the 15% that Max paid, and demands only the 10% left to add to it's own tax
+                    rate of 25%. In fact Germany always recognizes 15%, and in theory has a treaty with many nations, where an agreement is riched that the
+                    foreign nation should tax dividends up to 15%, so that the rest of the tax is owed to the German govornment (25 - 15)%.
+
+                    <div>
+                        <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
+                            <img class = "icon" src = "icons/germany.png"></img>
+                            <img class = "icon" src = "icons/max.png"></img>
+                            <span>0.75€</span>
+                        </a>
+                        -----0.10€--->
+                        <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                            <img class = "icon" src = "icons/germany.png"></img>
+                            <img class = "icon" src = "icons/govornment.png"></img>
+                        </a>
+                    </div>
+
+                    So we end up with the following chain:
+                    <div>
+                        <a href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell" class = "icon-group">
+                            <img class = "icon" src = "icons/netherlands.png"></img>
+                            <img class = "icon" src = "icons/shell.png"></img>
+                        </a>
+                        -----1€--->
+                        <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">
+                            <img class = "icon" src = "icons/netherlands.png"></img>
+                            <img class = "icon" src = "icons/govornment.png"></img>
+                            <span>0.15€</span>
+                        </a>
+                        ----0.85€---->
+                        <a href = "" class = "icon-group">
+                            <img class = "icon" src = "icons/belgium.png"></img>
+                            <img class = "icon" src = "icons/broker.png"></img>
+                            <span>0.00€</span>
+                        </a>
+                        ----0.85€---->
+                        <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
+                            <img class = "icon" src = "icons/germany.png"></img>
+                            <img class = "icon" src = "icons/max.png"></img>
+                            <span>0.75€</span>
+                        </a>
+                        -----0.10€--->
+                        <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                            <img class = "icon" src = "icons/germany.png"></img>
+                            <img class = "icon" src = "icons/govornment.png"></img>
+                        </a>
+                    </div>
+                </p>
+
+                <h3>Examples from across Europe</h3>
+                <p>
+                    <ul>
+                        <li>
+                            Let's look at another example: Max invests in Nestle
+
+                            <div>
+                                <a href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell" class = "icon-group">
+                                    <img class = "icon" src = "icons/nestle.png"></img>
+                                </a>
+                                -----1€--->
+                                <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">
+                                    <img class = "icon" src = "icons/switzerland.png"></img>
+                                    <img class = "icon" src = "icons/govornment.png"></img>
+                                    <span>0.15€</span>
+                                </a>
+                                ----0.85€---->
+                                <a href = "" class = "icon-group">
+                                    <img class = "icon" src = "icons/belgium.png"></img>
+                                    <img class = "icon" src = "icons/broker.png"></img>
+                                    <span>0.00€</span>
+                                </a>
+                                ----0.85€---->
+                                <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
+                                    <img class = "icon" src = "icons/germany.png"></img>
+                                    <img class = "icon" src = "icons/max.png"></img>
+                                    <span>0.75€</span>
+                                </a>
+                                -----0.10€--->
+                                <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                                    <img class = "icon" src = "icons/germany.png"></img>
+                                    <img class = "icon" src = "icons/govornment.png"></img>
+                                </a>
+                            </div>
+
+                            And while in theory it should work that way, the Swiss govornment automatically witholds its normal 35%. You can
+                            submit a form in a lenghty process to get the 0.20€ (35 - 15)% the Swiss owe you in a lenghty process.
+                        </li>
+                        <li>
+                            Max invests in a Bulgarian company. <a href = "http://www.nap.bg/en/page?id=520">Bulgaria has 0% witholding tax for EU citizens:<a/>
+
+                                <div>
+                                    <a class = "icon-group">
+                                        <img class = "icon" src = "icons/bulgaria.png"></img>
+                                        <img class = "icon" src = "icons/company.png"></img>
+                                    </a>
+                                    -----1€--->
+                                    <a class = "icon-group">
+                                        <img class = "icon" src = "icons/bulgaria.png"></img>
+                                        <img class = "icon" src = "icons/govornment.png"></img>
+                                        <span>0.00€</span>
+                                    </a>
+                                    ----1.00€---->
+                                    <a href = "" class = "icon-group">
+                                        <img class = "icon" src = "icons/belgium.png"></img>
+                                        <img class = "icon" src = "icons/broker.png"></img>
+                                        <span>0.00€</span>
+                                    </a>
+                                    ----1.00€---->
+                                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
+                                        <img class = "icon" src = "icons/germany.png"></img>
+                                        <img class = "icon" src = "icons/max.png"></img>
+                                        <span>0.75€</span>
+                                    </a>
+                                    -----0.25€--->
+                                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                                        <img class = "icon" src = "icons/germany.png"></img>
+                                        <img class = "icon" src = "icons/govornment.png"></img>
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li>
+                                A Bulgarian investor invests in Germany. The Bulgarian dividend tax rate is 5% (different from the witholding tax rate for non-residents).
+                                <a href = "http://www.bundesfinanzministerium.de/Content/DE/Standardartikel/Themen/Steuern/Internationales_Steuerrecht/Staatenbezogene_Informationen/Laender_A_Z/Bulgarien/2010-11-23-Bulgarien-Abkommen-DBA-Gesetz.pdf?__blob=publicationFile&v=3">Bulgaria has a tax treaty with Germany(and most countries)</a>
+                                allowing German authorities to withold 15% tax.
+                                Bulgaria also recognizes all foreign witholded tax, which lowers the tax due to the govornment to 0%.
+
+                                <div>
+                                    <a class = "icon-group">
+                                        <img class = "icon" src = "icons/germany.png"></img>
+                                        <img class = "icon" src = "icons/company.png"></img>
+                                    </a>
+                                    -----1€--->
+                                    <a class = "icon-group">
+                                        <img class = "icon" src = "icons/germany.png"></img>
+                                        <img class = "icon" src = "icons/govornment.png"></img>
+                                        <span>0.15€</span>
+                                    </a>
+                                    ----0.85€---->
+                                    <a href = "" class = "icon-group">
+                                        <img class = "icon" src = "icons/belgium.png"></img>
+                                        <img class = "icon" src = "icons/broker.png"></img>
+                                        <span>0.00€</span>
+                                    </a>
+                                    ----0.85€---->
+                                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
+                                        <img class = "icon" src = "icons/bulgaria.png"></img>
+                                        <img class = "icon" src = "icons/max.png"></img>
+                                        <span>0.85€</span>
+                                    </a>
+                                    -----0.00€--->
+                                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                                        <img class = "icon" src = "icons/bulgaria.png"></img>
+                                        <img class = "icon" src = "icons/govornment.png"></img>
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li>
+                                A Luxembourgian <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-luxembourghighlights-2016.pdf">(15% dividend)</a> invests in Bulgaria <a href = "http://bulgarico.com/taxframe/dividend-tax/">0% witholding for EU)</a>
+                                <div>
+                                    <a class = "icon-group">
+                                        <img class = "icon" src = "icons/bulgaria.png"></img>
+                                        <img class = "icon" src = "icons/company.png"></img>
+                                    </a>
+                                    -----1€--->
+                                    <a class = "icon-group">
+                                        <img class = "icon" src = "icons/bulgaria.png"></img>
+                                        <img class = "icon" src = "icons/govornment.png"></img>
+                                        <span>0.00€</span>
+                                    </a>
+                                    ----1.00€---->
+                                    <a href = "" class = "icon-group">
+                                        <img class = "icon" src = "icons/belgium.png"></img>
+                                        <img class = "icon" src = "icons/broker.png"></img>
+                                        <span>0.00€</span>
+                                    </a>
+                                    ----1.00€---->
+                                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
+                                        <img class = "icon" src = "icons/luxembourg.png"></img>
+                                        <img class = "icon" src = "icons/max.png"></img>
+                                        <span>0.85€</span>
+                                    </a>
+                                    -----0.15€--->
+                                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                                        <img class = "icon" src = "icons/luxembourg.png"></img>
+                                        <img class = "icon" src = "icons/govornment.png"></img>
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li>
+                                Bulgarian <a href = "http://bulgarico.com/taxframe/dividend-tax/">(5% dividend tax, substractable)</a> invests in <a href ="https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-luxembourghighlights-2016.pdf">Luxembourg (15% witholding)</a>
+                                <div>
+                                    <a class = "icon-group">
+                                        <img class = "icon" src = "icons/luxembourg.png"></img>
+                                        <img class = "icon" src = "icons/company.png"></img>
+                                    </a>
+                                    -----1€--->
+                                    <a class = "icon-group">
+                                        <img class = "icon" src = "icons/luxembourg.png"></img>
+                                        <img class = "icon" src = "icons/govornment.png"></img>
+                                        <span>0.15€</span>
+                                    </a>
+                                    ----0.85€---->
+                                    <a href = "" class = "icon-group">
+                                        <img class = "icon" src = "icons/belgium.png"></img>
+                                        <img class = "icon" src = "icons/broker.png"></img>
+                                        <span>0.00€</span>
+                                    </a>
+                                    ----0.85€---->
+                                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
+                                        <img class = "icon" src = "icons/bulgaria.png"></img>
+                                        <img class = "icon" src = "icons/max.png"></img>
+                                        <span>0.85€</span>
+                                    </a>
+                                    -----0.00€--->
+                                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                                        <img class = "icon" src = "icons/bulgaria.png"></img>
+                                        <img class = "icon" src = "icons/govornment.png"></img>
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li>
+                                Investor from Switzerland <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-switzerlandguide-2015.pdf">(35% dividend tax)</a>
+                                invests in Slovenia <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-sloveniahighlights-2016.pdf">(15% witholding tax)</a>
+                                <div>
+                                    <a class = "icon-group">
+                                        <img class = "icon" src = "icons/slovenia.png"></img>
+                                        <img class = "icon" src = "icons/company.png"></img>
+                                    </a>
+                                    -----1€--->
+                                    <a class = "icon-group">
+                                        <img class = "icon" src = "icons/slovenia.png"></img>
+                                        <img class = "icon" src = "icons/govornment.png"></img>
+                                        <span>0.15€</span>
+                                    </a>
+                                    ----0.85€---->
+                                    <a href = "" class = "icon-group">
+                                        <img class = "icon" src = "icons/belgium.png"></img>
+                                        <img class = "icon" src = "icons/broker.png"></img>
+                                        <span>0.00€</span>
+                                    </a>
+                                    ----0.85€---->
+                                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
+                                        <img class = "icon" src = "icons/switzerland.png"></img>
+                                        <img class = "icon" src = "icons/max.png"></img>
+                                        <span>0.65€</span>
+                                    </a>
+                                    -----0.20€--->
+                                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                                        <img class = "icon" src = "icons/switzerland.png"></img>
+                                        <img class = "icon" src = "icons/govornment.png"></img>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                </p>
+
+            </section>
+
 
             <section id = "about" v-if = "page == 'about'">
                 About page.

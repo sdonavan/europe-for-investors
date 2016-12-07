@@ -7,13 +7,18 @@ Vue.component('map-timeline',
 
     template: '<div style = "width: 100%; height: 600px;"></div>',
 
-    created: function()
+    mounted: function()
     {
         this.year = 2016
 
         Promise
             .all([this.getDataFile(this.metricsource), this.getDataFile('countries.json')])
-            .then(r => this.drawMap(this.$el, r[1], r[0]))
+            .then(r =>
+            {
+                //Save the metric as to not pass it around all the time
+                this.metric = r[0]
+                this.drawMap(this.$el, r[1], r[0])
+            })
     },
 
     methods:
@@ -56,10 +61,6 @@ Vue.component('map-timeline',
                 .append("svg")
                 .attr("width", w)
                 .attr("height", h)
-
-                // Save the metric without tons of async mambo-jambo
-                this.metric = metrics
-                var mapId = Math.random()
 
             //Bind data and create one path per GeoJSON feature
             svg
@@ -227,11 +228,47 @@ Vue.component('map-timeline',
     }
 })
 
+
+
+/**
+* The app is going to serve the purpouse of a router
+**/
 var app = new Vue({
+
     el: '#content',
+
     data:
     {
-        page: 'valuations',
+        page:   'valuations',
         valuation: 'GDP PPP Per Capita'
+    },
+
+    created: function()
+    {
+        // Set the correct page
+        this.page = window.location.hash.replace('#', '')
+    },
+
+    watch:
+    {
+        page: function(newPage)
+        {
+            // Save the current page
+            window.location.hash = newPage
+        },
+
+        valuation: function(newValuation)
+        {
+            this.test()
+            console.log(newValuation)
+        }
+    },
+
+    methods:
+    {
+        test: function()
+        {
+        console.log("AAA")
+        }
     }
 })

@@ -81,8 +81,7 @@ h1 > *
 
 .menu span:hover,
 .menu span.active,
-.submenu-trigger,
-.submenu span:hover
+.submenu span:not(.submenu-trigger):hover
 {
     background-color: #f4b642;
     color: white;
@@ -97,7 +96,7 @@ h1 > *
 .submenu .submenu-trigger
 {
     display: inline-block;
-    border: 1px solid  #f4b642;
+    border-bottom: 1px solid  #f4b642;
     margin: 0;
     width: 100%;
 }
@@ -126,7 +125,9 @@ h1 > *
 {
     border-bottom: 1px solid #f4b642;
 }
-/* ----------------- Maps ----------------- */
+
+
+/* ----------------- Valuations ----------------- */
 text
 {
     font-size: 0.5rem;
@@ -139,4 +140,36 @@ text
 rect
 {
     stroke: white;
+}
+
+.source
+{
+    display: block;
+    margin: 1rem 0;
+}
+
+.icon
+{
+    vertical-align: middle;
+    height: 30px;
+    display: inline-block;
+}
+
+.icon-group
+{
+    before: '&nbsp;';
+    position: relative;
+    height: 30px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.icon-group .icon:nth-of-type(2)
+{
+    position: absolute;
+    left: 0;
+}
+
+.icon-group span
+{
+    font-size: 0.8rem;
 }
