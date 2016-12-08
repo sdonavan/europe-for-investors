@@ -132,9 +132,12 @@
 
             <section id = "about" v-if = "page == 'taxation'">
 
-                <h3>Overview</h3>
-                Taxes can eat from <strong>0%</strong>, when properly managed up to <strong>~85%</strong> of your profit when missmanaged.
-                For an individual investor there are three applicable taxes which we will discuss in detail later on:
+                <h2>Stock Dividends Tax</h2>
+
+                <p>
+                    Taxes can eat from <strong>0%</strong>, when properly managed up to <strong>~85%</strong> of your profit when missmanaged.
+                    For an individual investor there are three applicable taxes which we will discuss in detail later on:
+                </p>
 
                 <ul>
                     <li><a href = "https://en.wikipedia.org/wiki/Withholding_tax">Witholding tax</a>: in most jurisdictions the country in which <strong>the company</strong> is domiciled in, witholds a tax upon <strong>distribution of dividends</strong> of said company to it's shareholders. It's shareholders may be you as an individual investor or in a more complicated case: a managment company (In the case of ETF's and Index Funds. More on that later)</li>
@@ -144,10 +147,15 @@
 
                 <h3>Investor Tax Residence</h3>
 
-                In order to understand who and how taxes work, we will look at who and how owns an ETF in a complicated scenario.
+                <p>
+                    In order to understand who and how taxes work, we will look at who and how owns an ETF in a complicated scenario.
+                </p>
 
                 <p>
-                    Meet Max:<img class = "icon" src = "icons/max.png"></img>.
+                    Meet Max:
+                    <a href = "" class = "icon-group">
+                        <img class = "icon" src = "icons/max.png"></img>
+                    </a>
                     Max used to live in slovakia his whole life and be a tax resident there:
                     <a href = "http://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/slovakia/index_en.htm" class = "icon-group">
                         <img class = "icon" src = "icons/slovakia.png"></img>
@@ -186,19 +194,19 @@
                         <img class = "icon" src = "icons/belgium.png"></img>
                         <img class = "icon" src = "icons/broker.png"></img>
                     </a>
-                 </p>
+                </p>
 
-                 <p>
-                     Every time he recieves a dividend payment he has to pay
-                     <a href = "https://en.wikipedia.org/wiki/Flat_rate_withholding_tax_%28Abgeltungsteuer%29">the dividend tax rate of the country of his residence (25%)</a>
-                     to the govornment of said country:
-                     <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
-                         <img class = "icon" src = "icons/germany.png"></img>
-                         <img class = "icon" src = "icons/govornment.png"></img>
-                     </a>.
+                <p>
+                    Every time he recieves a dividend payment he has to pay
+                    <a href = "https://en.wikipedia.org/wiki/Flat_rate_withholding_tax_%28Abgeltungsteuer%29">the dividend tax rate of the country of his residence (25%)</a>
+                    to the govornment of said country:
+                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
+                        <img class = "icon" src = "icons/germany.png"></img>
+                        <img class = "icon" src = "icons/govornment.png"></img>
+                    </a>.
 
-                     His brocker being in Belgium has no effect on his rate. It does have an effect on <strong>who</strong> is responsible for that collection. If he had used a
-                     German broker, the broker would automatically collect the tax and send it to the German authorities. Now he has to do that himself, by submiting country speficif formulars.
+                    His brocker being in Belgium has no effect on his rate. It does have an effect on <strong>who</strong> is responsible for that collection. If he had used a
+                    German broker, the broker would automatically collect the tax and send it to the German authorities. Now he has to do that himself, by submiting country speficif formulars.
                 </p>
 
 
@@ -206,6 +214,7 @@
 
 
                 <h3>Corporate Tax Residence:</h3>
+
                 <p>
                    Meet
                     <a href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell">Royal Dutch Shell</a>
@@ -218,22 +227,6 @@
                         <img class = "icon" src = "icons/netherlands.png"></img>
                         <img class = "icon" src = "icons/shell.png"></img>
                     </a>
-
-                    and Nestlé:
-                    <a href = "http://europa.eu/youreurope/citizens/work/taxes/income-taxes-abroad/slovakia/index_en.htm" class = "icon-group">
-                        <img class = "icon" src = "icons/nestle.png"></img>
-                    </a>
-
-                    ncorporated in Switzerland:
-                    <!--
-                    <a href = "https://en.wikipedia.org/wiki/Total_S.A.">Total S.A</a>
-                    <a href = "https://en.wikipedia.org/wiki/Total_S.A." class = "icon-group">
-                        <img class = "icon" src = "icons/totall.png"></img>
-                    </a>
-
-                    incorporated in France.
-                -->
-
                 </p>
 
 
@@ -261,13 +254,13 @@
                             <img class = "icon" src = "icons/netherlands.png"></img>
                             <img class = "icon" src = "icons/shell.png"></img>
                         </a>
-                        -----1€--->
+                       --1€-->
                         <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">
                             <img class = "icon" src = "icons/netherlands.png"></img>
                             <img class = "icon" src = "icons/govornment.png"></img>
                             <span>0.15€</span>
                         </a>
-                        ----0.85€---->
+                        --0.85€-->
                         <a href = "" class = "icon-group">
                             <img class = "icon" src = "icons/belgium.png"></img>
                             <img class = "icon" src = "icons/broker.png"></img>
@@ -283,7 +276,7 @@
                             <img class = "icon" src = "icons/broker.png"></img>
                             <span>0.00€</span>
                         </a>
-                        ----0.85€---->
+                        --0.85€-->
                         <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
                             <img class = "icon" src = "icons/germany.png"></img>
                             <img class = "icon" src = "icons/max.png"></img>
@@ -310,7 +303,7 @@
                             <img class = "icon" src = "icons/max.png"></img>
                             <span>0.75€</span>
                         </a>
-                        -----0.10€--->
+                       --0.10€-->
                         <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
                             <img class = "icon" src = "icons/germany.png"></img>
                             <img class = "icon" src = "icons/govornment.png"></img>
@@ -323,25 +316,25 @@
                             <img class = "icon" src = "icons/netherlands.png"></img>
                             <img class = "icon" src = "icons/shell.png"></img>
                         </a>
-                        -----1€--->
+                       --1€-->
                         <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">
                             <img class = "icon" src = "icons/netherlands.png"></img>
                             <img class = "icon" src = "icons/govornment.png"></img>
                             <span>0.15€</span>
                         </a>
-                        ----0.85€---->
+                        --0.85€-->
                         <a href = "" class = "icon-group">
                             <img class = "icon" src = "icons/belgium.png"></img>
                             <img class = "icon" src = "icons/broker.png"></img>
                             <span>0.00€</span>
                         </a>
-                        ----0.85€---->
+                        --0.85€-->
                         <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
                             <img class = "icon" src = "icons/germany.png"></img>
                             <img class = "icon" src = "icons/max.png"></img>
                             <span>0.75€</span>
                         </a>
-                        -----0.10€--->
+                       --0.10€-->
                         <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
                             <img class = "icon" src = "icons/germany.png"></img>
                             <img class = "icon" src = "icons/govornment.png"></img>
@@ -350,34 +343,36 @@
                 </p>
 
                 <h3>Examples from across Europe</h3>
+
                 <p>
                     <ul>
                         <li>
-                            Let's look at another example: Max invests in Nestle
+                            Let's look at another example: Max invests in Nestle (incorporated in Switzerland):
 
                             <div>
-                                <a href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell" class = "icon-group">
-                                    <img class = "icon" src = "icons/nestle.png"></img>
+                                <a href = "https://en.wikipedia.org/wiki/Nestl%C3%A9" class = "icon-group">
+                                    <img class = "icon" src = "icons/switzerland.png"></img>
+                                    <img class = "icon" src = "icons/company.png"></img>
                                 </a>
-                                -----1€--->
+                               --1€-->
                                 <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">
                                     <img class = "icon" src = "icons/switzerland.png"></img>
                                     <img class = "icon" src = "icons/govornment.png"></img>
                                     <span>0.15€</span>
                                 </a>
-                                ----0.85€---->
+                                --0.85€-->
                                 <a href = "" class = "icon-group">
                                     <img class = "icon" src = "icons/belgium.png"></img>
                                     <img class = "icon" src = "icons/broker.png"></img>
                                     <span>0.00€</span>
                                 </a>
-                                ----0.85€---->
+                                --0.85€-->
                                 <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
                                     <img class = "icon" src = "icons/germany.png"></img>
                                     <img class = "icon" src = "icons/max.png"></img>
                                     <span>0.75€</span>
                                 </a>
-                                -----0.10€--->
+                               --0.10€-->
                                 <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
                                     <img class = "icon" src = "icons/germany.png"></img>
                                     <img class = "icon" src = "icons/govornment.png"></img>
@@ -395,25 +390,25 @@
                                         <img class = "icon" src = "icons/bulgaria.png"></img>
                                         <img class = "icon" src = "icons/company.png"></img>
                                     </a>
-                                    -----1€--->
+                                   --1€-->
                                     <a class = "icon-group">
                                         <img class = "icon" src = "icons/bulgaria.png"></img>
                                         <img class = "icon" src = "icons/govornment.png"></img>
                                         <span>0.00€</span>
                                     </a>
-                                    ----1.00€---->
+                                    --1.00€-->
                                     <a href = "" class = "icon-group">
                                         <img class = "icon" src = "icons/belgium.png"></img>
                                         <img class = "icon" src = "icons/broker.png"></img>
                                         <span>0.00€</span>
                                     </a>
-                                    ----1.00€---->
+                                    --1.00€-->
                                     <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
                                         <img class = "icon" src = "icons/germany.png"></img>
                                         <img class = "icon" src = "icons/max.png"></img>
                                         <span>0.75€</span>
                                     </a>
-                                    -----0.25€--->
+                                   --0.25€-->
                                     <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
                                         <img class = "icon" src = "icons/germany.png"></img>
                                         <img class = "icon" src = "icons/govornment.png"></img>
@@ -432,25 +427,25 @@
                                         <img class = "icon" src = "icons/germany.png"></img>
                                         <img class = "icon" src = "icons/company.png"></img>
                                     </a>
-                                    -----1€--->
+                                   --1€-->
                                     <a class = "icon-group">
                                         <img class = "icon" src = "icons/germany.png"></img>
                                         <img class = "icon" src = "icons/govornment.png"></img>
                                         <span>0.15€</span>
                                     </a>
-                                    ----0.85€---->
+                                    --0.85€-->
                                     <a href = "" class = "icon-group">
                                         <img class = "icon" src = "icons/belgium.png"></img>
                                         <img class = "icon" src = "icons/broker.png"></img>
                                         <span>0.00€</span>
                                     </a>
-                                    ----0.85€---->
+                                    --0.85€-->
                                     <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
                                         <img class = "icon" src = "icons/bulgaria.png"></img>
                                         <img class = "icon" src = "icons/max.png"></img>
                                         <span>0.85€</span>
                                     </a>
-                                    -----0.00€--->
+                                   --0.00€-->
                                     <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
                                         <img class = "icon" src = "icons/bulgaria.png"></img>
                                         <img class = "icon" src = "icons/govornment.png"></img>
@@ -459,31 +454,31 @@
                             </li>
 
                             <li>
-                                A Luxembourgian <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-luxembourghighlights-2016.pdf">(15% dividend)</a> invests in Bulgaria <a href = "http://bulgarico.com/taxframe/dividend-tax/">0% witholding for EU)</a>
+                                A Luxembourgian <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-luxembourghighlights-2016.pdf">(15% dividend)</a> invests in Bulgaria <a href = "http://bulgarico.com/taxframe/dividend-tax/">(0% witholding for EU)</a>
                                 <div>
                                     <a class = "icon-group">
                                         <img class = "icon" src = "icons/bulgaria.png"></img>
                                         <img class = "icon" src = "icons/company.png"></img>
                                     </a>
-                                    -----1€--->
+                                   --1€-->
                                     <a class = "icon-group">
                                         <img class = "icon" src = "icons/bulgaria.png"></img>
                                         <img class = "icon" src = "icons/govornment.png"></img>
                                         <span>0.00€</span>
                                     </a>
-                                    ----1.00€---->
+                                    --1.00€-->
                                     <a href = "" class = "icon-group">
                                         <img class = "icon" src = "icons/belgium.png"></img>
                                         <img class = "icon" src = "icons/broker.png"></img>
                                         <span>0.00€</span>
                                     </a>
-                                    ----1.00€---->
+                                    --1.00€-->
                                     <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
                                         <img class = "icon" src = "icons/luxembourg.png"></img>
                                         <img class = "icon" src = "icons/max.png"></img>
                                         <span>0.85€</span>
                                     </a>
-                                    -----0.15€--->
+                                   --0.15€-->
                                     <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
                                         <img class = "icon" src = "icons/luxembourg.png"></img>
                                         <img class = "icon" src = "icons/govornment.png"></img>
@@ -498,25 +493,25 @@
                                         <img class = "icon" src = "icons/luxembourg.png"></img>
                                         <img class = "icon" src = "icons/company.png"></img>
                                     </a>
-                                    -----1€--->
+                                   --1€-->
                                     <a class = "icon-group">
                                         <img class = "icon" src = "icons/luxembourg.png"></img>
                                         <img class = "icon" src = "icons/govornment.png"></img>
                                         <span>0.15€</span>
                                     </a>
-                                    ----0.85€---->
+                                    --0.85€-->
                                     <a href = "" class = "icon-group">
                                         <img class = "icon" src = "icons/belgium.png"></img>
                                         <img class = "icon" src = "icons/broker.png"></img>
                                         <span>0.00€</span>
                                     </a>
-                                    ----0.85€---->
+                                    --0.85€-->
                                     <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
                                         <img class = "icon" src = "icons/bulgaria.png"></img>
                                         <img class = "icon" src = "icons/max.png"></img>
                                         <span>0.85€</span>
                                     </a>
-                                    -----0.00€--->
+                                   --0.00€-->
                                     <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
                                         <img class = "icon" src = "icons/bulgaria.png"></img>
                                         <img class = "icon" src = "icons/govornment.png"></img>
@@ -532,25 +527,25 @@
                                         <img class = "icon" src = "icons/slovenia.png"></img>
                                         <img class = "icon" src = "icons/company.png"></img>
                                     </a>
-                                    -----1€--->
+                                   --1€-->
                                     <a class = "icon-group">
                                         <img class = "icon" src = "icons/slovenia.png"></img>
                                         <img class = "icon" src = "icons/govornment.png"></img>
                                         <span>0.15€</span>
                                     </a>
-                                    ----0.85€---->
+                                    --0.85€-->
                                     <a href = "" class = "icon-group">
                                         <img class = "icon" src = "icons/belgium.png"></img>
                                         <img class = "icon" src = "icons/broker.png"></img>
                                         <span>0.00€</span>
                                     </a>
-                                    ----0.85€---->
+                                    --0.85€-->
                                     <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
                                         <img class = "icon" src = "icons/switzerland.png"></img>
                                         <img class = "icon" src = "icons/max.png"></img>
                                         <span>0.65€</span>
                                     </a>
-                                    -----0.20€--->
+                                   --0.20€-->
                                     <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
                                         <img class = "icon" src = "icons/switzerland.png"></img>
                                         <img class = "icon" src = "icons/govornment.png"></img>
@@ -560,6 +555,195 @@
                         </ul>
                 </p>
 
+                <h2>ETF Dividends Tax</h2>
+
+                <p>
+                    By buying an ETF an investor buys a share of a <strong>legal entity</strong> (different then a share of a company in most cases) which itself
+                    owns shares in companies and recieves dividends by them. The ETF then distributes(or not. some on that later) the dividends to the investors.
+                </p>
+
+                <p>
+                    By ETF's a new very important variable enters the game: The ETF domicile. This domicile has 2 effects on our examples.
+                    Fortunately almost all of the European ETFs are domiciled in either France, Luxembourg or Ireland which makes the picture
+                    somewhat easier.
+                </p>
+
+                <h3>ETF Domicile: company witholding tax</h3>
+
+                <p>
+                    For the purpouses of the witholding tax, the Govornment of the company the ETF holds witholds tax as if it was witholding tax from a resident of
+                    the country the ETF is domiciled in.
+                    </p>
+
+                    <p>
+                    Meet SPDR, domiciled in Ireland:
+                    <a class = "icon-group" href ="https://www.spdrseurope.com/etf/spdr-msci-europe-ucits-etf-ERO-FP">
+                        <img src = "icons/ireland.png"></img>
+                        <img src = "icons/fund.png"></img>
+                    </a>
+
+                    SPDR owns Nestle with a weight of 2,78%:
+                    <a class ="icon-group" href = "https://en.wikipedia.org/wiki/Nestl%C3%A9">
+                        <img src = "icons/switzerland.png"></img>
+                        <img src = "icons/company.png"></img>
+                    </a>
+                    and Royal Dutch Shell with 1,51%:
+                    <a class ="icon-group" href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell">
+                        <img src = "icons/netherlands.png"></img>
+                        <img src = "icons/company.png"></img>
+                    </a>.
+
+                    Examples of these companies distributing 1€ of dividends is discribed below:
+                </p>
+
+                <p>
+                    <ul>
+                        By distribution of dividends, the Swiss govornment trheats the Irish ETF as
+                        an Irish citizen so the <a href = "http://www.revenue.ie/en/practitioner/law/double/switzerland.pdf">Irish-Swiss treaty for dividend witholding tax</a> applies.
+                        (which put's the maximum witholding tax at 15% instead of the 35% without a treaty).
+                        <br/>
+
+                        <li>
+                            <a class ="icon-group" href = "https://en.wikipedia.org/wiki/Nestl%C3%A9">
+                                <img src = "icons/switzerland.png"></img>
+                                <img src = "icons/company.png"></img>
+                            </a>
+                           --1€-->
+                            <a class ="icon-group">
+                                <img src = "icons/switzerland.png"></img>
+                                <img src = "icons/govornment.png"></img>
+                                <span>0.15€</span>
+                            </a>
+                           --0.85€-->
+                            <a class = "icon-group" href ="https://www.spdrseurope.com/etf/spdr-msci-europe-ucits-etf-ERO-FP">
+                                <img src = "icons/ireland.png"></img>
+                                <img src = "icons/fund.png"></img>
+                                <span>0.00€</span>
+                            </a>
+                           --0.85€--> ??
+                        </li>
+
+                        <li>
+
+                            The same thing happens in the Netherlands, but the treaty there doesn't help the ETF case since, the non-treaty tax-rate is still 15%:
+                            <br/>
+
+                            <a class ="icon-group" href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell">
+                                <img src = "icons/netherlands.png"></img>
+                                <img src = "icons/company.png"></img>
+                            </a>
+                           --1€-->
+                            <a class ="icon-group">
+                                <img src = "icons/netherlands.png"></img>
+                                <img src = "icons/govornment.png"></img>
+                                <span>0.15€</span>
+                            </a>
+                           --0.85€-->
+                            <a class = "icon-group" href ="https://www.spdrseurope.com/etf/spdr-msci-europe-ucits-etf-ERO-FP">
+                                <img src = "icons/ireland.png"></img>
+                                <img src = "icons/fund.png"></img>
+                                <span>0.00€</span>
+                            </a>
+                           --0.85€--> ??
+                        </li>
+                    </ul>
+                </p>
+
+                <h3>ETF Domicile: ETF witholding tax</h3>
+
+                <p>
+                    Remember when we said that the ETF is a misterious "Legal Entity"? Well that misterious entity has a special
+                    status in Ireland and Luxembourg, making the respective countries withold 0% tax rate. The only other popular option for Europe:
+                    France makes no such distinctions and treats it like a normal company.
+
+                    A few examples:
+
+                    <ul>
+
+                    <li>
+                        <a class ="icon-group" href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell">
+                            <img src = "icons/netherlands.png"></img>
+                            <img src = "icons/company.png"></img>
+                        </a>
+                       --1€-->
+                        <a class ="icon-group">
+                            <img src = "icons/netherlands.png"></img>
+                            <img src = "icons/govornment.png"></img>
+                            <span>0.15€</span>
+                        </a>
+                       --0.85€-->
+                        <a class = "icon-group" href ="https://www.spdrseurope.com/etf/spdr-msci-europe-ucits-etf-ERO-FP">
+                            <img src = "icons/ireland.png"></img>
+                            <img src = "icons/fund.png"></img>
+                            <span>0.00€</span>
+                        </a>
+                       --0.85€-->
+                        <a class = "icon-group" href ="https://www.spdrseurope.com/etf/spdr-msci-europe-ucits-etf-ERO-FP">
+                            <img src = "icons/ireland.png"></img>
+                            <img src = "icons/govornment.png"></img>
+                            <span>0.00€</span>
+                        </a>
+                       --0.85€-->...
+                    </li>
+
+                    <li>
+                        <a class ="icon-group">
+                            <img src = "icons/switzerland.png"></img>
+                            <img src = "icons/company.png"></img>
+                        </a>
+                       --1€-->
+                        <a class ="icon-group">
+                            <img src = "icons/switzerland.png"></img>
+                            <img src = "icons/govornment.png"></img>
+                            <span>0.15€</span>
+                        </a>
+                       --0.85€-->
+                        <a class = "icon-group">
+                            <img src = "icons/luxembourg.png"></img>
+                            <img src = "icons/fund.png"></img>
+                            <span>0.00€</span>
+                        </a>
+                       --0.85€-->
+                        <a class = "icon-group">
+                            <img src = "icons/luxembourg.png"></img>
+                            <img src = "icons/govornment.png"></img>
+                            <span>0.00€</span>
+                        </a>
+                       --0.85€-->...
+                    </li>
+
+                    <li>
+                        <a class ="icon-group">
+                            <img src = "icons/switzerland.png"></img>
+                            <img src = "icons/company.png"></img>
+                        </a>
+                       --1€-->
+                        <a class ="icon-group">
+                            <img src = "icons/switzerland.png"></img>
+                            <img src = "icons/govornment.png"></img>
+                            <span>0.15€</span>
+                        </a>
+                       --0.85€-->
+                        <a class = "icon-group">
+                            <img src = "icons/france.png"></img>
+                            <img src = "icons/fund.png"></img>
+                            <span>0.00€</span>
+                        </a>
+                       --0.85€-->
+                        <a class = "icon-group">
+                            <img src = "icons/france.png"></img>
+                            <img src = "icons/govornment.png"></img>
+                            <span>0.21€</span>
+                        </a>
+                       --0.64€-->...
+                        <div>
+                        Note that to the point of view of the French govornment,
+                        the fund is a normal company distributing dividends and therefore 25% is taxed on top of those
+                        dividends (0.85€) and not the original value.
+                        </div>
+                    </li>
+                    </ul>
+                </p>
             </section>
 
 

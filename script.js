@@ -45,9 +45,9 @@ Vue.component('map-timeline',
 
             var projection = d3
                 .geoMercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
-                .center([ 13, 52 ]) //comment centrer la carte, longitude, latitude
+                .center([ 11, 54 ]) //comment centrer la carte, longitude, latitude
                 .translate([ w/2, h/2 ]) // centrer l'image obtenue dans le svg
-                .scale([ w/1.8 ]) // zoom, plus la valeur est petit plus le zoom est gros
+                .scale([ h/1 ]) // zoom, plus la valeur est petit plus le zoom est gros
 
             //Define path generator
             var path = d3

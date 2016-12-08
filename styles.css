@@ -30,6 +30,11 @@ a
     color: #f4b642;
 }
 
+li
+{
+    margin-top: 1rem;
+}
+
 /* ----------------- Header ----------------- */
 h1
 {
@@ -148,7 +153,7 @@ rect
     margin: 1rem 0;
 }
 
-.icon
+.icon-group img
 {
     vertical-align: middle;
     height: 30px;
@@ -163,7 +168,7 @@ rect
     display: inline-block;
     vertical-align: middle;
 }
-.icon-group .icon:nth-of-type(2)
+.icon-group img:nth-of-type(2)
 {
     position: absolute;
     left: 0;
