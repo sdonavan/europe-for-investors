@@ -50,7 +50,7 @@ let DataProvider =
         calculateMetricForYear(country, year)
         {
             let name = country['Country']
-            let metric = (country[year] === undefined || country[year] ==='n/a') ? undefined : Number(String(country[year]).replace(',', ''))
+            let metric = (country[year] === undefined || country[year] ==='n/a' || country[year] === 'n/a' || country[year] === '') ? undefined : Number(String(country[year]).replace(',', ''))
             return {name, metric}
         },
 
@@ -153,14 +153,13 @@ Vue.component('bar-chart',
     {
         drawChart: function(element, data)
         {
-            let w = element.offsetWidth
-            let h = element.offsetHeight
-
             let canvas = d3
                 .select(element)
 
             // Sort the data bt the metric
-            var data = data.sort((a, b) => a.metric <= b.metric)
+            var data = data
+                    .filter(d => d.metric !== undefined)
+                    .sort((a, b) => (this.metricRelationship == 'reversed') ? a.metric >= b.metric : a.metric <= b.metric)
 
             canvas
                 .selectAll("div")
@@ -194,7 +193,6 @@ Vue.component('bar-chart',
                 .duration(1000)
                 .style("width", c => this.rangeConverter(c.metric, 0, max, 0, 40) + 10 + '%')
                 .style("background-color", c => c.color)
-                //.html(c => c.metric)
         }
     }
 })
@@ -235,12 +233,15 @@ Vue.component('map-chart',
         **/
         drawMap: function(element, geoData, countries)
         {
+
+            data = this.combineData(geoData, countries)
+
             let w = element.offsetWidth
             let h = element.offsetHeight
 
             let projection = d3
                 .geoMercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
-                .center([ 6, 48 ]) //comment centrer la carte, longitude, latitude
+                .center([ 8, 48 ]) //comment centrer la carte, longitude, latitude
                 .translate([ w/2, h/2 ]) // centrer l'image obtenue dans le svg
                 .scale([ w/1.2 ]) // zoom, plus la valeur est petit plus le zoom est gros
 
@@ -250,90 +251,80 @@ Vue.component('map-chart',
                 .projection(projection)
 
 
-            //Create SVG
+            //Create the SVG
             let svg = d3
                 .select(element)
                 .append("svg")
                 .attr("width", w)
                 .attr("height", h)
 
+            this.drawBorders(svg, path, data)
+            this.drawLabels(svg, path, data)
+        },
+
+        combineData: function(geoData, countries)
+        {
+            return countries.map(c =>
+            {
+                let GeoJSON = new Object({properties: {}, geometry: {}, type: 'Feature'})
+
+
+                Object.keys(c).forEach(k => GeoJSON['properties'][k] = c[k])
+
+                let geometryHolder =
+                    geoData
+                    .features
+                    .find(f => f.properties.formal_en == c['name'] || c['name'].contains(f.properties.admin) || f.properties.admin.contains(c['name']))
+
+                if (geometryHolder)
+                    GeoJSON['geometry'] = geometryHolder.geometry
+
+                return GeoJSON
+            }).filter(c => c.geometry)
+        },
+
+
+        drawBorders: function(svg, path, data)
+        {
             //Bind data and create one path per GeoJSON feature
             svg
                 .selectAll("path")
-                .data(geoData.features)
+                .data(data)
                 .enter()
                 .append("path")
                 .attr("d", path)
                 .attr("stroke", '#dddddd')
-                .attr("fill", d =>
-                {
-                    let country = countries.find(c => c['name'].contains(d.properties.name) || c['name'].contains(d.properties.formal_en))
-                    return country && country['color'] || 'white'
-                })
+                .attr("fill", d => d.properties.color)
                 .attr("id", (d, i) => '#path_' + i)
+        },
 
+        drawLabels: function(svg, path, data)
+        {
+            // Draw the label squares
             svg
                 .selectAll('rect')
-                .data(geoData.features)
+                .data(data)
                 .enter()
                 //.filter(this.calculateMetricForYear)
                 .append("rect")
-                .attr('fill', 'red')
+                .attr('fill', data => data.properties.color)
                 .attr("x", d => path.centroid(d)[0] - 3.5)
                 .attr('y', d => path.centroid(d)[1] - 10)
                 .attr('width', '30px')
                 .attr('height', '14px')
+                .attr('class', 'value-holder')
 
-            return
-            // Draw the labels
+            // Draw the label contents
             svg
                 .selectAll("text")
-                .data(countries.features)
+                .data(data)
                 .enter()
-                .filter(this.calculateMetricForYear)
                 .append("text")
-                .text(this.calculateLabel)
+                .text(data => this.formatNumber(data.properties.metric))
                 .attr("x", d => path.centroid(d)[0])
                 .attr('y', d => path.centroid(d)[1])
                 .attr('title', d => d.properties.admin)
-        },
-
-        /**
-        * Given a feature object calculate the metric value for the
-        * given year
-        * @param   {d}                A feature object as defined in countries.json
-        * @return  {number}           A number representing the metric value
-        **/
-        calculateMetricForYearddd(d)
-        {
-            let countryName = d.properties.admin,
-                country     = this.metric.find(m => m.Country == countryName),
-                thisYear = country && country[this.year]
-                valueForCountryForYear = (typeof thisYear === 'string') ? Number(thisYear.replace(',', '')) : thisYear
-
-            if (typeof valueForCountryForYear == 'number')
-                return valueForCountryForYear
-            else
-                return undefined
-        },
-
-        /**
-        * Given a feature input of the form in countries.json, which includes a
-        * countru name calculates a decent label
-        * @param   {d}                A feature object as defined in countries.json
-        * @return  {String}           The label for the specific metric
-        **/
-        calculateLabel: function(d)
-        {
-            let metric = this.calculateMetricForYear(d)
-
-            if (typeof metric == 'number' && metric >= 1000)
-                return (this.calculateMetricForYear(d) / 1000).toFixed(1) + 'K'
-            if (typeof metric == 'number')
-                return metric
-
-            // Default to N/A
-            return 'N/A'
+                .attr('class', 'value')
         }
     }
 })
@@ -424,20 +415,6 @@ let app = new Vue({
         {
             // Save the current page
             window.location.hash = newPage
-        },
-
-        valuation: function(newValuation)
-        {
-            this.test()
-            console.log(newValuation)
-        }
-    },
-
-    methods:
-    {
-        test: function()
-        {
-        console.log("AAA")
         }
     }
 })

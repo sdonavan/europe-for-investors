@@ -20,7 +20,7 @@ h1, h2, h3, h4, strong
 
 #content > *
 {
-    width: 80%;
+    width: 70%;
     margin: 2rem auto;
 }
 
@@ -147,12 +147,12 @@ h1 > *
 
 .visualizations .map-chart
 {
-    width: 60%;
+    width: 50%;
 }
 
 .visualizations .bar-chart
 {
-    width: 40%;
+    width: 50%;
     vertical-align: middle;
 }
 
@@ -164,7 +164,6 @@ h1 > *
 
 .bar-chart .bar
 {
-    font-size: 0.6rem;
     height: 0.6rem;
     margin: 0.4rem;
     display: block;
@@ -194,12 +193,26 @@ h1 > *
     display: inline-block;
 }
 
-.bar-chart .bar .value
+.bar-chart .bar .value,
+.map-chart      .value
 {
     display: inline-block;
     padding: 0.1rem 0.2rem;
     box-sizing: border-box;
     color: white;
+    fill: white;
+}
+
+.map-chart .value-holder
+{
+    stroke: white;
+}
+
+.bar-chart .identifier label,
+.bar-chart .value,
+.map-chart .value
+{
+    font-size: 0.6rem;
 }
 
 /* ----------------- Witholding chains ----------------- */
