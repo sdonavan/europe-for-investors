@@ -132,6 +132,7 @@ h1 > *
 }
 
 
+
 /* ----------------- Valuations ----------------- */
 text
 {
@@ -153,11 +154,26 @@ rect
     margin: 1rem 0;
 }
 
-.icon-group img
+
+
+
+/* ----------------- Witholding chains ----------------- */
+.witholding-chain
 {
-    vertical-align: middle;
-    height: 30px;
+    margin: 1rem 1rem 2rem 1rem;
+    font-size: 0.8rem;
+}
+
+.witholding-chain > *
+{
     display: inline-block;
+}
+
+.witholding-chain .witholder
+{
+    display: inline-flex;
+    flex-flow: column;
+    text-align: center;
 }
 
 .icon-group
@@ -165,16 +181,34 @@ rect
     before: '&nbsp;';
     position: relative;
     height: 30px;
+    width: 30px;
     display: inline-block;
     vertical-align: middle;
+    margin: 0 auto;
 }
+
+.icon-group img
+{
+    vertical-align: middle;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    margin: 0 auto;
+}
+
 .icon-group img:nth-of-type(2)
 {
     position: absolute;
     left: 0;
+    top: 0;
 }
 
-.icon-group span
+
+.witholding-chain .witholded:not(:empty)
 {
-    font-size: 0.8rem;
+    background-color: #f4b642;
+    color: white;
+    padding: 0.05rem 0.2rem;
+    text-align: center;
+    margin-top: 0.2rem;
 }

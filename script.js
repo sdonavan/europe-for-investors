@@ -231,6 +231,80 @@ Vue.component('map-timeline',
 
 
 /**
+* A chain of companies /countries etc. witholding taxes
+*/
+Vue.component('witholding-chain',
+{
+    props: ['participants', 'capital'],
+
+    template: `
+                <div class ="witholding-chain">
+                    <div v-for = "p in parsedParticipants">
+
+                        <div class = "witholder">
+
+                            <div class ="icon-group">
+                                <img v-for = "i in p.icons" v-bind:src = "'icons/' + i + '.png'">
+                            </div>
+
+                            <span class ="witholded" v-if = "p.witholded !== null">{{Math.round(p.witholded * 100) / 100}}€</span>
+                        </div>
+
+                        <span v-if ="p != parsedParticipants[parsedParticipants.length - 1]">---{{Math.round(p.money * 100) / 100}}€---></span>
+                    </div>
+                </div>`,
+
+    computed:
+    {
+        parsedParticipants: function ()
+        {
+            var money = this.capital && Number(this.capital) || 1.00
+
+            var parsed =  this.participants.replace(/ /g,'').split(',').map(participant =>
+            {
+                var witholdedExp = /\(([^)]+)\)/
+
+                var witholded = witholdedExp.exec(participant) && witholdedExp.exec(participant)[1]
+
+                // Calculate the witholded sum
+                if (Number(witholded))
+                    witholded = Number(witholded)
+                if (witholded == 'all')
+                    witholded = money
+
+                money -= witholded
+                return {icons: participant.replace(witholdedExp, '').split(':'), witholded, money}
+            })
+
+            return parsed
+        }
+    },
+
+    mounted: function()
+    {
+        var money = 1
+        var a = this.participants.replace(/ /g,'').split(',')
+
+        b = a.map(participant =>
+        {
+            var witholdedExp = /\(([^)]+)\)/
+            var witholded =
+                witholdedExp
+                .exec(participant) &&
+                Number(witholdedExp
+                .exec(participant)[1])
+
+            money -= witholded
+            return {icons: participant.replace(witholdedExp, '').split(':'), witholded, money}
+        })
+        console.log(money)
+        console.dir(b)
+        //console.log(this.participants)
+    }
+})
+
+
+/**
 * The app is going to serve the purpouse of a router
 **/
 var app = new Vue({

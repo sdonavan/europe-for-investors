@@ -249,39 +249,17 @@
 
                     As an example, Shell pays 1€ in dividend to Max, through his broker which let's the dutch Govornment know Max is a resident of Germany:
 
-                    <div>
-                        <a href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell" class = "icon-group">
-                            <img class = "icon" src = "icons/netherlands.png"></img>
-                            <img class = "icon" src = "icons/shell.png"></img>
-                        </a>
-                       --1€-->
-                        <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">
-                            <img class = "icon" src = "icons/netherlands.png"></img>
-                            <img class = "icon" src = "icons/govornment.png"></img>
-                            <span>0.15€</span>
-                        </a>
-                        --0.85€-->
-                        <a href = "" class = "icon-group">
-                            <img class = "icon" src = "icons/belgium.png"></img>
-                            <img class = "icon" src = "icons/broker.png"></img>
-                        </a>
-                    </div>
+                    <witholding-chain participants = "netherlands:shell,
+                                                      netherlands:govornment(0.15),
+                                                      belgium:broker(0.00)
+                                                      "></witholding-chain>
 
                     Because the Belgium brokerage has no authority to withold any taxes of non-Belgian tax residents(neither should it),
-                    it just passes the sum to Max.
+                    it just passes the sum to Max:
 
-                    <div>
-                        <a href = "" class = "icon-group">
-                            <img class = "icon" src = "icons/belgium.png"></img>
-                            <img class = "icon" src = "icons/broker.png"></img>
-                            <span>0.00€</span>
-                        </a>
-                        --0.85€-->
-                        <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
-                            <img class = "icon" src = "icons/germany.png"></img>
-                            <img class = "icon" src = "icons/max.png"></img>
-                        </a>
-                    </div>
+                    <witholding-chain capital = '0.85' participants = "belgium:broker(0.00),
+                                                      germany:max
+                                                      "></witholding-chain>
 
                 </p>
 
@@ -289,270 +267,104 @@
 
                 <p>
 
-                    Now Max has to pay the govornment his 25% share. But Germany has a signed treaty with the netherlands
-                    <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">But Germany has a signed treaty with the netherlands</a>
+                    Now Max has to pay the govornment his 25% share.
+                    <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf">But Germany has a signed treaty with the netherlands</a>
                     in order to avoid double taxation.
 
                     Because of that the German govornment recognizes the 15% that Max paid, and demands only the 10% left to add to it's own tax
                     rate of 25%. In fact Germany always recognizes 15%, and in theory has a treaty with many nations, where an agreement is riched that the
                     foreign nation should tax dividends up to 15%, so that the rest of the tax is owed to the German govornment (25 - 15)%.
 
-                    <div>
-                        <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
-                            <img class = "icon" src = "icons/germany.png"></img>
-                            <img class = "icon" src = "icons/max.png"></img>
-                            <span>0.75€</span>
-                        </a>
-                       --0.10€-->
-                        <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
-                            <img class = "icon" src = "icons/germany.png"></img>
-                            <img class = "icon" src = "icons/govornment.png"></img>
-                        </a>
-                    </div>
+                    <witholding-chain capital = "0.85" participants = "germany:max(0.75),
+                                                      germany:govornment
+                                                      "></witholding-chain>
+
 
                     So we end up with the following chain:
-                    <div>
-                        <a href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell" class = "icon-group">
-                            <img class = "icon" src = "icons/netherlands.png"></img>
-                            <img class = "icon" src = "icons/shell.png"></img>
-                        </a>
-                       --1€-->
-                        <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">
-                            <img class = "icon" src = "icons/netherlands.png"></img>
-                            <img class = "icon" src = "icons/govornment.png"></img>
-                            <span>0.15€</span>
-                        </a>
-                        --0.85€-->
-                        <a href = "" class = "icon-group">
-                            <img class = "icon" src = "icons/belgium.png"></img>
-                            <img class = "icon" src = "icons/broker.png"></img>
-                            <span>0.00€</span>
-                        </a>
-                        --0.85€-->
-                        <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
-                            <img class = "icon" src = "icons/germany.png"></img>
-                            <img class = "icon" src = "icons/max.png"></img>
-                            <span>0.75€</span>
-                        </a>
-                       --0.10€-->
-                        <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
-                            <img class = "icon" src = "icons/germany.png"></img>
-                            <img class = "icon" src = "icons/govornment.png"></img>
-                        </a>
-                    </div>
+
+                    <witholding-chain participants = "netherlands:shell,
+                                                      netherlands:govornment(0.15),
+                                                      belgium:broker(0.00),
+                                                      germany:max(0.75),
+                                                      germany:govornment(all)
+                                                      "></witholding-chain>
                 </p>
 
                 <h3>Examples from across Europe</h3>
 
                 <p>
-                    <ul>
-                        <li>
-                            Let's look at another example: Max invests in Nestle (incorporated in Switzerland):
+                    Max invests in Nestle (incorporated in Switzerland):
 
-                            <div>
-                                <a href = "https://en.wikipedia.org/wiki/Nestl%C3%A9" class = "icon-group">
-                                    <img class = "icon" src = "icons/switzerland.png"></img>
-                                    <img class = "icon" src = "icons/company.png"></img>
-                                </a>
-                               --1€-->
-                                <a href = "http://download.belastingdienst.nl/belastingdienst/docs/verdragsstaten_ib_niet_ingezetenen_ib4011z2fd.pdf" class = "icon-group">
-                                    <img class = "icon" src = "icons/switzerland.png"></img>
-                                    <img class = "icon" src = "icons/govornment.png"></img>
-                                    <span>0.15€</span>
-                                </a>
-                                --0.85€-->
-                                <a href = "" class = "icon-group">
-                                    <img class = "icon" src = "icons/belgium.png"></img>
-                                    <img class = "icon" src = "icons/broker.png"></img>
-                                    <span>0.00€</span>
-                                </a>
-                                --0.85€-->
-                                <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
-                                    <img class = "icon" src = "icons/germany.png"></img>
-                                    <img class = "icon" src = "icons/max.png"></img>
-                                    <span>0.75€</span>
-                                </a>
-                               --0.10€-->
-                                <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
-                                    <img class = "icon" src = "icons/germany.png"></img>
-                                    <img class = "icon" src = "icons/govornment.png"></img>
-                                </a>
-                            </div>
+                    <witholding-chain participants = "switzerland:company,
+                                                      switzerland:govornment(0.15),
+                                                      belgium:broker(0.00),
+                                                      germany:max(0.75),
+                                                      germany:govornment(all)
+                                                      "></witholding-chain>
+                    And while in theory it should work that way, the Swiss govornment automatically witholds its normal 35%. You can
+                    submit a form in a lenghty process to get the 0.20€ (35 - 15)% the Swiss owe you in a lenghty process.
+                </p>
 
-                            And while in theory it should work that way, the Swiss govornment automatically witholds its normal 35%. You can
-                            submit a form in a lenghty process to get the 0.20€ (35 - 15)% the Swiss owe you in a lenghty process.
-                        </li>
-                        <li>
-                            Max invests in a Bulgarian company. <a href = "http://www.nap.bg/en/page?id=520">Bulgaria has 0% witholding tax for EU citizens:<a/>
+                <p>
+                    Max invests in a Bulgarian company. <a href = "http://www.nap.bg/en/page?id=520">Bulgaria has 0% witholding tax for EU citizens:</a>
 
-                                <div>
-                                    <a class = "icon-group">
-                                        <img class = "icon" src = "icons/bulgaria.png"></img>
-                                        <img class = "icon" src = "icons/company.png"></img>
-                                    </a>
-                                   --1€-->
-                                    <a class = "icon-group">
-                                        <img class = "icon" src = "icons/bulgaria.png"></img>
-                                        <img class = "icon" src = "icons/govornment.png"></img>
-                                        <span>0.00€</span>
-                                    </a>
-                                    --1.00€-->
-                                    <a href = "" class = "icon-group">
-                                        <img class = "icon" src = "icons/belgium.png"></img>
-                                        <img class = "icon" src = "icons/broker.png"></img>
-                                        <span>0.00€</span>
-                                    </a>
-                                    --1.00€-->
-                                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
-                                        <img class = "icon" src = "icons/germany.png"></img>
-                                        <img class = "icon" src = "icons/max.png"></img>
-                                        <span>0.75€</span>
-                                    </a>
-                                   --0.25€-->
-                                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
-                                        <img class = "icon" src = "icons/germany.png"></img>
-                                        <img class = "icon" src = "icons/govornment.png"></img>
-                                    </a>
-                                </div>
-                            </li>
+                    <witholding-chain participants = "bulgaria:company,
+                                                      bulgaria:govornment(0.00),
+                                                      belgium:broker(0.00),
+                                                      germany:max(0.75),
+                                                      germany:govornment(all)
+                                                      "></witholding-chain>
+                </p>
 
-                            <li>
-                                A Bulgarian investor invests in Germany. The Bulgarian dividend tax rate is 5% (different from the witholding tax rate for non-residents).
-                                <a href = "http://www.bundesfinanzministerium.de/Content/DE/Standardartikel/Themen/Steuern/Internationales_Steuerrecht/Staatenbezogene_Informationen/Laender_A_Z/Bulgarien/2010-11-23-Bulgarien-Abkommen-DBA-Gesetz.pdf?__blob=publicationFile&v=3">Bulgaria has a tax treaty with Germany(and most countries)</a>
-                                allowing German authorities to withold 15% tax.
-                                Bulgaria also recognizes all foreign witholded tax, which lowers the tax due to the govornment to 0%.
+                <p>
+                    A Bulgarian investor invests in Germany. The Bulgarian dividend tax rate is 5% (different from the witholding tax rate for non-residents).
+                    <a href = "http://www.bundesfinanzministerium.de/Content/DE/Standardartikel/Themen/Steuern/Internationales_Steuerrecht/Staatenbezogene_Informationen/Laender_A_Z/Bulgarien/2010-11-23-Bulgarien-Abkommen-DBA-Gesetz.pdf?__blob=publicationFile&v=3">Bulgaria has a tax treaty with Germany(and most countries)</a>
+                    allowing German authorities to withold 15% tax.
+                    Bulgaria also recognizes all foreign witholded tax, which lowers the tax due to the govornment to 0%.
 
-                                <div>
-                                    <a class = "icon-group">
-                                        <img class = "icon" src = "icons/germany.png"></img>
-                                        <img class = "icon" src = "icons/company.png"></img>
-                                    </a>
-                                   --1€-->
-                                    <a class = "icon-group">
-                                        <img class = "icon" src = "icons/germany.png"></img>
-                                        <img class = "icon" src = "icons/govornment.png"></img>
-                                        <span>0.15€</span>
-                                    </a>
-                                    --0.85€-->
-                                    <a href = "" class = "icon-group">
-                                        <img class = "icon" src = "icons/belgium.png"></img>
-                                        <img class = "icon" src = "icons/broker.png"></img>
-                                        <span>0.00€</span>
-                                    </a>
-                                    --0.85€-->
-                                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
-                                        <img class = "icon" src = "icons/bulgaria.png"></img>
-                                        <img class = "icon" src = "icons/max.png"></img>
-                                        <span>0.85€</span>
-                                    </a>
-                                   --0.00€-->
-                                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
-                                        <img class = "icon" src = "icons/bulgaria.png"></img>
-                                        <img class = "icon" src = "icons/govornment.png"></img>
-                                    </a>
-                                </div>
-                            </li>
+                    <witholding-chain participants = "germany:company,
+                                                      germany:govornment(0.15),
+                                                      belgium:broker(0.00),
+                                                      bulgaria:max(0.85),
+                                                      bulgaria:govornment(all)
+                                                      "></witholding-chain>
+                </p>
 
-                            <li>
-                                A Luxembourgian <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-luxembourghighlights-2016.pdf">(15% dividend)</a> invests in Bulgaria <a href = "http://bulgarico.com/taxframe/dividend-tax/">(0% witholding for EU)</a>
-                                <div>
-                                    <a class = "icon-group">
-                                        <img class = "icon" src = "icons/bulgaria.png"></img>
-                                        <img class = "icon" src = "icons/company.png"></img>
-                                    </a>
-                                   --1€-->
-                                    <a class = "icon-group">
-                                        <img class = "icon" src = "icons/bulgaria.png"></img>
-                                        <img class = "icon" src = "icons/govornment.png"></img>
-                                        <span>0.00€</span>
-                                    </a>
-                                    --1.00€-->
-                                    <a href = "" class = "icon-group">
-                                        <img class = "icon" src = "icons/belgium.png"></img>
-                                        <img class = "icon" src = "icons/broker.png"></img>
-                                        <span>0.00€</span>
-                                    </a>
-                                    --1.00€-->
-                                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
-                                        <img class = "icon" src = "icons/luxembourg.png"></img>
-                                        <img class = "icon" src = "icons/max.png"></img>
-                                        <span>0.85€</span>
-                                    </a>
-                                   --0.15€-->
-                                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
-                                        <img class = "icon" src = "icons/luxembourg.png"></img>
-                                        <img class = "icon" src = "icons/govornment.png"></img>
-                                    </a>
-                                </div>
-                            </li>
+                <p>
+                    A Luxembourgian <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-luxembourghighlights-2016.pdf">(15% dividend)</a> invests in Bulgaria <a href = "http://bulgarico.com/taxframe/dividend-tax/">(0% witholding for EU)</a>
 
-                            <li>
-                                Bulgarian <a href = "http://bulgarico.com/taxframe/dividend-tax/">(5% dividend tax, substractable)</a> invests in <a href ="https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-luxembourghighlights-2016.pdf">Luxembourg (15% witholding)</a>
-                                <div>
-                                    <a class = "icon-group">
-                                        <img class = "icon" src = "icons/luxembourg.png"></img>
-                                        <img class = "icon" src = "icons/company.png"></img>
-                                    </a>
-                                   --1€-->
-                                    <a class = "icon-group">
-                                        <img class = "icon" src = "icons/luxembourg.png"></img>
-                                        <img class = "icon" src = "icons/govornment.png"></img>
-                                        <span>0.15€</span>
-                                    </a>
-                                    --0.85€-->
-                                    <a href = "" class = "icon-group">
-                                        <img class = "icon" src = "icons/belgium.png"></img>
-                                        <img class = "icon" src = "icons/broker.png"></img>
-                                        <span>0.00€</span>
-                                    </a>
-                                    --0.85€-->
-                                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
-                                        <img class = "icon" src = "icons/bulgaria.png"></img>
-                                        <img class = "icon" src = "icons/max.png"></img>
-                                        <span>0.85€</span>
-                                    </a>
-                                   --0.00€-->
-                                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
-                                        <img class = "icon" src = "icons/bulgaria.png"></img>
-                                        <img class = "icon" src = "icons/govornment.png"></img>
-                                    </a>
-                                </div>
-                            </li>
+                    <witholding-chain participants = "bulgaria:company,
+                                                      bulgaria:govornment(0.00),
+                                                      belgium:broker(0.00),
+                                                      luxembourg:max(0.85),
+                                                      luxembourg:govornment(all)
+                                                      "></witholding-chain>
 
-                            <li>
-                                Investor from Switzerland <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-switzerlandguide-2015.pdf">(35% dividend tax)</a>
-                                invests in Slovenia <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-sloveniahighlights-2016.pdf">(15% witholding tax)</a>
-                                <div>
-                                    <a class = "icon-group">
-                                        <img class = "icon" src = "icons/slovenia.png"></img>
-                                        <img class = "icon" src = "icons/company.png"></img>
-                                    </a>
-                                   --1€-->
-                                    <a class = "icon-group">
-                                        <img class = "icon" src = "icons/slovenia.png"></img>
-                                        <img class = "icon" src = "icons/govornment.png"></img>
-                                        <span>0.15€</span>
-                                    </a>
-                                    --0.85€-->
-                                    <a href = "" class = "icon-group">
-                                        <img class = "icon" src = "icons/belgium.png"></img>
-                                        <img class = "icon" src = "icons/broker.png"></img>
-                                        <span>0.00€</span>
-                                    </a>
-                                    --0.85€-->
-                                    <a href = "https://en.wikipedia.org/wiki/Tax_residence#Tax_residence_in_Germany" class = "icon-group">
-                                        <img class = "icon" src = "icons/switzerland.png"></img>
-                                        <img class = "icon" src = "icons/max.png"></img>
-                                        <span>0.65€</span>
-                                    </a>
-                                   --0.20€-->
-                                    <a href = "https://en.wikipedia.org/wiki/Taxation_in_Germany" class = "icon-group">
-                                        <img class = "icon" src = "icons/switzerland.png"></img>
-                                        <img class = "icon" src = "icons/govornment.png"></img>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
+                </p>
+
+                <p>
+                    Bulgarian <a href = "http://bulgarico.com/taxframe/dividend-tax/">(5% dividend tax, substractable)</a> invests in <a href ="https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-luxembourghighlights-2016.pdf">Luxembourg (15% witholding)</a>
+
+                    <witholding-chain participants = "luxembourg:company,
+                                                      luxembourg:govornment(0.15),
+                                                      belgium:broker(0.00),
+                                                      bulgaria:max(0.85),
+                                                      bulgaria:govornment(all)
+                                                      "></witholding-chain>
+
+                </p>
+
+                <p>
+                    Investor from Switzerland <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-switzerlandguide-2015.pdf">(35% dividend tax)</a>
+                    invests in Slovenia <a href = "https://www2.deloitte.com/content/dam/Deloitte/global/Documents/Tax/dttl-tax-sloveniahighlights-2016.pdf">(15% witholding tax)</a>
+
+                    <witholding-chain participants = "slovenia:company,
+                                                      slovenia:govornment(0.15),
+                                                      belgium:broker(0.00),
+                                                      switzerland:max(0.65),
+                                                      switzerland:govornment(all)
+                                                      "></witholding-chain>
+
                 </p>
 
                 <h2>ETF Dividends Tax</h2>
@@ -597,56 +409,23 @@
                 </p>
 
                 <p>
-                    <ul>
-                        By distribution of dividends, the Swiss govornment trheats the Irish ETF as
-                        an Irish citizen so the <a href = "http://www.revenue.ie/en/practitioner/law/double/switzerland.pdf">Irish-Swiss treaty for dividend witholding tax</a> applies.
-                        (which put's the maximum witholding tax at 15% instead of the 35% without a treaty).
-                        <br/>
+                    By distribution of dividends, the Swiss govornment trheats the Irish ETF as
+                    an Irish citizen so the <a href = "http://www.revenue.ie/en/practitioner/law/double/switzerland.pdf">Irish-Swiss treaty for dividend witholding tax</a> applies.
+                    (which put's the maximum witholding tax at 15% instead of the 35% without a treaty).
 
-                        <li>
-                            <a class ="icon-group" href = "https://en.wikipedia.org/wiki/Nestl%C3%A9">
-                                <img src = "icons/switzerland.png"></img>
-                                <img src = "icons/company.png"></img>
-                            </a>
-                           --1€-->
-                            <a class ="icon-group">
-                                <img src = "icons/switzerland.png"></img>
-                                <img src = "icons/govornment.png"></img>
-                                <span>0.15€</span>
-                            </a>
-                           --0.85€-->
-                            <a class = "icon-group" href ="https://www.spdrseurope.com/etf/spdr-msci-europe-ucits-etf-ERO-FP">
-                                <img src = "icons/ireland.png"></img>
-                                <img src = "icons/fund.png"></img>
-                                <span>0.00€</span>
-                            </a>
-                           --0.85€--> ??
-                        </li>
+                    <witholding-chain participants = "switzerland:company,
+                                                      switzerland:govornment(0.15),
+                                                      ireland:fund(0.00)
+                                                      "></witholding-chain>
+                </p>
 
-                        <li>
+                <p>
+                    The same thing happens in the Netherlands, but the treaty there doesn't help the ETF case since, the non-treaty tax-rate is still 15%:
 
-                            The same thing happens in the Netherlands, but the treaty there doesn't help the ETF case since, the non-treaty tax-rate is still 15%:
-                            <br/>
-
-                            <a class ="icon-group" href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell">
-                                <img src = "icons/netherlands.png"></img>
-                                <img src = "icons/company.png"></img>
-                            </a>
-                           --1€-->
-                            <a class ="icon-group">
-                                <img src = "icons/netherlands.png"></img>
-                                <img src = "icons/govornment.png"></img>
-                                <span>0.15€</span>
-                            </a>
-                           --0.85€-->
-                            <a class = "icon-group" href ="https://www.spdrseurope.com/etf/spdr-msci-europe-ucits-etf-ERO-FP">
-                                <img src = "icons/ireland.png"></img>
-                                <img src = "icons/fund.png"></img>
-                                <span>0.00€</span>
-                            </a>
-                           --0.85€--> ??
-                        </li>
-                    </ul>
+                    <witholding-chain participants = "netherlands:company,
+                                                      netherlands:govornment(0.15),
+                                                      ireland:fund(0.00)
+                                                      "></witholding-chain>
                 </p>
 
                 <h3>ETF Domicile: ETF witholding tax</h3>
@@ -658,92 +437,134 @@
 
                     A few examples:
 
-                    <ul>
+                    <witholding-chain participants = "netherlands:company,
+                                                      netherlands:govornment(0.15),
+                                                      ireland:fund(0.00),
+                                                      ireland:govornment(0.00)
+                                                      "></witholding-chain>
 
-                    <li>
-                        <a class ="icon-group" href = "https://en.wikipedia.org/wiki/Royal_Dutch_Shell">
-                            <img src = "icons/netherlands.png"></img>
-                            <img src = "icons/company.png"></img>
-                        </a>
-                       --1€-->
-                        <a class ="icon-group">
-                            <img src = "icons/netherlands.png"></img>
-                            <img src = "icons/govornment.png"></img>
-                            <span>0.15€</span>
-                        </a>
-                       --0.85€-->
-                        <a class = "icon-group" href ="https://www.spdrseurope.com/etf/spdr-msci-europe-ucits-etf-ERO-FP">
-                            <img src = "icons/ireland.png"></img>
-                            <img src = "icons/fund.png"></img>
-                            <span>0.00€</span>
-                        </a>
-                       --0.85€-->
-                        <a class = "icon-group" href ="https://www.spdrseurope.com/etf/spdr-msci-europe-ucits-etf-ERO-FP">
-                            <img src = "icons/ireland.png"></img>
-                            <img src = "icons/govornment.png"></img>
-                            <span>0.00€</span>
-                        </a>
-                       --0.85€-->...
-                    </li>
-
-                    <li>
-                        <a class ="icon-group">
-                            <img src = "icons/switzerland.png"></img>
-                            <img src = "icons/company.png"></img>
-                        </a>
-                       --1€-->
-                        <a class ="icon-group">
-                            <img src = "icons/switzerland.png"></img>
-                            <img src = "icons/govornment.png"></img>
-                            <span>0.15€</span>
-                        </a>
-                       --0.85€-->
-                        <a class = "icon-group">
-                            <img src = "icons/luxembourg.png"></img>
-                            <img src = "icons/fund.png"></img>
-                            <span>0.00€</span>
-                        </a>
-                       --0.85€-->
-                        <a class = "icon-group">
-                            <img src = "icons/luxembourg.png"></img>
-                            <img src = "icons/govornment.png"></img>
-                            <span>0.00€</span>
-                        </a>
-                       --0.85€-->...
-                    </li>
-
-                    <li>
-                        <a class ="icon-group">
-                            <img src = "icons/switzerland.png"></img>
-                            <img src = "icons/company.png"></img>
-                        </a>
-                       --1€-->
-                        <a class ="icon-group">
-                            <img src = "icons/switzerland.png"></img>
-                            <img src = "icons/govornment.png"></img>
-                            <span>0.15€</span>
-                        </a>
-                       --0.85€-->
-                        <a class = "icon-group">
-                            <img src = "icons/france.png"></img>
-                            <img src = "icons/fund.png"></img>
-                            <span>0.00€</span>
-                        </a>
-                       --0.85€-->
-                        <a class = "icon-group">
-                            <img src = "icons/france.png"></img>
-                            <img src = "icons/govornment.png"></img>
-                            <span>0.21€</span>
-                        </a>
-                       --0.64€-->...
-                        <div>
-                        Note that to the point of view of the French govornment,
-                        the fund is a normal company distributing dividends and therefore 25% is taxed on top of those
-                        dividends (0.85€) and not the original value.
-                        </div>
-                    </li>
-                    </ul>
+                    <witholding-chain participants = "switzerland:company,
+                                                      switzerland:govornment(0.15),
+                                                      luxembourg:fund(0.00),
+                                                      luxembourg:govornment(0.00)
+                                                      "></witholding-chain>
                 </p>
+                <p>
+                    Note that to the point of view of the French govornment,
+                    the fund is a normal company distributing dividends and therefore 25% is taxed on top of those
+                    dividends (0.85€) and not the original value.
+
+                    <witholding-chain participants = "switzerland:company,
+                                                      switzerland:govornment(0.15),
+                                                      france:fund(0.00),
+                                                      france:govornment(0.21)
+                                                      "></witholding-chain>
+                </p>
+
+                <h3>ETF Domicile: investor dividend tax</h3>
+
+                <p>
+                    The  chain now continues as if the fund is a <strong>normal company</strong> as seen from the point of view of the govornment of the investors tax residence.
+                </p>
+
+                <p>
+                    The caveat is that the govornment doesn't see the taxes paid from the companies to the fund, and swaps a full tax to the fund, as it would to a company:
+                </p>
+
+                <p>
+                    Here Max pays the full 25% dividend tax to the german govornment on his 0.85 dividend income. He can't reimburse the dutch tax:
+                    <witholding-chain participants = "netherlands:company,
+                                                      netherlands:govornment(0.15),
+                                                      ireland:fund(0.00),
+                                                      ireland:govornment(0.00),
+                                                      belgium:broker(0.00),
+                                                      germany:max(0.64),
+                                                      germany:govornment(all)
+                                                      "></witholding-chain>
+                </p>
+
+                <p>
+                    An example of the french govornment treating funds as if they are normal companies, but taxing only 15 % because <strong>the investor is a tax resident in switzerland</strong>
+                     <a href = "https://www.admin.ch/opc/de/classified-compilation/19660170/201011040000/0.672.934.91.pdf">Switzerland and France have a treaty</a>. Switzerland then
+                     takes the rest (35 - 15) = 20% of the 0.85 euro left. (Because Switzerland has a 35% dividend tax rate)
+                    <witholding-chain participants = "switzerland:company,
+                                                      switzerland:govornment(0.15),
+                                                      france:fund(0.00),
+                                                      france:govornment(0.13),
+                                                      belgium:broker(0.00),
+                                                      switzerland:max(0.55),
+                                                      switzerland:govornment(all)
+                                                      "></witholding-chain>
+                </p>
+
+                <p>
+                    Note that the situation isn't realy any better for the investor with Luxembourgish / Irish domiciled ETF's. The only different is who the
+                    tax goes to.
+                    <witholding-chain participants = "switzerland:company,
+                                                      switzerland:govornment(0.15),
+                                                      luxembourg:fund(0.00),
+                                                      luxembourg:govornment(0.00),
+                                                      belgium:broker(0.00),
+                                                      switzerland:max(0.55),
+                                                      switzerland:govornment(all)
+                                                      "></witholding-chain>
+                </p>
+
+                <p>
+                    An unfortunate investor from Slovakia didn't notice <a href = "https://www.world.tax/countries/luxembourg/luxembourg-double-tax-treaties.php">that Luxembourg doesn't have a tax treaty with Australia</a> (to reduce the tax to the widely used
+                    15%), so Australia taxes the fund at the full amount of 30%. He decided to buy <a href ="http://www.lyxoretf.fr/france/en/instit/etffinder/lyxor-australia-spasx-200-ucits-etf-distrib/eur">Lyxor Australia (S&P/ASX 200)</a>
+
+                    Luckily for him Slovakia has no dividend tax.
+                    <witholding-chain participants = "australia:company,
+                                                      australia:govornment(0.30),
+                                                      luxembourg:fund(0.00),
+                                                      luxembourg:govornment(0.00),
+                                                      belgium:broker(0.00),
+                                                      slovakia:max(0.70),
+                                                      slovakia:govornment(all)
+                                                      "></witholding-chain>
+                </p>
+
+                <p>
+                    An even unluckier australian decided to buy an australian ETF but used the Lyxor one domiciled in Luxembourg.
+
+                    Because the fund is treated from the outside as a normal luxembourgian company, and Australia has no treaty the Australian govornment, it taxes him the full 30% (on the 0.70 euro profit).
+                    <witholding-chain participants = "australia:company,
+                                                      australia:govornment(0.30),
+                                                      luxembourg:fund(0.00),
+                                                      luxembourg:govornment(0.00),
+                                                      belgium:broker(0.00),
+                                                      australia:max(0.49),
+                                                      australia:govornment(all)
+                                                      "></witholding-chain>
+                </p>
+
+                <p>
+                If he had used an australian broker, that would kindly be done for him automatically, so he wouldn't even notice where half of his profit went:
+
+                <witholding-chain participants = "australia:company,
+                                                  australia:govornment(0.30),
+                                                  luxembourg:fund(0.00),
+                                                  luxembourg:govornment(0.00),
+                                                  australia:broker(0.00),
+                                                  australia:govornment(0.21),
+                                                  australia:max(all)
+                                                  "></witholding-chain>
+                </p>
+
+                <h3>Distributing / Accumulating dividends</h3>
+
+                <p>
+                    So far all of the examples shown were those with distributing dividends. So how are accumulating dividends different?
+                    Funds accumulating dividends just don't distribute the dividends furhter:
+
+                    <witholding-chain participants = "switzerland:company,
+                                                      switzerland:govornment(0.15),
+                                                      luxembourg:fund(0.00),
+                                                      luxembourg:govornment(0.00)
+                                                      "/>
+                </p>
+
             </section>
 
 
