@@ -212,7 +212,7 @@ Vue.component('map-chart',
     {
         let year = this.year|| 2000
 
-        this.getDataFile('countries.json', countries =>
+        this.getDataFile('data/countries.json', countries =>
         {
             this.getData(this.metricsource, year, this.metricRelationship, data =>
             {
@@ -241,7 +241,7 @@ Vue.component('map-chart',
 
             let projection = d3
                 .geoMercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
-                .center([ 8, 48 ]) //comment centrer la carte, longitude, latitude
+                .center([ 8, 56 ]) //comment centrer la carte, longitude, latitude
                 .translate([ w/2, h/2 ]) // centrer l'image obtenue dans le svg
                 .scale([ w/1.2 ]) // zoom, plus la valeur est petit plus le zoom est gros
 

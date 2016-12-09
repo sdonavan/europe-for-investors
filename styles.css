@@ -1,12 +1,16 @@
 
 /* ----------------- Global ----------------- */
-#content
+html
 {
+    font-size: 16px;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
-    font-size: 15px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+#content
+{
     color: #34495e;
     background-color: #fff;
     margin: 0;
@@ -54,7 +58,8 @@ h1 > *
     vertical-align: middle;
 }
 
-/* ----------------- Menu ----------------- */
+/* ----------------- Menus ----------------- */
+/* ----------------- ----------------- -----------------*/
 .menu,
 .submenu
 {
@@ -72,10 +77,18 @@ h1 > *
 {
     display: inline-block;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0.4rem;
     box-sizing: border-box;
-    margin: 0.5rem;
-    transition: all 0.25s;
+    margin: 0.4rem;
+    transition: all 0.10s;
+}
+
+.submenu span[disabled],
+.menu span[disabled]
+{
+    color: #eaeaea;
+    background-color: #c4c4c4;
+    cursor: not-allowed;
 }
 
 .menu label,
@@ -84,9 +97,9 @@ h1 > *
     cursor: inherit;
 }
 
-.menu span:hover,
 .menu span.active,
-.submenu span:not(.submenu-trigger):hover
+.submenu span:not(.submenu-trigger):not([disabled]):hover,
+.menu span:not([disabled]):hover
 {
     background-color: #f4b642;
     color: white;
@@ -94,8 +107,7 @@ h1 > *
 
 .submenu
 {
-    position: relative;
-    margin-bottom: 1rem;
+    position: relative
 }
 
 .submenu .submenu-trigger
@@ -124,6 +136,7 @@ h1 > *
 {
     display: inline-flex;
     flex-direction: column;
+    margin: 1rem;
 }
 
 .submenu .category h3
@@ -137,23 +150,22 @@ h1 > *
     margin: 1rem 0;
 }
 
+
+
+
 /* ----------------- Valuations ----------------- */
+/* ----------------- ----------------- ----------------- */
+.visualizations
+{
+    margin-bottom: 2rem;
+}
+
 .visualizations > *
 {
     display: inline-block;
-    height: 30rem;
+    height: 80vh;
     vertical-align: top;
-}
-
-.visualizations .map-chart
-{
     width: 50%;
-}
-
-.visualizations .bar-chart
-{
-    width: 50%;
-    vertical-align: middle;
 }
 
 .bar-chart
@@ -238,8 +250,8 @@ h1 > *
 {
     before: '&nbsp;';
     position: relative;
-    height: 30px;
-    width: 30px;
+    height: 2rem;
+    width: 2rem ;
     display: inline-block;
     vertical-align: middle;
     margin: 0 auto;
@@ -248,8 +260,8 @@ h1 > *
 .icon-group img
 {
     vertical-align: middle;
-    height: 30px;
-    width: 30px;
+    height: inherit;
+    width: inherit ;
     display: inline-block;
     margin: 0 auto;
 }
