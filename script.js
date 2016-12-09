@@ -35,7 +35,7 @@ let DataProvider =
         calculateMetricForYear(country, year)
         {
             let name = country['Country']
-            let metric = (country[year] === undefined || country[year] ==='n/a') ? undefined : Number(country[year].replace(',', ''))
+            let metric = (country[year] === undefined || country[year] ==='n/a') ? undefined : Number(String(country[year]).replace(',', ''))
             return {name, metric}
         },
 
@@ -116,14 +116,77 @@ let DataProvider =
     }
 }
 
+
+Vue.component('bar-chart',
+{
+    template: '<div class = "bar-chart"></div>',
+
+    mixins: [DataProvider],
+
+    props: ['metricsource', 'year', 'metricRelationship'],
+
+    mounted: function()
+    {
+        let year = this.year|| 2000
+
+        this.getData(this.metricsource, year, this.metricRelationship, data => this.drawChart(this.$el, data))
+    },
+
+    computed:
+    {
+        countries: () => ['Austria', 'Switzerland', 'Luxembourg']
+    },
+
+    methods:
+    {
+        drawChart: function(element, data)
+        {
+            var data = data.filter(d => this.countries.indexOf(d.name) >= 0)
+
+            let w = element.offsetWidth
+            let h = element.offsetHeight
+
+            let canvas = d3
+                .select(element)
+
+            canvas
+                .selectAll("div")
+                .data(data)
+                .enter()
+                .append("div")
+
+            canvas
+                .selectAll("div")
+                .append("img")
+                .attr("src", c => 'icons/' + c.name.toLowerCase() + '.png')
+
+            canvas
+                .selectAll("div")
+                .append("label")
+                .html(c => c.name)
+
+            canvas
+                .selectAll("div")
+                .append("div")
+                .attr("class", "bar")
+                .html(c => c.metric)
+                .style("background-color", c => c.color)
+                .transition()
+                .duration(800)
+                .style("width", "100px")
+                //.html(c => c.metric)
+        }
+    }
+})
+
 /**
 * A map component
 **/
-Vue.component('map-timeline',
+Vue.component('map-chart',
 {
     props: ['metricsource', 'year', 'metricRelationship'],
 
-    template: '<div style = "width: 100%; height: 600px;"></div>',
+    template: '<div class = "map-chart"></div>',
 
     mixins: [DataProvider],
 
@@ -159,7 +222,7 @@ Vue.component('map-timeline',
                 .geoMercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
                 .center([ 11, 54 ]) //comment centrer la carte, longitude, latitude
                 .translate([ w/2, h/2 ]) // centrer l'image obtenue dans le svg
-                .scale([ h/1 ]) // zoom, plus la valeur est petit plus le zoom est gros
+                .scale([ w/1 ]) // zoom, plus la valeur est petit plus le zoom est gros
 
             //Define path generator
             let path = d3

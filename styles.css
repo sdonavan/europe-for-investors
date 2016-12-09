@@ -134,18 +134,21 @@ h1 > *
 
 
 /* ----------------- Valuations ----------------- */
-text
+.visualizations > *
 {
-    font-size: 0.5rem;
-    cursor: pointer;
-    color: white;
-    fill: white;
-    background: #3563ad;
+    display: inline-block;
+    height: 600px;
+    vertical-align: top;
 }
 
-rect
+.visualizations .map-chart
 {
-    stroke: white;
+    width: 60%;
+}
+
+.visualizations .bar-chart
+{
+    width: 40%;
 }
 
 .source
@@ -154,8 +157,37 @@ rect
     margin: 1rem 0;
 }
 
+.bar-chart > *
+{
+    font-size: 0.7rem;
+    height: 0.8rem;
+    margin: 0.4rem;
+}
 
+.bar-chart img
+{
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.4rem;
+}
 
+.bar-chart label
+{
+    width: 5rem;
+    overflow: hidden;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.bar-chart .bar
+{
+    display: inline-block;
+    height: 100%;
+    width: 0;
+    background-color: red;
+    color: white;
+}
 
 /* ----------------- Witholding chains ----------------- */
 .witholding-chain
