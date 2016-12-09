@@ -1,7 +1,7 @@
 
 
 
-var DataProvider =
+let DataProvider =
 {
     methods:
     {
@@ -9,7 +9,7 @@ var DataProvider =
         {
             this.getDataFile(dataSource, data =>
             {
-                var countries = data.map(c => this.calculateMetricForYear(c, year))
+                let countries = data.map(c => this.calculateMetricForYear(c, year))
 
                 countries.forEach(c => c['color'] = this.calculateColor(c, countries, relationship))
 
@@ -34,8 +34,8 @@ var DataProvider =
         **/
         calculateMetricForYear(country, year)
         {
-            var name = country['Country']
-            var metric = (country[year] === undefined || country[year] ==='n/a') ? undefined : Number(country[year].replace(',', ''))
+            let name = country['Country']
+            let metric = (country[year] === undefined || country[year] ==='n/a') ? undefined : Number(country[year].replace(',', ''))
             return {name, metric}
         },
 
@@ -47,13 +47,13 @@ var DataProvider =
                 return 'rgb(180, 180, 180)'
 
             // Get an array of all the defined metrics
-            var metrics =
+            let metrics =
                 allCountries
                 .map(c => c['metric'])
                 .filter(m => typeof m == 'number')
 
             // Calculate the color
-            var minValue = Math.min.apply(Math, metrics),
+            let minValue = Math.min.apply(Math, metrics),
                 maxValue = Math.max.apply(Math, metrics),
                 restrictedValue = this.rangeConverter(country['metric'], minValue, maxValue, 0, 1),
                 trueRestrictedValue = (relationship !== 'reversed') ? restrictedValue/ 2 : (1 - restrictedValue)/ 2
@@ -88,13 +88,13 @@ var DataProvider =
         */
         hslToRgb: function(h, s, l)
         {
-            var r, g, b
+            let r, g, b
 
             if(s == 0)
                 r = g = b = l // achromatic
             else
             {
-                var hue2rgb = (p, q, t) =>
+                let hue2rgb = (p, q, t) =>
                 {
                     if(t < 0) t += 1
                     if(t > 1) t -= 1
@@ -104,8 +104,8 @@ var DataProvider =
                     return p
                 }
 
-                var q = l < 0.5 ? l * (1 + s) : l + s - l * s
-                var p = 2 * l - q
+                let q = l < 0.5 ? l * (1 + s) : l + s - l * s
+                let p = 2 * l - q
                 r = hue2rgb(p, q, h + 1/3)
                 g = hue2rgb(p, q, h)
                 b = hue2rgb(p, q, h - 1/3)
@@ -129,7 +129,7 @@ Vue.component('map-timeline',
 
     mounted: function()
     {
-        var year = this.year|| 2000
+        let year = this.year|| 2000
 
         this.getDataFile('countries.json', countries =>
         {
@@ -152,23 +152,23 @@ Vue.component('map-timeline',
         **/
         drawMap: function(element, geoData, countries)
         {
-            var w = element.offsetWidth
-            var h = element.offsetHeight
+            let w = element.offsetWidth
+            let h = element.offsetHeight
 
-            var projection = d3
+            let projection = d3
                 .geoMercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
                 .center([ 11, 54 ]) //comment centrer la carte, longitude, latitude
                 .translate([ w/2, h/2 ]) // centrer l'image obtenue dans le svg
                 .scale([ h/1 ]) // zoom, plus la valeur est petit plus le zoom est gros
 
             //Define path generator
-            var path = d3
+            let path = d3
                 .geoPath()
                 .projection(projection)
 
 
             //Create SVG
-            var svg = d3
+            let svg = d3
                 .select(element)
                 .append("svg")
                 .attr("width", w)
@@ -184,8 +184,8 @@ Vue.component('map-timeline',
                 .attr("stroke", '#dddddd')
                 .attr("fill", d =>
                 {
-                    var country = countries.find(c => c['name'].contains(d.properties.name) || c['name'].contains(d.properties.formal_en))
-                    return country && country['color']
+                    let country = countries.find(c => c['name'].contains(d.properties.name) || c['name'].contains(d.properties.formal_en))
+                    return country && country['color'] || 'white'
                 })
                 .attr("id", (d, i) => '#path_' + i)
 
@@ -223,7 +223,7 @@ Vue.component('map-timeline',
         **/
         calculateMetricForYearddd(d)
         {
-            var countryName = d.properties.admin,
+            let countryName = d.properties.admin,
                 country     = this.metric.find(m => m.Country == countryName),
                 thisYear = country && country[this.year]
                 valueForCountryForYear = (typeof thisYear === 'string') ? Number(thisYear.replace(',', '')) : thisYear
@@ -242,7 +242,7 @@ Vue.component('map-timeline',
         **/
         calculateLabel: function(d)
         {
-            var metric = this.calculateMetricForYear(d)
+            let metric = this.calculateMetricForYear(d)
 
             if (typeof metric == 'number' && metric >= 1000)
                 return (this.calculateMetricForYear(d) / 1000).toFixed(1) + 'K'
@@ -293,14 +293,14 @@ Vue.component('witholding-chain',
         parsedParticipants: function ()
         {
             // If the start capital is not defined, set it to 1
-            var money = this.capital && Number(this.capital) || 1.00
+            let money = this.capital && Number(this.capital) || 1.00
 
             // Parse the participants
             return this.participants.replace(/ /g,'').split(',').map(participant =>
             {
-                var witholdedExp = /\(([^)]+)\)/
+                let witholdedExp = /\(([^)]+)\)/
 
-                var witholded = witholdedExp.exec(participant) && witholdedExp.exec(participant)[1]
+                let witholded = witholdedExp.exec(participant) && witholdedExp.exec(participant)[1]
 
                 // Calculate the witholded sum
                 if (Number(witholded))
@@ -319,7 +319,7 @@ Vue.component('witholding-chain',
 /**
 * The app is going to serve the purpouse of a router
 **/
-var app = new Vue({
+let app = new Vue({
 
     el: '#content',
 
