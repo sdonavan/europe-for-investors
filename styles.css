@@ -183,7 +183,7 @@ h1 > *
     height: 100%;
     display: inline-block;
     vertical-align: middle;
-    margin-right: 0.4rem;
+    margin-right: 0.3rem;
 }
 
 .bar-chart .bar .identifier label
@@ -197,7 +197,7 @@ h1 > *
 .bar-chart .bar .value
 {
     display: inline-block;
-    padding: 0.2rem 0.2rem;
+    padding: 0.1rem 0.2rem;
     box-sizing: border-box;
     color: white;
 }

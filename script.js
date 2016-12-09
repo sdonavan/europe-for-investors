@@ -127,7 +127,9 @@ let DataProvider =
             }
 
             return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-        }
+        },
+
+        formatNumber: num => (num >= 1000) ? (num / 1000).toFixed(1) + 'K' : num
     }
 }
 
@@ -186,7 +188,7 @@ Vue.component('bar-chart',
                 .selectAll(".bar")
                 .append("div")
                 .attr("class", "value")
-                .html(c => c.metric)
+                .html(c => this.formatNumber(c.metric))
                 .style("width", "0%")
                 .transition()
                 .duration(1000)
@@ -270,19 +272,19 @@ Vue.component('map-chart',
                 })
                 .attr("id", (d, i) => '#path_' + i)
 
-            return
             svg
                 .selectAll('rect')
-                .data(countries.features)
+                .data(geoData.features)
                 .enter()
-                .filter(this.calculateMetricForYear)
+                //.filter(this.calculateMetricForYear)
                 .append("rect")
-                .attr('fill', this.calculateColor)
+                .attr('fill', 'red')
                 .attr("x", d => path.centroid(d)[0] - 3.5)
                 .attr('y', d => path.centroid(d)[1] - 10)
                 .attr('width', '30px')
                 .attr('height', '14px')
 
+            return
             // Draw the labels
             svg
                 .selectAll("text")
