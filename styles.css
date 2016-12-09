@@ -20,7 +20,7 @@ h1, h2, h3, h4, strong
 
 #content > *
 {
-    width: 60%;
+    width: 80%;
     margin: 2rem auto;
 }
 
@@ -131,13 +131,17 @@ h1 > *
     border-bottom: 1px solid #f4b642;
 }
 
-
+.source
+{
+    display: block;
+    margin: 1rem 0;
+}
 
 /* ----------------- Valuations ----------------- */
 .visualizations > *
 {
     display: inline-block;
-    height: 600px;
+    height: 30rem;
     vertical-align: top;
 }
 
@@ -149,22 +153,32 @@ h1 > *
 .visualizations .bar-chart
 {
     width: 40%;
+    vertical-align: middle;
 }
 
-.source
+.bar-chart
 {
-    display: block;
-    margin: 1rem 0;
+    display: inline-flex;
+    flex-flow: column wrap;
 }
 
-.bar-chart > *
+.bar-chart .bar
 {
-    font-size: 0.7rem;
-    height: 0.8rem;
+    font-size: 0.6rem;
+    height: 0.6rem;
     margin: 0.4rem;
+    display: block;
+    width: 50%;
 }
 
-.bar-chart img
+.bar-chart .bar .identifier
+{
+    width: 50%;
+    height: 100%;
+    display: inline-block;
+}
+
+.bar-chart .bar .identifier img
 {
     height: 100%;
     display: inline-block;
@@ -172,7 +186,7 @@ h1 > *
     margin-right: 0.4rem;
 }
 
-.bar-chart label
+.bar-chart .bar .identifier label
 {
     width: 5rem;
     overflow: hidden;
@@ -180,12 +194,11 @@ h1 > *
     display: inline-block;
 }
 
-.bar-chart .bar
+.bar-chart .bar .value
 {
     display: inline-block;
-    height: 100%;
-    width: 0;
-    background-color: red;
+    padding: 0.2rem 0.2rem;
+    box-sizing: border-box;
     color: white;
 }
 

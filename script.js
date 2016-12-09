@@ -9,12 +9,27 @@ let DataProvider =
         {
             this.getDataFile(dataSource, data =>
             {
-                let countries = data.map(c => this.calculateMetricForYear(c, year))
+                let countries =
+                    data
+                        .map(c => this.calculateMetricForYear(c, year))
+                        .filter(c => this.isInEurope(c.name))
 
                 countries.forEach(c => c['color'] = this.calculateColor(c, countries, relationship))
 
                 cb(countries)
             })
+        },
+
+        isInEurope: function(c)
+        {
+            countriesInEurope = ['Albania', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina',
+            'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic','Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece',
+            'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kosovo', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'FYR Macedonia',
+            'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania',
+            'San Marino', 'Serbia', 'Slovak Republic', 'Slovenia', 'Spain',
+            'Sweden', 'Switzerland', 'Ukraine', 'United Kingdom', 'Vatican']
+
+            return countriesInEurope.indexOf(c) >= 0
         },
 
         /**
@@ -132,48 +147,51 @@ Vue.component('bar-chart',
         this.getData(this.metricsource, year, this.metricRelationship, data => this.drawChart(this.$el, data))
     },
 
-    computed:
-    {
-        countries: () => ['Austria', 'Switzerland', 'Luxembourg']
-    },
-
     methods:
     {
         drawChart: function(element, data)
         {
-            var data = data.filter(d => this.countries.indexOf(d.name) >= 0)
-
             let w = element.offsetWidth
             let h = element.offsetHeight
 
             let canvas = d3
                 .select(element)
 
+            // Sort the data bt the metric
+            var data = data.sort((a, b) => a.metric <= b.metric)
+
             canvas
                 .selectAll("div")
                 .data(data)
                 .enter()
                 .append("div")
+                .attr("class", "bar")
 
             canvas
-                .selectAll("div")
+                .selectAll(".bar")
+                .append("div")
+                .attr("class", "identifier")
                 .append("img")
                 .attr("src", c => 'icons/' + c.name.toLowerCase() + '.png')
 
             canvas
-                .selectAll("div")
+                .selectAll(".bar")
+                .selectAll(".identifier")
                 .append("label")
                 .html(c => c.name)
 
+            let max = Math.max.apply(Math, data.map(d => d.metric))
+
             canvas
-                .selectAll("div")
+                .selectAll(".bar")
                 .append("div")
-                .attr("class", "bar")
+                .attr("class", "value")
                 .html(c => c.metric)
-                .style("background-color", c => c.color)
+                .style("width", "0%")
                 .transition()
-                .duration(800)
-                .style("width", "100px")
+                .duration(1000)
+                .style("width", c => this.rangeConverter(c.metric, 0, max, 0, 40) + 10 + '%')
+                .style("background-color", c => c.color)
                 //.html(c => c.metric)
         }
     }
@@ -220,9 +238,9 @@ Vue.component('map-chart',
 
             let projection = d3
                 .geoMercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
-                .center([ 11, 54 ]) //comment centrer la carte, longitude, latitude
+                .center([ 6, 48 ]) //comment centrer la carte, longitude, latitude
                 .translate([ w/2, h/2 ]) // centrer l'image obtenue dans le svg
-                .scale([ w/1 ]) // zoom, plus la valeur est petit plus le zoom est gros
+                .scale([ w/1.2 ]) // zoom, plus la valeur est petit plus le zoom est gros
 
             //Define path generator
             let path = d3
