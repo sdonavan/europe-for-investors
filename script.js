@@ -256,11 +256,21 @@ Vue.component('witholding-chain',
 
     computed:
     {
+        /**
+        * Converts a string of the type: "icon1:icon2:icon3(amount), icon1(amount) ..."
+        * into an apropriate Array of objects of the type {icons[icon1, icon2], money: MONEY witholded: WITHOLDED}
+        *
+        * @return  {Array}                   Array of objects of the type {icons[icon1, icon2], money: MONEY witholded: WITHOLDED}
+        * @return  {Array}:Object:MONEY      The total money the individual participant in the chain has. The default start is 1
+        * @return  {Array}:Object:WITHOLDED  The amount of the money witholded. The rest of the money is passed down the chain.
+        */
         parsedParticipants: function ()
         {
+            // If the start capital is not defined, set it to 1
             var money = this.capital && Number(this.capital) || 1.00
 
-            var parsed =  this.participants.replace(/ /g,'').split(',').map(participant =>
+            // Parse the participants
+            return this.participants.replace(/ /g,'').split(',').map(participant =>
             {
                 var witholdedExp = /\(([^)]+)\)/
 
@@ -275,31 +285,7 @@ Vue.component('witholding-chain',
                 money -= witholded
                 return {icons: participant.replace(witholdedExp, '').split(':'), witholded, money}
             })
-
-            return parsed
         }
-    },
-
-    mounted: function()
-    {
-        var money = 1
-        var a = this.participants.replace(/ /g,'').split(',')
-
-        b = a.map(participant =>
-        {
-            var witholdedExp = /\(([^)]+)\)/
-            var witholded =
-                witholdedExp
-                .exec(participant) &&
-                Number(witholdedExp
-                .exec(participant)[1])
-
-            money -= witholded
-            return {icons: participant.replace(witholdedExp, '').split(':'), witholded, money}
-        })
-        console.log(money)
-        console.dir(b)
-        //console.log(this.participants)
     }
 })
 
