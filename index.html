@@ -15,9 +15,11 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
         <!-- Scripts -->
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.min.js"></script>
-
         <script src="https://d3js.org/d3.v4.min.js"></script>
 		<script src="https://d3js.org/topojson.v1.min.js"></script>
+        <!-- Github ribbon -->
+        <a href="https://your-url" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
     </head>
 
         <body>
@@ -100,6 +102,7 @@
 
                 <section>
 
+
                     <template v-if = "page == 'valuations:gdp_ppp_per_capita'">
 
                         <div>
@@ -135,7 +138,7 @@
                 <h2>Stock Dividends Tax</h2>
 
                 <p>
-                    Taxes can eat from <strong>0%</strong>, when properly managed up to <strong>~85%</strong> of your profit when missmanaged.
+                    Taxes can eat from <strong>0%</strong>, when properly managed up to <strong>~60%</strong> of your profit when missmanaged.
                     For an individual investor there are three applicable taxes which we will discuss in detail later on:
                 </p>
 
@@ -552,19 +555,114 @@
                                                   "></witholding-chain>
                 </p>
 
-                <h3>Distributing / Accumulating dividends</h3>
+                <h3>Distributing versus Capitalizing / Accumulating dividends</h3>
 
                 <p>
                     So far all of the examples shown were those with distributing dividends. So how are accumulating dividends different?
-                    Funds accumulating dividends just don't distribute the dividends furhter:
+                    Funds accumulating dividends just don't distribute the dividends to the investor but reinvest it in the company:
 
-                    <witholding-chain participants = "switzerland:company,
-                                                      switzerland:govornment(0.15),
-                                                      luxembourg:fund(0.00),
-                                                      luxembourg:govornment(0.00)
-                                                      "/>
+                    <witholding-chain participants = "netherlands:company,
+                                                      netherlands:govornment(0.15),
+                                                      ireland:fund(0.00),
+                                                      ireland:govornment(0.00),
+                                                      netherlands:company(all)
+                                                      "></witholding-chain>
                 </p>
 
+                <p>
+                    Meanwhile the investor doesn't get any dividends. He just sees his fund growing in value (by all of the dividends):
+
+                    <witholding-chain participants = "netherlands:company,
+                                                      netherlands:govornment(0.15),
+                                                      ireland:fund(all),
+                                                      ireland:govornment(0.00),
+                                                      netherlands:company(all),
+                                                      germany:max(all),
+                                                      germany:govornment(all)
+                                                      "></witholding-chain>
+                </p>
+
+                <p>
+                    In theory he avoids the 25% German tax. In practice many govornments still make him pay the tax on the redistributed dividends, out of
+                    his pocket:
+
+                    <witholding-chain participants = "netherlands:company,
+                                                      netherlands:govornment(0.15),
+                                                      ireland:fund(all),
+                                                      ireland:govornment(0.00),
+                                                      netherlands:company(all),
+                                                      germany:max(-0.21),
+                                                      germany:govornment(all)
+                                                      "></witholding-chain>
+
+                    So  the investor is left with
+                    <witholding-chain capital = "0.85" participants = "ireland:fund(all)" style = "display: inline-block; margin-bottom: 0"></witholding-chain> +
+                    <witholding-chain capital = "0.85" participants = "germany:max(-0.21)" style = "display: inline-block; margin-bottom: 0"></witholding-chain>
+                    =
+                    <witholding-chain capital = "0.64" participants = "germany:max(0.64)" style = "display: inline-block; margin-bottom: 0"></witholding-chain>
+                    worth of profit.
+                </p>
+
+                <p>
+                    But there is a caveat. Let's assume the ETF has no natural growth for this example. All the growth comes from reinvesting of dividends.
+                    The ETF grew by
+                    <witholding-chain capital = "0.85" participants = "ireland:fund(all)" style = "display: inline-block; margin-bottom: 0"></witholding-chain>. At some point max
+
+                    will want to sell the ETF (since the ETF is not distributing the dividends, that's his only way of making a profit).
+
+                    <a href = "https://en.wikipedia.org/wiki/Capital_gains_tax#Germany">A capital gains tax of 25%</a> will be witheld from Max because he made a profit.
+
+                    So when he sells Max is left with:
+                    <witholding-chain capital = "0.85" participants = "ireland:fund(0.00), germany:govornment(0.21), germany:max(all)"></witholding-chain>
+
+                    But remember he paid 0.21 already in dividend tax from his pocket:
+                    <witholding-chain capital = "0.85" participants = "germany:max(0.64)" style = "display: inline-block; margin-bottom: 0"></witholding-chain> +
+                    <witholding-chain capital = "0.85" participants = "germany:max(-0.21)" style = "display: inline-block; margin-bottom: 0"></witholding-chain>
+                    =
+                    <witholding-chain capital = "0.64" participants = "germany:max(0.43)" style = "display: inline-block; margin-bottom: 0"></witholding-chain>
+                </p>
+
+                <h3>When capitalizing dividends makes sense</h3>
+
+                <p>
+                    Capitalizing the dividends would make sense if:
+                    <ol>
+                        <li>The tax payer country has no dividend tax on capitalized dividends (so Max wouldn't have to pay out of his pocket)</li>
+                        <li>The capital gains tax is smaller then the dividend tax (of the taxpayer country)</li>
+                        <li>The tax payer is in a no dividend tax on capitalized dividends country and plans to move to a country with lower capital gains tax.
+                    </ol>
+                </p>
+
+                <p>
+                    An example: Max, a Bulgarian investor has an accumulating fund. In Bulgaria, <a href = "http://www.minfin.bg/bg/page/789">you pay tax only on dividends passed down to you</a>, so he pays 0% dividend tax for the time
+                    being:
+
+                    <witholding-chain participants = "netherlands:company,
+                                                      netherlands:govornment(0.15),
+                                                      ireland:fund(all),
+                                                      ireland:govornment(0.00),
+                                                      bulgaria:max(all),
+                                                      bulgaria:govornment(all)
+                                                      "></witholding-chain>
+
+                  Were max to sell his shares, he would have to pay the 5% capital gains tax on his accumulation:
+
+                  <witholding-chain capital = "0.85" participants = "ireland:fund(0.00),
+                                                    ireland:govornment(0.00),
+                                                    bulgaria:govornment(0.04),
+                                                    bulgaria:max(all)
+                                                    "></witholding-chain>
+
+                  But if first Max decided to move to Slovakia, wait the time needed to be a tax residend there, and not
+                  be a tax resident in Bulgaria anymore (usually around ~6 months), he would have to pay capital gains taxses
+                  to the Slovak govornment, which is 0%:
+
+                  <witholding-chain capital = "0.85" participants = "ireland:fund(0.00),
+                                                    ireland:govornment(0.00),
+                                                    slovakia:govornment(0.00),
+                                                    bulgaria:max(all)
+                                                    "></witholding-chain>
+                </p>
             </section>
 
 

@@ -1,173 +1,62 @@
-/**
-* A map component
-**/
-Vue.component('map-timeline',
+
+
+
+var DataProvider =
 {
-    props: ['metricsource', 'year', 'metricRelationship'],
-
-    template: '<div style = "width: 100%; height: 600px;"></div>',
-
-    mounted: function()
-    {
-        this.year = 2016
-
-        Promise
-            .all([this.getDataFile(this.metricsource), this.getDataFile('countries.json')])
-            .then(r =>
-            {
-                //Save the metric as to not pass it around all the time
-                this.metric = r[0]
-                this.drawMap(this.$el, r[1], r[0])
-            })
-    },
-
     methods:
     {
-        /**
-        * Fetches a file and returns a promise with the data
-        * @param   {String}   Source          A filename for the JSON file
-        * @return  {Promise}                  A promise to fetch the files
-        **/
-        getDataFile: dataSource => new Promise((res, rej) => d3.json(dataSource, data => res(data))),
-
-        /**
-        * Draws a map of all european countries and colors them accordingly given
-        * a specific metric
-        * @param   {DOMNode}  element         A container element to draw to
-        * @param   {Array}    metrics         A metrics array.
-        * @param   {Array}    countries       A countries geolocation array
-        * @return  {void}
-        **/
-        drawMap: function(element, countries, metrics)
+        getData: function(dataSource, year, relationship, cb)
         {
-            var w = this.$el.offsetWidth
-            var h = this.$el.offsetHeight
+            this.getDataFile(dataSource, data =>
+            {
+                var countries = data.map(c => this.calculateMetricForYear(c, year))
 
-            var projection = d3
-                .geoMercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
-                .center([ 11, 54 ]) //comment centrer la carte, longitude, latitude
-                .translate([ w/2, h/2 ]) // centrer l'image obtenue dans le svg
-                .scale([ h/1 ]) // zoom, plus la valeur est petit plus le zoom est gros
+                countries.forEach(c => c['color'] = this.calculateColor(c, countries, relationship))
 
-            //Define path generator
-            var path = d3
-                .geoPath()
-                .projection(projection)
-
-
-            //Create SVG
-            var svg = d3
-                .select(this.$el)
-                .append("svg")
-                .attr("width", w)
-                .attr("height", h)
-
-            //Bind data and create one path per GeoJSON feature
-            svg
-                .selectAll("path")
-                .data(countries.features)
-                .enter()
-                .append("path")
-                .attr("d", path)
-                .attr("stroke", '#dddddd')
-                .attr("fill", this.calculateColor)
-                .attr("id", (d, i) => '#path_' + i)
-
-            svg
-                .selectAll('rect')
-                .data(countries.features)
-                .enter()
-                .filter(this.calculateMetricForYear)
-                .append("rect")
-                .attr('fill', this.calculateColor)
-                .attr("x", d => path.centroid(d)[0] - 3.5)
-                .attr('y', d => path.centroid(d)[1] - 10)
-                .attr('width', '30px')
-                .attr('height', '14px')
-
-            // Draw the labels
-            svg
-                .selectAll("text")
-                .data(countries.features)
-                .enter()
-                .filter(this.calculateMetricForYear)
-                .append("text")
-                .text(this.calculateLabel)
-                .attr("x", d => path.centroid(d)[0])
-                .attr('y', d => path.centroid(d)[1])
-                .attr('title', d => d.properties.admin)
+                cb(countries)
+            })
         },
+
+        /**
+        * Fetches a file and calls the callback. Duh.
+        * @param   {String}   dataSource          A filename for the JSON file
+        * @param   {Function} cb                  The callback function
+        * @return  {Promise}                      A promise to fetch the files
+        **/
+        getDataFile: (dataSource, cb) => d3.json(dataSource, cb),
 
         /**
         * Given a feature object calculate the metric value for the
         * given year
-        * @param   {d}                A feature object as defined in countries.json
-        * @return  {number}           A number representing the metric value
+        * @param   {Object} country    in gdp_ppp_per_capita.json
+        * @param   {Number} year      The year we are interested in
+        * @return  {Object}           A number representing the metric value
         **/
-        calculateMetricForYear(d)
+        calculateMetricForYear(country, year)
         {
-            var countryName = d.properties.admin,
-                country     = this.metric.find(m => m.Country == countryName),
-                thisYear = country && country[this.year]
-                valueForCountryForYear = (typeof thisYear === 'string') ? Number(thisYear.replace(',', '')) : thisYear
-
-            if (typeof valueForCountryForYear == 'number')
-                return valueForCountryForYear
-            else
-                return undefined
+            var name = country['Country']
+            var metric = (country[year] === undefined || country[year] ==='n/a') ? undefined : Number(country[year].replace(',', ''))
+            return {name, metric}
         },
 
-        /**
-        * Given a feature input of the form in countries.json, which includes a
-        * countru name calculates a decent label
-        * @param   {d}                A feature object as defined in countries.json
-        * @return  {String}           The label for the specific metric
-        **/
-        calculateLabel: function(d)
+        calculateColor(country, allCountries, relationship)
         {
-            var metric = this.calculateMetricForYear(d)
 
-            if (typeof metric == 'number' && metric >= 1000)
-                return (this.calculateMetricForYear(d) / 1000).toFixed(1) + 'K'
-            if (typeof metric == 'number')
-                return metric
+            // Return default color
+            if (country['metric'] === undefined)
+                return 'rgb(180, 180, 180)'
 
-            // Default to N/A
-            return 'N/A'
-        },
+            // Get an array of all the defined metrics
+            var metrics =
+                allCountries
+                .map(c => c['metric'])
+                .filter(m => typeof m == 'number')
 
-        /**
-        * Given a feature input of the form in countries.json, which includes a
-        * countru name calculate a representitive color for the value of the
-        * metric of the said country in the predefined year.
-        * The value is calculated dynamically given the distribution of the metric,
-        * with values closer to the distribution Supremum having higher Hue
-        * in a HLS color notation.
-        * @param   {d}                A feature object as defined in countries.json
-        * @return  {String}           A css rgba color string
-        **/
-        calculateColor: function(d)
-        {
-            // Try to find the metric value for the country in the selected year
-            valueForCountryForYear = this.calculateMetricForYear(d)
-
-            // If no value exists for the given year, return a default color
-            if(!valueForCountryForYear)
-                return 'rgb(188, 188, 188)'
-
-            // Get min and max data for the year. Could be run outside of the function,
-            // but "premature optimization yada yada.."
-            var AllYearlyData = this.metric
-                .map(m => m[this.year])
-                .filter(m => m !== 'undefined' && m !== '')
-                .map(m => (typeof m == 'string') ? m.replace(',', '') : m)
-                .map(m => Number(m))
-                .filter(m => !isNaN(m))
-
-            var minValue = Math.min.apply(Math, AllYearlyData),
-                maxValue = Math.max.apply(Math, AllYearlyData),
-                restrictedValue = this.rangeConverter(valueForCountryForYear, minValue, maxValue, 0, 1),
-                trueRestrictedValue = (this.metricRelationship !== 'reversed') ? restrictedValue/ 2 : (1 - restrictedValue)/ 2
+            // Calculate the color
+            var minValue = Math.min.apply(Math, metrics),
+                maxValue = Math.max.apply(Math, metrics),
+                restrictedValue = this.rangeConverter(country['metric'], minValue, maxValue, 0, 1),
+                trueRestrictedValue = (relationship !== 'reversed') ? restrictedValue/ 2 : (1 - restrictedValue)/ 2
                 rgb = this.hslToRgb(trueRestrictedValue, 0.5, 0.5)
 
             return 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')'
@@ -224,10 +113,147 @@ Vue.component('map-timeline',
 
             return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
         }
+    }
+}
 
+/**
+* A map component
+**/
+Vue.component('map-timeline',
+{
+    props: ['metricsource', 'year', 'metricRelationship'],
+
+    template: '<div style = "width: 100%; height: 600px;"></div>',
+
+    mixins: [DataProvider],
+
+    mounted: function()
+    {
+        var year = this.year|| 2000
+
+        this.getDataFile('countries.json', countries =>
+        {
+            this.getData(this.metricsource, year, this.metricRelationship, data =>
+            {
+                this.drawMap(this.$el, countries, data)
+            })
+        })
+    },
+
+    methods:
+    {
+        /**
+        * Draws a map of all european countries and colors them accordingly given
+        * a specific metric
+        * @param   {DOMNode}  element         A container element to draw to
+        * @param   {Array}    metrics         A metrics array.
+        * @param   {Array}    countries       A countries geolocation array
+        * @return  {void}
+        **/
+        drawMap: function(element, geoData, countries)
+        {
+            var w = element.offsetWidth
+            var h = element.offsetHeight
+
+            var projection = d3
+                .geoMercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
+                .center([ 11, 54 ]) //comment centrer la carte, longitude, latitude
+                .translate([ w/2, h/2 ]) // centrer l'image obtenue dans le svg
+                .scale([ h/1 ]) // zoom, plus la valeur est petit plus le zoom est gros
+
+            //Define path generator
+            var path = d3
+                .geoPath()
+                .projection(projection)
+
+
+            //Create SVG
+            var svg = d3
+                .select(element)
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h)
+
+            //Bind data and create one path per GeoJSON feature
+            svg
+                .selectAll("path")
+                .data(geoData.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .attr("stroke", '#dddddd')
+                .attr("fill", d =>
+                {
+                    var country = countries.find(c => c['name'].contains(d.properties.name) || c['name'].contains(d.properties.formal_en))
+                    return country && country['color']
+                })
+                .attr("id", (d, i) => '#path_' + i)
+
+            return
+            svg
+                .selectAll('rect')
+                .data(countries.features)
+                .enter()
+                .filter(this.calculateMetricForYear)
+                .append("rect")
+                .attr('fill', this.calculateColor)
+                .attr("x", d => path.centroid(d)[0] - 3.5)
+                .attr('y', d => path.centroid(d)[1] - 10)
+                .attr('width', '30px')
+                .attr('height', '14px')
+
+            // Draw the labels
+            svg
+                .selectAll("text")
+                .data(countries.features)
+                .enter()
+                .filter(this.calculateMetricForYear)
+                .append("text")
+                .text(this.calculateLabel)
+                .attr("x", d => path.centroid(d)[0])
+                .attr('y', d => path.centroid(d)[1])
+                .attr('title', d => d.properties.admin)
+        },
+
+        /**
+        * Given a feature object calculate the metric value for the
+        * given year
+        * @param   {d}                A feature object as defined in countries.json
+        * @return  {number}           A number representing the metric value
+        **/
+        calculateMetricForYearddd(d)
+        {
+            var countryName = d.properties.admin,
+                country     = this.metric.find(m => m.Country == countryName),
+                thisYear = country && country[this.year]
+                valueForCountryForYear = (typeof thisYear === 'string') ? Number(thisYear.replace(',', '')) : thisYear
+
+            if (typeof valueForCountryForYear == 'number')
+                return valueForCountryForYear
+            else
+                return undefined
+        },
+
+        /**
+        * Given a feature input of the form in countries.json, which includes a
+        * countru name calculates a decent label
+        * @param   {d}                A feature object as defined in countries.json
+        * @return  {String}           The label for the specific metric
+        **/
+        calculateLabel: function(d)
+        {
+            var metric = this.calculateMetricForYear(d)
+
+            if (typeof metric == 'number' && metric >= 1000)
+                return (this.calculateMetricForYear(d) / 1000).toFixed(1) + 'K'
+            if (typeof metric == 'number')
+                return metric
+
+            // Default to N/A
+            return 'N/A'
+        }
     }
 })
-
 
 
 /**
