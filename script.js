@@ -1,10 +1,40 @@
+/**
+* This script is part of a project aimed at european investors.
+* Author: anonymous
+* Email: sdonavan@tuta.io
+* License: https://creativecommons.org/licenses/by-nc/2.0/
+*/
 
-
-
+/**
+* A data provider Mixin.
+* The data provider serves the purpouse of a frontend 'database'.
+* When fed with a JSON file location with a specific file format,
+* the Data provider returns an Array of country-metric data
+*/
 let DataProvider =
 {
     methods:
     {
+        /**
+        * The main API point of the data provider.
+        * When fed the input info it returns (through a callback) an array
+        * of countries with the requested metric
+        *
+        * @param {File name} dataSource   A JSON file of the form
+        *                                 data/gdp_ppp_per_capita.json
+        * @param {Number}    year         The specific year we want the data from
+        * @param {String}    relationship Can be one of the {"straight", "reversed"}.
+        *                                 This relationship decides if higher numbers
+        *                                 of the metric are good (straight) or bad (reversed)
+        *                                 so the data provider can calculate apropriate colors.
+        * @param {Function}  cb           The callback.
+        *
+        * @return {Array}                 Returns an array of the form
+        *                                 [{country: 'Austria', color: rgba, metric: 32} ..]
+        *                                 Where the metric is the value in the provided JSON file
+        *                                 (GDP, Unemployment, etc..) and the color represents
+        *                                 how "good" this metric is.
+        */
         getData: function(dataSource, year, relationship, cb)
         {
             this.getDataFile(dataSource, data =>
@@ -20,6 +50,13 @@ let DataProvider =
             })
         },
 
+        /**
+        * Checks if a country is in Europe. Used to filter files with
+        * unsuported countries.
+        *
+        * @param {String} countryName
+        * @return {Bool}
+        */
         isInEurope: function(c)
         {
             countriesInEurope = ['Albania', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina',
@@ -41,19 +78,30 @@ let DataProvider =
         getDataFile: (dataSource, cb) => d3.json(dataSource, cb),
 
         /**
-        * Given a feature object calculate the metric value for the
-        * given year
-        * @param   {Object} country    in gdp_ppp_per_capita.json
-        * @param   {Number} year      The year we are interested in
-        * @return  {Object}           A number representing the metric value
+        * Given an Object of the form {country: CountryName, 1990: metric, 1991: metric...}
+        * creates a new object of the form {name: CountryName, metric: metricForYear}
+        * @param   {Object} country    As defined in data/in gdp_ppp_per_capita.json
+        * @param   {Number} year       The year we are interested in
+        * @return  {Object}            A new object of the form {name: CountryName, metric: metricForYear}
         **/
         calculateMetricForYear(country, year)
         {
             let name = country['Country']
-            let metric = (country[year] === undefined || country[year] ==='n/a' || country[year] === 'n/a' || country[year] === '') ? undefined : Number(String(country[year]).replace(',', ''))
+            let metric = (country[year] === undefined || country[year] ==='n/a' || country[year] === 'n/a' || country[year] === '')
+                ? undefined
+                : Number(String(country[year]).replace(',', ''))
             return {name, metric}
         },
 
+        /**
+        * Calculates an apropriate color for a metric. For instance for an array of
+        * [1, 2, 3, 4, 5] it would calculate the apropriate color for '3' as being
+        * in the middle of a color-spectrum, 5 at the high end and 1 at the low.
+        * @param   {Object} country             An object as returned from @calculateMetricForYear
+        * @param   {Array}  allCountries        An array of the type of @country
+        * @return  {Object}                     A new object of the form
+                                                {name: CountryName, metric: metricForYear, color: colorInRgba}
+        **/
         calculateColor(country, allCountries, relationship)
         {
 
@@ -407,6 +455,15 @@ let app = new Vue({
     {
         // Set the correct page
         this.page = window.location.hash.replace('#', '')
+    },
+
+    computed:
+    {
+        valuationName: function()
+        {
+            let currentOption = this.$el.querySelector('.submenu input[value ="' + this.page + '"]')
+            return currentOption ? currentOption.parentNode.innerText : 'N/A'
+        }
     },
 
     watch:

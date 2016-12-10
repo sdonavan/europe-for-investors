@@ -60,11 +60,11 @@
             </section>
 
 
-            <section id = "valuations" v-if = "page.contains('valuations')">
+            <section id = "valuations" v-show = "page.contains('valuations')">
 
                 <section class = "submenu">
 
-                    <span class = "submenu-trigger">{{page}}</span>
+                    <span class = "submenu-trigger">{{valuationName}}</span>
 
                     <div class = "submenu-content">
 
@@ -122,6 +122,8 @@
                             <map-chart metricsource = "data/gdp_ppp_per_capita.json" year = "2015"></map-chart><bar-chart metricsource = "data/gdp_ppp_per_capita.json" year = "2015"></bar-chart>
 
                         </div>
+
+                        <timeline-chart>WOOOO!</timeline-chart>
 
                         <div>
                             <strong>Gross domestic product (at purchasing power parity) per capita</strong>,
