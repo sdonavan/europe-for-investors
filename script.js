@@ -465,15 +465,15 @@ Vue.component('witholding-chain',
 
     template: `
                 <div class = "witholding-chain">
-                    <div v-for = 'p in parsedParticipants'>
+                    <div v-for = "p in parsedParticipants">
 
-                        <div class = 'witholder'>
+                        <div class = "witholder">
 
-                            <div class ='icon-group'>
-                                <img v-for = 'i in p.icons' v-bind:src = ''icons/' + i + '.png''>
+                            <div class ="icon-group">
+                                <img v-for = "i in p.icons" v-bind:src = '"icons/" + i + ".png"'>
                             </div>
 
-                            <span class ='witholded' v-if = 'p.witholded !== null'>{{Math.round(p.witholded * 100) / 100}}€</span>
+                            <span class ="witholded" v-if = "p.witholded !== null">{{Math.round(p.witholded * 100) / 100}}€</span>
                         </div>
 
                         <span v-if ='p != parsedParticipants[parsedParticipants.length - 1]'>---{{Math.round(p.money * 100) / 100}}€---></span>
