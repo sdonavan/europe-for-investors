@@ -398,7 +398,7 @@ Vue.component('map-chart',
                 let geometryHolder =
                     geoData
                     .features
-                    .find(f => f.properties.formal_en == c['name'] || c['name'].contains(f.properties.admin) || f.properties.admin.contains(c['name']))
+                    .find(f => f.properties.formal_en == c['name'] || c['name'].indexOf(f.properties.admin) >= 0 || f.properties.admin.indexOf(c['name']) >= 0)
 
                 if (geometryHolder)
                     GeoJSON['geometry'] = geometryHolder.geometry
