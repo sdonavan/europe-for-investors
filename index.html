@@ -90,9 +90,9 @@
                         <div class = "category">
                             <h3>Value</h3>
 
-                            <span disabled>
-                                <input>
-                                <label>P/E</label>
+                            <span>
+                                <input type = "radio" value = "valuations:pe_ratio" id = "pe_ratio" v-model = "page">
+                                <label for = "pe_ratio">PE Ratio</label>
                             </span>
 
                             <span disabled>
@@ -112,6 +112,21 @@
 
                 <section>
 
+                    <template v-if = "page == 'valuations:pe_ratio'">
+
+                        <a class = "source" href = "https://www.msci.com/market-classification">[MSCI Indexes]</a>
+
+                        <div class = "visualizations">
+
+                            <map-chart metricsource = "data/pe_ratio.json" year = "2016" metric-relationship = "reversed"></map-chart><bar-chart metric-relationship = "reversed" metricsource = "data/pe_ratio.json" year = "2016"></bar-chart>
+
+                        </div>
+
+                        <div>
+                            The <strong>price/earnings</strong> ratio (often shortened to the P/E ratio or the PER) is the ratio of a company's stock price to the company's earnings per share. The ratio is used in valuing companies.
+                        </div>
+
+                    </template>
 
                     <template v-if = "page == 'valuations:gdp_ppp_per_capita'">
 
@@ -122,8 +137,6 @@
                             <map-chart metricsource = "data/gdp_ppp_per_capita.json" year = "2015"></map-chart><bar-chart metricsource = "data/gdp_ppp_per_capita.json" year = "2015"></bar-chart>
 
                         </div>
-
-                        <timeline-chart>WOOOO!</timeline-chart>
 
                         <div>
                             <strong>Gross domestic product (at purchasing power parity) per capita</strong>,

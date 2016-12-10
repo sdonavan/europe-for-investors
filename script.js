@@ -13,6 +13,60 @@
 */
 let DataProvider =
 {
+    data:
+    {
+        /**
+        * The base for the Data Provider. Anything the provider adds
+        * will be on top of this base
+        **/
+        countries:
+        [
+            {"name":"Albania"},
+            {"name":"Austria"},
+            {"name":"Belarus"},
+            {"name":"Belgium"},
+            {"name":"Bosnia and Herzegovina"},
+            {"name":"Bulgaria"},
+            {"name":"Croatia"},
+            {"name":"Cyprus"},
+            {"name":"Czech Republic"},
+            {"name":"Denmark"},
+            {"name":"Estonia"},
+            {"name":"Finland"},
+            {"name":"France"},
+            {"name":"Germany"},
+            {"name":"Greece"},
+            {"name":"Hungary"},
+            {"name":"Iceland"},
+            {"name":"Ireland"},
+            {"name":"Italy"},
+            {"name":"Kosovo"},
+            {"name":"Latvia"},
+            {"name":"Liechtenstein"},
+            {"name":"Lithuania"},
+            {"name":"Luxembourg"},
+            {"name":"FYR Macedonia"},
+            {"name":"Malta"},
+            {"name":"Moldova"},
+            {"name":"Monaco"},
+            {"name":"Montenegro"},
+            {"name":"Netherlands"},
+            {"name":"Norway"},
+            {"name":"Poland"},
+            {"name":"Portugal"},
+            {"name":"Romania"},
+            {"name":"San Marino"},
+            {"name":"Serbia"},
+            {"name":"Slovak Republic"},
+            {"name":"Slovenia"},
+            {"name":"Spain"},
+            {"name":"Sweden"},
+            {"name":"Switzerland"},
+            {"name":"Ukraine"},
+            {"name":"United Kingdom"},
+            {"name":"Vatican"}]
+    },
+
     methods:
     {
         /**
@@ -39,34 +93,39 @@ let DataProvider =
         {
             this.getDataFile(dataSource, data =>
             {
-                let countries =
-                    data
-                        .map(c => this.calculateMetricForYear(c, year))
-                        .filter(c => this.isInEurope(c.name))
+                console.log(dataSource)
+                console.log(data)
+                // Create a new countries
+                let countries = JSON.parse(JSON.stringify(DataProvider.data.countries))
 
-                countries.forEach(c => c['color'] = this.calculateColor(c, countries, relationship))
+                // Go through the data
+                data.forEach(datum =>
+                {
+                    // Does the datum correspon to a country?
+                    correspondingCountry = countries.find(c => c['name'] == datum['Country'])
+
+                    // Calculate the metric
+                    if(correspondingCountry)
+                        correspondingCountry['metric'] = this.calculateMetricForYear(datum, year)
+
+                    // Calculate any other stuff
+                    if(correspondingCountry)
+                        Object.keys(datum).forEach(k =>
+                        {
+                            // If not a number copy it
+                            if (k && !Number(k))
+                                correspondingCountry[k] = datum[k]
+                        })
+                })
+
+                let allMetrics = countries.map(c => c['metric'])
+
+                // Compute the color for the metric
+                countries
+                    .forEach(c => c['color'] = this.calculateColor(c['metric'], allMetrics, relationship))
 
                 cb(countries)
             })
-        },
-
-        /**
-        * Checks if a country is in Europe. Used to filter files with
-        * unsuported countries.
-        *
-        * @param {String} countryName
-        * @return {Bool}
-        */
-        isInEurope: function(c)
-        {
-            countriesInEurope = ['Albania', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina',
-            'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic','Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece',
-            'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kosovo', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'FYR Macedonia',
-            'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania',
-            'San Marino', 'Serbia', 'Slovak Republic', 'Slovenia', 'Spain',
-            'Sweden', 'Switzerland', 'Ukraine', 'United Kingdom', 'Vatican']
-
-            return countriesInEurope.indexOf(c) >= 0
         },
 
         /**
@@ -82,43 +141,42 @@ let DataProvider =
         * creates a new object of the form {name: CountryName, metric: metricForYear}
         * @param   {Object} country    As defined in data/in gdp_ppp_per_capita.json
         * @param   {Number} year       The year we are interested in
-        * @return  {Object}            A new object of the form {name: CountryName, metric: metricForYear}
+        * @return  {Number}            The value of the metric for the given year
         **/
         calculateMetricForYear(country, year)
         {
             let name = country['Country']
+
             let metric = (country[year] === undefined || country[year] ==='n/a' || country[year] === 'n/a' || country[year] === '')
                 ? undefined
                 : Number(String(country[year]).replace(',', ''))
-            return {name, metric}
+
+            return metric
         },
 
         /**
         * Calculates an apropriate color for a metric. For instance for an array of
         * [1, 2, 3, 4, 5] it would calculate the apropriate color for '3' as being
         * in the middle of a color-spectrum, 5 at the high end and 1 at the low.
-        * @param   {Object} country             An object as returned from @calculateMetricForYear
-        * @param   {Array}  allCountries        An array of the type of @country
-        * @return  {Object}                     A new object of the form
-                                                {name: CountryName, metric: metricForYear, color: colorInRgba}
+        * @param   {Number} metric            A metric
+        * @param   {Array}  allNumbers        An array of the type of @country
+        * @return  {String}                     An rgba color
         **/
-        calculateColor(country, allCountries, relationship)
+        calculateColor(metric, allNumbers, relationship)
         {
-
             // Return default color
-            if (country['metric'] === undefined)
+            if (metric === undefined)
                 return 'rgb(180, 180, 180)'
 
             // Get an array of all the defined metrics
             let metrics =
-                allCountries
-                .map(c => c['metric'])
+                allNumbers
                 .filter(m => typeof m == 'number')
 
             // Calculate the color
             let minValue = Math.min.apply(Math, metrics),
                 maxValue = Math.max.apply(Math, metrics),
-                restrictedValue = this.rangeConverter(country['metric'], minValue, maxValue, 0, 1),
+                restrictedValue = this.rangeConverter(metric, minValue, maxValue, 0, 1),
                 trueRestrictedValue = (relationship !== 'reversed') ? restrictedValue/ 2 : (1 - restrictedValue)/ 2
                 rgb = this.hslToRgb(trueRestrictedValue, 0.5, 0.5)
 
@@ -328,6 +386,7 @@ Vue.component('map-chart',
                     GeoJSON['geometry'] = geometryHolder.geometry
 
                 return GeoJSON
+
             }).filter(c => c.geometry)
         },
 
@@ -355,7 +414,8 @@ Vue.component('map-chart',
                 .enter()
                 //.filter(this.calculateMetricForYear)
                 .append("rect")
-                .attr('fill', data => data.properties.color)
+                .filter(d => d.properties.metric)
+                .attr('fill', d => d.properties.color)
                 .attr("x", d => path.centroid(d)[0] - 3.5)
                 .attr('y', d => path.centroid(d)[1] - 10)
                 .attr('width', '30px')

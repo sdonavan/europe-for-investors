@@ -1,0 +1,245 @@
+[
+    {
+        "Country": "Austria",
+        "market type": "developed",
+        "2016": 10.75,
+        "reference": "https://www.msci.com/documents/10199/b11b1731-88b2-4d69-ae0a-95588505fdff"
+    },
+
+    {
+        "Country": "Belgium",
+        "market type": "developed",
+        "2016": 26.17,
+        "reference": "https://www.msci.com/documents/10199/79ffab61-17e2-433d-9c47-a66b1bd3db2b31-88b2-4d69-ae0a-95588505fdff"
+    },
+
+    {
+        "Country": "Denmark",
+        "market type": "developed",
+        "2016": 24.28,
+        "reference": "https://www.msci.com/documents/10199/5db4fa3f-1775-4d39-8838-e260a97d2b94"
+    },
+
+    {
+        "Country": "Finland",
+        "market type": "developed",
+        "2016": 17.33,
+        "reference": "https://www.msci.com/documents/10199/464722b4-4bfd-403c-bfba-ce3322ca1b85"
+    },
+
+    {
+        "Country": "France",
+        "market type": "developed",
+        "2016": 19.83,
+        "reference": "https://www.msci.com/documents/10199/7009b149-e55e-4f13-be69-600e49e52849"
+    },
+
+    {
+        "Country": "Germany",
+        "market type": "developed",
+        "2016": 17.83,
+        "reference": "https://www.msci.com/documents/10199/d76361cb-d5a5-4185-97ce-ec5e3dd5bf2e"
+    },
+
+    {
+        "Country": "Ireland",
+        "market type": "developed",
+        "2016": 22.28,
+        "reference": "https://www.msci.com/documents/10199/db981303-0ccc-4188-8acf-b32d545a763a"
+    },
+
+    {
+        "Country": "Ireland",
+        "market type": "developed",
+        "2016": 22.28,
+        "reference": "https://www.msci.com/documents/10199/db981303-0ccc-4188-8acf-b32d545a763a"
+    },
+
+    {
+        "Country": "Italy",
+        "market type": "developed",
+        "2016": 53.35,
+        "reference": "https://www.msci.com/documents/10199/2dc35216-2876-47b2-bf55-cd8706f53f2b"
+    },
+
+    {
+        "Country": "Italy",
+        "market type": "developed",
+        "2016": 53.35,
+        "reference": "https://www.msci.com/documents/10199/2dc35216-2876-47b2-bf55-cd8706f53f2b"
+    },
+
+    {
+        "Country": "Netherlands",
+        "market type": "developed",
+        "2016": 21.50,
+        "reference": "https://www.msci.com/documents/10199/0be7c0df-30e1-4c50-8e9b-297b5e6cd7bd"
+    },
+
+    {
+        "Country": "Norway",
+        "market type": "developed",
+        "2016": 24.15,
+        "reference": "https://www.msci.com/documents/10199/9d0f5852-2652-4307-9f60-9fe2724c6e22"
+    },
+
+    {
+        "Country": "Portugal",
+        "market type": "developed",
+        "2016": 15.62,
+        "reference": "https://www.msci.com/documents/10199/3037c213-2f17-46b1-9bed-7aac8c359b2b"
+    },
+
+    {
+        "Country": "Spain",
+        "market type": "developed",
+        "2016": 18.41,
+        "reference": "https://www.msci.com/documents/10199/4709871b-3007-4412-b36c-1191ab80d5bd"
+    },
+
+    {
+        "Country": "Sweden",
+        "market type": "developed",
+        "2016": 25.24,
+        "reference": "https://www.msci.com/documents/10199/5b5d91b7-505a-4d4d-b060-51a3af6be160"
+    },
+
+    {
+        "Country": "Switzerland",
+        "market type": "developed",
+        "2016": 22.92,
+        "reference": "https://www.msci.com/documents/10199/f0f13c98-d5fd-43f3-8908-9f12c2fb3a4a"
+    },
+
+    {
+        "Country": "United Kingdom",
+        "market type": "developed",
+        "2016": 26.17,
+        "reference": "https://www.msci.com/documents/10199/587e9bae-0a65-49e8-b1c6-bb84cf061441"
+    },
+
+    {
+        "Country": "Czech Republic",
+        "class": "emerging",
+        "2016": 12.18,
+        "reference": "https://www.msci.com/documents/10199/abb88906-90b6-4bef-8789-dc33a685b9bc"
+    },
+
+    {
+        "Country": "Greece",
+        "class": "emerging",
+        "2016": -16.04,
+        "reference": "https://www.msci.com/documents/10199/72fb4a0d-117d-48fd-852c-b8bddb18a4a6"
+    },
+
+    {
+        "Country": "Greece",
+        "class": "emerging",
+        "reference": "https://www.msci.com/documents/10199/72fb4a0d-117d-48fd-852c-b8bddb18a4a6"
+    },
+
+    {
+        "Country": "Hungary",
+        "class": "emerging",
+        "2016": 9.95,
+        "reference": "https://www.msci.com/documents/10199/28925dde-7601-4c25-949b-0b6fda61600d"
+    },
+
+    {
+        "Country": "Poland",
+        "class": "emerging",
+        "2016": 14.60,
+        "reference": "https://www.msci.com/documents/10199/8848c6b1-03f8-4311-9319-73c48e52e714"
+    },
+
+    {
+        "Country": "Croatia",
+        "class": "frontier",
+        "2016": 9.43,
+        "reference": "https://www.msci.com/documents/10199/aa977306-a83e-4a92-8040-4bfb442aa2b1"
+    },
+
+    {
+        "Country": "Croatia",
+        "class": "frontier",
+        "2016": 9.43,
+        "reference": "https://www.msci.com/documents/10199/aa977306-a83e-4a92-8040-4bfb442aa2b1"
+    },
+
+    {
+        "Country": "Estonia",
+        "class": "frontier",
+        "2016": 13.72,
+        "reference": "https://www.msci.com/documents/10199/5916a160-231f-420a-a69d-af4ea4c114c9"
+    },
+
+    {
+        "Country": "Lithuania",
+        "class": "frontier",
+        "2016": 12.76,
+        "reference": "https://www.msci.com/documents/10199/15aa5e1b-ce17-4f8f-837a-022168bb069b"
+    },
+
+    {
+        "Country": "Lithuania",
+        "class": "frontier",
+        "2016": 12.76,
+        "reference": "https://www.msci.com/documents/10199/15aa5e1b-ce17-4f8f-837a-022168bb069b"
+    },
+
+    {
+        "Country": "Romania",
+        "class": "frontier",
+        "2016": 12.59,
+        "reference": "https://www.msci.com/documents/10199/e09da0fa-e499-44ec-b018-ecf9146d9e5a"
+    },
+
+    {
+        "Country": "Serbia",
+        "class": "frontier",
+        "2016": 9.45,
+        "reference": "https://www.msci.com/documents/10199/04f7292e-195e-4238-8ea7-a6758e5d07c6"
+    },
+
+    {
+        "Country": "Slovenia",
+        "class": "frontier",
+        "2016": 12.45,
+        "reference": "https://www.msci.com/documents/10199/8b6fc5d8-d69a-43ba-9ff5-fdea2494dd4e"
+    },
+
+    {
+        "Country": "Bulgaria",
+        "class": "frontier",
+        "2016": 10.45,
+        "reference": "https://www.msci.com/documents/10199/144782fa-127b-4e70-bce2-84d9edc0e150"
+    },
+
+    {
+        "Country": "Bulgaria",
+        "class": "frontier",
+        "2016": 10.45,
+        "reference": "https://www.msci.com/documents/10199/144782fa-127b-4e70-bce2-84d9edc0e150"
+    },
+
+    {
+        "Country": "Ukraine",
+        "class": "frontier",
+        "2016": 5.96,
+        "reference": "https://www.msci.com/documents/10199/221f7a91-629a-4c2a-9efb-59614f8166f2"
+    },
+
+    {
+        "Country": "Ukraine",
+        "class": "frontier",
+        "2016": 5.96,
+        "reference": "https://www.msci.com/documents/10199/221f7a91-629a-4c2a-9efb-59614f8166f2"
+    },
+
+    {
+        "Country": "Bosnia and Herzegovina",
+        "class": "frontier",
+        "2016": 10.60,
+        "reference": "https://www.msci.com/documents/10199/8cc8b4db-280e-4d11-9dde-c3aef41cc231"
+    }
+]
