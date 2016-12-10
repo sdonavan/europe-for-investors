@@ -38,7 +38,7 @@
 
             <section class = "menu">
 
-                <span v-bind:class="{ active: page.contains('valuations')}">
+                <span v-bind:class="{ active: page.indexOf('valuations') >= 0}">
                     <input type = "radio" value = "valuations:gdp_ppp_per_capita" id = "page-valuations" v-model = "page">
                     <label for = "page-valuations">Valuations</label>
                 </span>
@@ -60,7 +60,7 @@
             </section>
 
 
-            <section id = "valuations" v-show = "page.contains('valuations')">
+            <section id = "valuations" v-show = "page.indexOf('valuations') >= 0">
 
                 <section class = "submenu">
 
