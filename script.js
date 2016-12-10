@@ -21,50 +21,50 @@ let DataProvider =
         **/
         countries:
         [
-            {"name":"Albania"},
-            {"name":"Austria"},
-            {"name":"Belarus"},
-            {"name":"Belgium"},
-            {"name":"Bosnia and Herzegovina"},
-            {"name":"Bulgaria"},
-            {"name":"Croatia"},
-            {"name":"Cyprus"},
-            {"name":"Czech Republic"},
-            {"name":"Denmark"},
-            {"name":"Estonia"},
-            {"name":"Finland"},
-            {"name":"France"},
-            {"name":"Germany"},
-            {"name":"Greece"},
-            {"name":"Hungary"},
-            {"name":"Iceland"},
-            {"name":"Ireland"},
-            {"name":"Italy"},
-            {"name":"Kosovo"},
-            {"name":"Latvia"},
-            {"name":"Liechtenstein"},
-            {"name":"Lithuania"},
-            {"name":"Luxembourg"},
-            {"name":"FYR Macedonia"},
-            {"name":"Malta"},
-            {"name":"Moldova"},
-            {"name":"Monaco"},
-            {"name":"Montenegro"},
-            {"name":"Netherlands"},
-            {"name":"Norway"},
-            {"name":"Poland"},
-            {"name":"Portugal"},
-            {"name":"Romania"},
-            {"name":"San Marino"},
-            {"name":"Serbia"},
-            {"name":"Slovak Republic"},
-            {"name":"Slovenia"},
-            {"name":"Spain"},
-            {"name":"Sweden"},
-            {"name":"Switzerland"},
-            {"name":"Ukraine"},
-            {"name":"United Kingdom"},
-            {"name":"Vatican"}]
+            {'name':'Albania'},
+            {'name':'Austria'},
+            {'name':'Belarus'},
+            {'name':'Belgium'},
+            {'name':'Bosnia and Herzegovina'},
+            {'name':'Bulgaria'},
+            {'name':'Croatia'},
+            {'name':'Cyprus'},
+            {'name':'Czech Republic'},
+            {'name':'Denmark'},
+            {'name':'Estonia'},
+            {'name':'Finland'},
+            {'name':'France'},
+            {'name':'Germany'},
+            {'name':'Greece'},
+            {'name':'Hungary'},
+            {'name':'Iceland'},
+            {'name':'Ireland'},
+            {'name':'Italy'},
+            {'name':'Kosovo'},
+            {'name':'Latvia'},
+            {'name':'Liechtenstein'},
+            {'name':'Lithuania'},
+            {'name':'Luxembourg'},
+            {'name':'FYR Macedonia'},
+            {'name':'Malta'},
+            {'name':'Moldova'},
+            {'name':'Monaco'},
+            {'name':'Montenegro'},
+            {'name':'Netherlands'},
+            {'name':'Norway'},
+            {'name':'Poland'},
+            {'name':'Portugal'},
+            {'name':'Romania'},
+            {'name':'San Marino'},
+            {'name':'Serbia'},
+            {'name':'Slovak Republic'},
+            {'name':'Slovenia'},
+            {'name':'Spain'},
+            {'name':'Sweden'},
+            {'name':'Switzerland'},
+            {'name':'Ukraine'},
+            {'name':'United Kingdom'},
+            {'name':'Vatican'}]
     },
 
     methods:
@@ -77,7 +77,7 @@ let DataProvider =
         * @param {File name} dataSource   A JSON file of the form
         *                                 data/gdp_ppp_per_capita.json
         * @param {Number}    year         The specific year we want the data from
-        * @param {String}    relationship Can be one of the {"straight", "reversed"}.
+        * @param {String}    relationship Can be one of the {'straight', 'reversed'}.
         *                                 This relationship decides if higher numbers
         *                                 of the metric are good (straight) or bad (reversed)
         *                                 so the data provider can calculate apropriate colors.
@@ -87,14 +87,12 @@ let DataProvider =
         *                                 [{country: 'Austria', color: rgba, metric: 32} ..]
         *                                 Where the metric is the value in the provided JSON file
         *                                 (GDP, Unemployment, etc..) and the color represents
-        *                                 how "good" this metric is.
+        *                                 how 'good' this metric is.
         */
         getData: function(dataSource, year, relationship, cb)
         {
             this.getDataFile(dataSource, data =>
             {
-                console.log(dataSource)
-                console.log(data)
                 // Create a new countries
                 let countries = JSON.parse(JSON.stringify(DataProvider.data.countries))
 
@@ -267,38 +265,58 @@ Vue.component('bar-chart',
                     .filter(d => d.metric !== undefined)
                     .sort((a, b) => (this.metricRelationship == 'reversed') ? a.metric >= b.metric : a.metric <= b.metric)
 
-            canvas
-                .selectAll("div")
+            let bars = this.drawBars(canvas, data)
+            let identifiers = this.drawIdentifiers(bars)
+            let icons = this.drawIcons(identifiers)
+            let labels = this.drawLabels(identifiers)
+            let valuBars = this.drawValues(bars, data)
+        },
+
+        drawBars: function(canvas, data)
+        {
+            return canvas
+                .selectAll('div')
                 .data(data)
                 .enter()
-                .append("div")
-                .attr("class", "bar")
+                .append('div')
+                .attr('class', 'bar')
 
-            canvas
-                .selectAll(".bar")
-                .append("div")
-                .attr("class", "identifier")
-                .append("img")
-                .attr("src", c => 'icons/' + c.name.toLowerCase() + '.png')
+        },
 
-            canvas
-                .selectAll(".bar")
-                .selectAll(".identifier")
-                .append("label")
+        drawIdentifiers: function(bars)
+        {
+            return bars
+                .append('div')
+                .attr('class', 'identifier')
+        },
+
+        drawLabels: function(identifiers)
+        {
+            return identifiers
+                .append('label')
                 .html(c => c.name)
+        },
 
+        drawIcons: function(identifiers)
+        {
+            return identifiers
+                .append('img')
+                .attr('src', c => 'icons/' + c.name.toLowerCase() + '.png')
+        },
+
+        drawValues: function(bars, data)
+        {
             let max = Math.max.apply(Math, data.map(d => d.metric))
 
-            canvas
-                .selectAll(".bar")
-                .append("div")
-                .attr("class", "value")
+            bars
+                .append('div')
+                .attr('class', 'value')
                 .html(c => this.formatNumber(c.metric))
-                .style("width", "0%")
+                .style('width', '0%')
                 .transition()
                 .duration(1000)
-                .style("width", c => this.rangeConverter(c.metric, 0, max, 0, 40) + 10 + '%')
-                .style("background-color", c => c.color)
+                .style('width', c => this.rangeConverter(c.metric, 0, max, 0, 40) + 10 + '%')
+                .style('background-color', c => c.color)
         }
     }
 })
@@ -360,9 +378,9 @@ Vue.component('map-chart',
             //Create the SVG
             let svg = d3
                 .select(element)
-                .append("svg")
-                .attr("width", w)
-                .attr("height", h)
+                .append('svg')
+                .attr('width', w)
+                .attr('height', h)
 
             this.drawBorders(svg, path, data)
             this.drawLabels(svg, path, data)
@@ -395,14 +413,14 @@ Vue.component('map-chart',
         {
             //Bind data and create one path per GeoJSON feature
             svg
-                .selectAll("path")
+                .selectAll('path')
                 .data(data)
                 .enter()
-                .append("path")
-                .attr("d", path)
-                .attr("stroke", '#dddddd')
-                .attr("fill", d => d.properties.color)
-                .attr("id", (d, i) => '#path_' + i)
+                .append('path')
+                .attr('d', path)
+                .attr('stroke', '#dddddd')
+                .attr('fill', d => d.properties.color)
+                .attr('id', (d, i) => '#path_' + i)
         },
 
         drawLabels: function(svg, path, data)
@@ -413,10 +431,10 @@ Vue.component('map-chart',
                 .data(data)
                 .enter()
                 //.filter(this.calculateMetricForYear)
-                .append("rect")
+                .append('rect')
                 .filter(d => d.properties.metric)
                 .attr('fill', d => d.properties.color)
-                .attr("x", d => path.centroid(d)[0] - 3.5)
+                .attr('x', d => path.centroid(d)[0] - 3.5)
                 .attr('y', d => path.centroid(d)[1] - 10)
                 .attr('width', '30px')
                 .attr('height', '14px')
@@ -424,12 +442,12 @@ Vue.component('map-chart',
 
             // Draw the label contents
             svg
-                .selectAll("text")
+                .selectAll('text')
                 .data(data)
                 .enter()
-                .append("text")
+                .append('text')
                 .text(data => this.formatNumber(data.properties.metric))
-                .attr("x", d => path.centroid(d)[0])
+                .attr('x', d => path.centroid(d)[0])
                 .attr('y', d => path.centroid(d)[1])
                 .attr('title', d => d.properties.admin)
                 .attr('class', 'value')
@@ -446,26 +464,26 @@ Vue.component('witholding-chain',
     props: ['participants', 'capital'],
 
     template: `
-                <div class ="witholding-chain">
-                    <div v-for = "p in parsedParticipants">
+                <div class = "witholding-chain">
+                    <div v-for = 'p in parsedParticipants'>
 
-                        <div class = "witholder">
+                        <div class = 'witholder'>
 
-                            <div class ="icon-group">
-                                <img v-for = "i in p.icons" v-bind:src = "'icons/' + i + '.png'">
+                            <div class ='icon-group'>
+                                <img v-for = 'i in p.icons' v-bind:src = ''icons/' + i + '.png''>
                             </div>
 
-                            <span class ="witholded" v-if = "p.witholded !== null">{{Math.round(p.witholded * 100) / 100}}€</span>
+                            <span class ='witholded' v-if = 'p.witholded !== null'>{{Math.round(p.witholded * 100) / 100}}€</span>
                         </div>
 
-                        <span v-if ="p != parsedParticipants[parsedParticipants.length - 1]">---{{Math.round(p.money * 100) / 100}}€---></span>
+                        <span v-if ='p != parsedParticipants[parsedParticipants.length - 1]'>---{{Math.round(p.money * 100) / 100}}€---></span>
                     </div>
                 </div>`,
 
     computed:
     {
         /**
-        * Converts a string of the type: "icon1:icon2:icon3(amount), icon1(amount) ..."
+        * Converts a string of the type: 'icon1:icon2:icon3(amount), icon1(amount) ...'
         * into an apropriate Array of objects of the type {icons[icon1, icon2], money: MONEY witholded: WITHOLDED}
         *
         * @return  {Array}                   Array of objects of the type {icons[icon1, icon2], money: MONEY witholded: WITHOLDED}
