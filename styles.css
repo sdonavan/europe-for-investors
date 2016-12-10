@@ -158,6 +158,7 @@ h1 > *
 .visualizations
 {
     margin-bottom: 2rem;
+    white-space:nowrap;
 }
 
 .visualizations > *
