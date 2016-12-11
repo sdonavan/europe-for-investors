@@ -28,6 +28,11 @@ h1, h2, h3, h4, strong
     margin: 2rem auto;
 }
 
+footer
+{
+    height: 20vh;
+}
+
 a
 {
     text-decoration: none;
