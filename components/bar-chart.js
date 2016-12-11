@@ -32,6 +32,9 @@ Vue.component('bar-chart',
             let icons = this.drawIcons(identifiers)
             let labels = this.drawLabels(identifiers)
             let valuBars = this.drawValues(bars, data)
+
+            document.querySelector('body').addEventListener('country:focused', e => this.focusBar(e.detail))
+            document.querySelector('body').addEventListener('country:unfocused', e => this.unfocusBar(e.detail))
         },
 
         drawBars: function(canvas, data)
@@ -42,6 +45,7 @@ Vue.component('bar-chart',
                 .enter()
                 .append('div')
                 .attr('class', 'bar')
+                .attr('bar', d => d.name)
                 .on('mouseenter', (element, index, collection) => collection[index].dispatchEvent(new CustomEvent('country:focused', {detail: element, bubbles: true})))
                 .on('mouseleave', (element, index, collection) => collection[index].dispatchEvent(new CustomEvent('country:unfocused', {detail: element, bubbles: true})))
         },
@@ -57,7 +61,14 @@ Vue.component('bar-chart',
         {
             return identifiers
                 .append('label')
+                .style('position', 'relative')
                 .html(c => c.name)
+                .append('div')
+                .style('height', '2px')
+                .style('margin-top', '2px')
+                .style('background-color', d => d.color)
+                .style('width', '0%')
+                .style('position', 'absolute')
         },
 
         drawIcons: function(identifiers)
@@ -80,6 +91,26 @@ Vue.component('bar-chart',
                 .duration(1000)
                 .style('width', c => this.rangeConverter(c.metric, 0, max, 0, 40) + 10 + '%')
                 .style('background-color', c => c.color)
+        },
+
+        focusBar: function(e)
+        {
+            d3
+                .select('[bar = "' + e.name + '"]')
+                .select('label div')
+                .transition()
+                .duration(150)
+                .style('width', '100%')
+        },
+
+        unfocusBar: function(e)
+        {
+            d3
+                .select('[bar = "' + e.name + '"]')
+                .select('label div')
+                .transition()
+                .duration(150)
+                .style('width', '0%')
         }
     }
 })
