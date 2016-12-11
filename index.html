@@ -69,7 +69,7 @@
                     <div class = "submenu-content">
 
                         <div class = "category">
-                            <h3>Economical</h3>
+                            <h3>Economic</h3>
 
                             <span>
                                 <input type = "radio" value = "valuations:gdp_ppp_per_capita" id = "gdp_ppp_per_capita" v-model = "page">
@@ -91,6 +91,11 @@
                             <h3>Value</h3>
 
                             <span>
+                                <input type = "radio" value = "valuations:dividend_yield" id = "dividend_yield" v-model = "page">
+                                <label for = "dividend_yield">Dividend Yield</label>
+                            </span>
+
+                            <span>
                                 <input type = "radio" value = "valuations:pe_ratio" id = "pe_ratio" v-model = "page">
                                 <label for = "pe_ratio">PE Ratio</label>
                             </span>
@@ -102,7 +107,7 @@
 
                             <span disabled>
                                 <input>
-                                <label>GDP to Market cap/label>
+                                <label>GDP to Market cap</label>
                             </span>
                         </div>
 
@@ -111,6 +116,30 @@
                 </section>
 
                 <section>
+
+                    <template v-if = "page == 'valuations:dividend_yield'">
+
+                        <div class = "visualizations">
+                            <map-chart metricsource = "data/dividend_yield.json" year = "2016"></map-chart>
+                            <bar-chart metricsource = "data/dividend_yield.json" year = "2016"></bar-chart>
+                        </div>
+
+                        <p>
+                            <strong>Dividend yield</strong> or dividend-price ratio of a share is the dividend per share,
+                            divided by the price per share.[1] It is also a company's total annual dividend payments
+                            divided by its market capitalization, assuming the number of shares is constant.
+                            It is often expressed as a percentage.
+                        </p>
+
+                        <p>
+                            Those values are taken directly from the corresponding MISC index.
+                        </p>
+
+                        <p>
+                            <a class = "source" href = "https://www.msci.com/market-classification">[MSCI Indexes, nov 30, 2016]</a>
+                        </p>
+                    </template>
+
 
                     <template v-if = "page == 'valuations:pe_ratio'">
 
@@ -128,7 +157,7 @@
                         </p>
 
                         <p>
-                            <a class = "source" href = "https://www.msci.com/market-classification">[MSCI Indexes]</a>
+                            <a class = "source" href = "https://www.msci.com/market-classification">[MSCI Indexes, nov 30, 2016]</a>
                         </p>
                     </template>
 

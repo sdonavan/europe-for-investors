@@ -188,6 +188,7 @@ h1 > *
     display: inline-block;
     box-sizing: border-box;
     width: 50%;
+    margin-right: 1rem;
 }
 
 .bar-chart .bar .identifier
