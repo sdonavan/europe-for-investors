@@ -170,6 +170,7 @@ h1 > *
 {
     display: inline-block;
     height: 80vh;
+    max-height: 34rem;
     vertical-align: top;
     width: 50%;
 }

@@ -113,7 +113,7 @@ Vue.component('map-chart',
                 .append('g')
                 .on('mouseenter', (element, index, collection) => collection[index].dispatchEvent(new CustomEvent('country:focused', {detail: element.properties, bubbles: true})))
                 .on('mouseleave', (element, index, collection) => collection[index].dispatchEvent(new CustomEvent('country:unfocused', {detail: element.properties, bubbles: true})))
-                .attr('id', (d, i) => 'country_' + d.properties.name)
+                .attr('country', (d, i) => d.properties.name)
 
                 .append('path')
                 .attr('d', path)
@@ -164,7 +164,7 @@ Vue.component('map-chart',
         hidePattern: function(country)
         {
             d3
-                .select('#country_' + country.name)
+                .select('[country = "' + country.name + '"]')
                 .select('.overlay')
                 .transition()
                 .duration(150)
@@ -176,7 +176,7 @@ Vue.component('map-chart',
             svgCountries
                 .sort((a, b) => (a.properties.name == country.name) ? 1 : -1)
 
-            let svg = d3.select('#country_' + country.name)
+            let svg = d3.select('[country = "' + country.name + '"]')
 
             let t = textures.lines()
                     .thicker()
@@ -196,14 +196,14 @@ Vue.component('map-chart',
 
         showLabel: function(country)
         {
-            d3.select('#country_' + country.name)
+            d3.select('[country = "' + country.name + '"]')
                 .select('text')
                 .transition()
                 .delay(150)
                 .duration(50)
                 .attr('opacity', '1')
 
-            d3.select('#country_' + country.name)
+            d3.select('[country = "' + country.name + '"]')
                 .select('rect')
                 .transition()
                 .duration(150)
@@ -212,13 +212,13 @@ Vue.component('map-chart',
 
         hideLabel: function(country)
         {
-            d3.select('#country_' + country.name)
+            d3.select('[country = "' + country.name + '"]')
                 .select('text')
                 .transition()
                 .duration(150)
                 .attr('opacity', '0')
 
-            d3.select('#country_' + country.name)
+            d3.select('[country = "' + country.name + '"]')
                 .select('rect')
                 .transition()
                 .delay(150)
