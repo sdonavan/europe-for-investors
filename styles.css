@@ -242,10 +242,6 @@ h1 > *
 .map-chart rect
 {
     cursor: pointer;
-    transition: all 0.1s;
-    width: 20%;
-    position: absolute;
-    z-index: 2;
 }
 
 /* ----------------- Witholding chains ----------------- */
