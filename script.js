@@ -384,8 +384,8 @@ Vue.component('map-chart',
                 .attr('width', w)
                 .attr('height', h)
 
-            this.drawBorders(svg, path, data)
-            this.drawLabels(svg, path, data)
+            let borders = this.drawBorders(svg, path, data)
+            let labels  = this.drawLabels(borders, path)
         },
 
         combineData: function(geoData, countries)
@@ -413,48 +413,70 @@ Vue.component('map-chart',
 
         drawBorders: function(svg, path, data)
         {
-            //Bind data and create one path per GeoJSON feature
             svg
-                .selectAll('path')
+                .selectAll('g')
                 .data(data)
                 .enter()
+                .append('g')
                 .append('path')
                 .attr('d', path)
                 .attr('stroke', '#dddddd')
+                .attr('class', 'country')
                 .attr('fill', d => d.properties.color)
                 .attr('id', (d, i) => '#path_' + i)
+
+            return svg.selectAll('g')
         },
 
-        drawLabels: function(svg, path, data)
+        drawLabels: function(borders, path)
         {
             // Draw the label squares
-            svg
-                .selectAll('rect')
-                .data(data)
-                .enter()
-                //.filter(this.calculateMetricForYear)
+            borders
                 .append('rect')
                 .filter(d => d.properties.metric)
                 .attr('fill', d => d.properties.color)
                 .attr('x', d => path.centroid(d)[0] - 15)
                 .attr('y', d => path.centroid(d)[1] - 14)
-                .attr('width', '30px')
                 .attr('height', '14px')
                 .attr('class', 'value-holder')
 
             // Draw the label contents
-            svg
-                .selectAll('text')
-                .data(data)
-                .enter()
+            borders
                 .append('text')
                 .text(data => this.formatNumber(data.properties.metric))
                 .attr('x', d => path.centroid(d)[0] - 12 || 0)
                 .attr('y', d => path.centroid(d)[1] - 4 || 0)
-                .attr('width', '30px')
-                .attr('height', '14px')
                 .attr('title', d => d.properties.admin)
                 .attr('class', 'value')
+                .attr('opacity', 0)
+
+            borders
+                .on('mouseenter.1', (el, i, collection) =>
+                    d3.select(collection[i])
+                    .select('text')
+                    .transition()
+                    .delay(150)
+                    .duration(50)
+                    .attr('opacity', '1'))
+                .on('mouseleave.1', (el, i, collection) =>
+                    d3.select(collection[i])
+                    .select('text')
+                    .transition()
+                    .duration(150)
+                    .attr('opacity', '0'))
+                .on('mouseenter.2', (el, i, collection) =>
+                    d3.select(collection[i])
+                    .select('rect')
+                    .transition()
+                    .duration(150)
+                    .attr('width', 30))
+                .on('mouseleave.2', (el, i, collection) =>
+                    d3.select(collection[i])
+                    .select('rect')
+                    .transition()
+                    .delay(150)
+                    .duration(150)
+                    .attr('width', 0))
         }
     }
 })

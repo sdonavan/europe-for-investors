@@ -233,6 +233,21 @@ h1 > *
     font-size: 0.6rem;
 }
 
+.map-chart path
+{
+    position: absolute;
+    z-index: 1;
+}
+
+.map-chart rect
+{
+    cursor: pointer;
+    transition: all 0.1s;
+    width: 20%;
+    position: absolute;
+    z-index: 2;
+}
+
 /* ----------------- Witholding chains ----------------- */
 .witholding-chain
 {
