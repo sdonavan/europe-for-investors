@@ -261,11 +261,12 @@ Vue.component('bar-chart',
                 .select(element)
 
             // Sort the data bt the metric
+            // Interesting decision for implementation of sort on chrome
+            // http://stackoverflow.com/questions/1969145/sorting-javascript-array-with-chrome
             var data = data
                     .filter(d => d.metric !== undefined)
-                    .sort((a, b) => (this.metricRelationship == 'reversed') ? a.metric >= b.metric : a.metric <= b.metric)
+                    .sort((a, b) => (this.metricRelationship == 'reversed') ? a.metric - b.metric : b.metric - a.metric)
 
-            console.log(data)
             let bars = this.drawBars(canvas, data)
             let identifiers = this.drawIdentifiers(bars)
             let icons = this.drawIcons(identifiers)
