@@ -265,6 +265,7 @@ Vue.component('bar-chart',
                     .filter(d => d.metric !== undefined)
                     .sort((a, b) => (this.metricRelationship == 'reversed') ? a.metric >= b.metric : a.metric <= b.metric)
 
+            console.log(data)
             let bars = this.drawBars(canvas, data)
             let identifiers = this.drawIdentifiers(bars)
             let icons = this.drawIcons(identifiers)
