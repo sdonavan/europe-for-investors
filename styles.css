@@ -237,9 +237,11 @@ h1 > *
 {
     position: absolute;
     z-index: 1;
+    stroke: white;
 }
 
-.map-chart rect
+.map-chart g,
+.bar-chart .bar
 {
     cursor: pointer;
 }
