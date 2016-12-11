@@ -13,8 +13,12 @@ let app = new Vue({
 
     mounted: function()
     {
-        // Set the correct page
+        // Set the correct page on page load
         this.page = window.location.hash.replace('#', '')
+
+        // Default page
+        if (!this.page)
+            this.page = 'valuations:gdp_ppp_per_capita'
     },
 
     computed:
