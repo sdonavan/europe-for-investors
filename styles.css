@@ -1,19 +1,65 @@
+/* ----------------- CSS RESET ----------------- */
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
 
-/* ----------------- Global ----------------- */
-html
-{
-    font-size: 16px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
-#content
+
+/* ----------------- Global ----------------- */
+body
 {
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
     color: #34495e;
     background-color: #fff;
-    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, strong
@@ -37,19 +83,34 @@ a
 {
     text-decoration: none;
     color: #f4b642;
+    display: inline-block;
+}
+
+p
+{
+    margin: 0.8rem 0 1.6rem 0;
 }
 
 li
 {
+    margin-left: 2rem;
     margin-top: 1rem;
 }
 
-/* ----------------- Header ----------------- */
 h1
 {
+    font-size: 1.8rem;
     text-align: center;
 }
 
+h2, h3
+{
+    font-size: 1.2rem;
+    margin: 1.2rem 0 0.4rem 0;
+}
+
+/* ----------------- Header ----------------- */
+/* ----------------- ----------------- -----------------*/
 h1 > *
 {
     display: inline-block;
@@ -63,6 +124,7 @@ h1 > *
     vertical-align: middle;
 }
 
+
 /* ----------------- Menus ----------------- */
 /* ----------------- ----------------- -----------------*/
 .menu,
@@ -70,6 +132,7 @@ h1 > *
 {
     text-align: center;
     z-index: 100;
+    margin-bottom: 2rem;
 }
 
 .menu input,
@@ -83,9 +146,9 @@ h1 > *
 {
     display: inline-block;
     cursor: pointer;
-    padding: 0.4rem;
+    padding: 0.3rem;
     box-sizing: border-box;
-    margin: 0.4rem;
+    margin: 0.3rem;
     transition: all 0.10s;
 }
 
@@ -142,10 +205,10 @@ h1 > *
 {
     display: inline-flex;
     flex-direction: column;
-    margin: 1rem;
+    margin: 0.8rem;
 }
 
-.submenu .category h3
+.submenu .category h4
 {
     border-bottom: 1px solid #f4b642;
 }
@@ -163,7 +226,6 @@ h1 > *
 /* ----------------- ----------------- ----------------- */
 .visualizations
 {
-    margin-bottom: 2rem;
     white-space:nowrap;
 }
 
@@ -171,7 +233,6 @@ h1 > *
 {
     display: inline-block;
     height: 80vh;
-    max-height: 34rem;
     vertical-align: top;
     width: 50%;
     white-space: normal;
@@ -210,18 +271,17 @@ h1 > *
     width: 5rem;
     vertical-align: middle;
     display: inline-block;
-    border-bottom: 1px solid rgba(0, 0, 0, 0);
-    padding-bottom: 0.15rem;
     box-sizing: border-box;
-    vertical-align: bottom;
+    vertical-align: middle;
 }
 
 .bar-chart .bar .value,
 .map-chart      .value
 {
     display: inline-block;
-    padding: 0.1rem 0.2rem;
+    padding: 0.05rem 0.2rem;
     box-sizing: border-box;
+    font-size: 0.60rem;
     color: white;
     fill: white;
 }
@@ -231,11 +291,10 @@ h1 > *
     stroke: white;
 }
 
-.bar-chart .identifier label,
-.bar-chart .value,
-.map-chart .value
+.bar-chart .identifier label
 {
     font-size: 0.6rem;
+    padding-bottom: 0.15rem;
 }
 
 .map-chart path
