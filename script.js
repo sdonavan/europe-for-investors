@@ -448,6 +448,7 @@ Vue.component('map-chart',
                 .attr('y', d => path.centroid(d)[1] - 4 || 0)
                 .attr('title', d => d.properties.admin)
                 .attr('class', 'value')
+                .attr('width', 0)
                 .attr('opacity', 0)
 
             borders
